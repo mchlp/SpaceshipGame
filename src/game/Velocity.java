@@ -2,9 +2,9 @@ package game;
 
 public class Velocity {
 	private double speed;
-	private double direction;
+	private int direction;
 
-	public Velocity(double speed, double direction) {
+	public Velocity(double speed, int direction) {
 		this.speed = speed;
 		this.direction = direction;
 	}
