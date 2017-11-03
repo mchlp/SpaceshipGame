@@ -3,7 +3,7 @@ package game;
 public class Spaceship {
 
 	private Velocity velocity;
-	private Position position;
+	private Coordinate position;
 	private long mass;
 
 	private static final int MAX_IMPACT_SPEED = 60;
