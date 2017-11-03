@@ -3,16 +3,18 @@ package game;
 public class Velocity {
 
 	private double speed; // speed (m/s)
-	private int direction; // direction (0-359 degrees)
+	private double direction; // direction (0-359 degrees)
 	private Coordinate xyRatio; // ratio of speed in X direction : speed in Y direction
 	private Coordinate xyCoefficient; // direction (positive or negative) of displacement in X and Y direction
 
-	public Velocity(double speed, int direction) {
-		this.speed = speed;
-		this.direction = direction;
-		xyCoefficient = new Coordinate();
-		xyRatio = new Coordinate();
-		updateXY();
+	public static final int MAX_DEGREES = 360;
+
+	public Velocity() {
+		this(0, 0);
+	}
+
+	public Velocity(double speed, double direction) {
+		setVelocity(speed, direction);
 	}
 
 	/**
@@ -42,6 +44,22 @@ public class Velocity {
 		} else {
 			xyCoefficient.setY(-1);
 		}
+	}
+
+	public void setVelocity(double speed, double direction) {
+		this.speed = speed;
+		this.direction = direction % MAX_DEGREES;
+		xyCoefficient = new Coordinate();
+		xyRatio = new Coordinate();
+		updateXY();
+	}
+
+	public void setSpeed(double speed) {
+		setVelocity(speed, direction);
+	}
+
+	public void setDirection(double direction) {
+		setVelocity(speed, direction);
 	}
 
 	public double getSpeed() {
