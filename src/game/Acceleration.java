@@ -45,16 +45,28 @@ public class Acceleration extends Vector {
 	}
 
 	/**
+	 * Adds two Acceleration objects together and returns the sum
+	 * 
+	 * @param acceleration2
+	 *            Acceleration object to add
+	 * @return Acceleration object representing the sum
+	 */
+	public Acceleration add(Acceleration acceleration2) {
+		return new Acceleration(this.getXComponent() + acceleration2.getXComponent(),
+				this.getYComponent() + acceleration2.getYComponent());
+	}
+
+	/**
 	 * @return Rate in the X direction
 	 */
 	public double getXRate() {
-		return super.getXMagnitude();
+		return super.getXComponent();
 	}
 
 	/**
 	 * @return Rate in the Y direction
 	 */
 	public double getYRate() {
-		return super.getYMagnitude();
+		return super.getYComponent();
 	}
 }

@@ -22,8 +22,8 @@ public class AccelerationTest {
 	public void testBlankConstructor() {
 		assertEquals(acceleration.getDirection(), 0, Math.ulp(0));
 		assertEquals(acceleration.getRate(), 0, Math.ulp(0));
-		assertEquals(acceleration.getXMagnitude(), 0, Math.ulp(0));
-		assertEquals(acceleration.getYMagnitude(), 0, Math.ulp(0));
+		assertEquals(acceleration.getXRate(), 0, Math.ulp(0));
+		assertEquals(acceleration.getYRate(), 0, Math.ulp(0));
 	}
 
 	/**
@@ -39,23 +39,15 @@ public class AccelerationTest {
 				rate = Math.random() * Math.pow(10, i);
 				direction = Math.random() * degreeRange;
 				actualDirection = direction % Vector.MAX_DEGREES;
-				xSpeed = Math.sin(Math.toRadians(actualDirection)) * rate;
-				ySpeed = Math.cos(Math.toRadians(actualDirection)) * rate;
-
-				if (actualDirection > 180) {
-					xSpeed = -xSpeed;
-				}
-
-				if (actualDirection < 270 && actualDirection > 90) {
-					ySpeed = -ySpeed;
-				}
+				xSpeed = Math.cos(Math.toRadians(actualDirection)) * rate;
+				ySpeed = Math.sin(Math.toRadians(actualDirection)) * rate;
 
 				// create new Velocity object and test get methods
 				acceleration = new Acceleration(rate, direction);
 				assertEquals(acceleration.getRate(), rate, Math.ulp(rate));
 				assertEquals(acceleration.getDirection(), actualDirection, Math.ulp(actualDirection));
-				assertEquals(acceleration.getXMagnitude(), xSpeed, Math.ulp(xSpeed));
-				assertEquals(acceleration.getYMagnitude(), ySpeed, Math.ulp(ySpeed));
+				assertEquals(acceleration.getXRate(), xSpeed, Math.ulp(xSpeed));
+				assertEquals(acceleration.getYRate(), ySpeed, Math.ulp(ySpeed));
 			}
 		}
 	}
@@ -75,22 +67,14 @@ public class AccelerationTest {
 				rate = Math.random() * Math.pow(10, i);
 				direction = Math.random() * degreeRange;
 				actualDirection = direction % Vector.MAX_DEGREES;
-				xSpeed = Math.sin(Math.toRadians(actualDirection)) * rate;
-				ySpeed = Math.cos(Math.toRadians(actualDirection)) * rate;
+				xSpeed = Math.cos(Math.toRadians(actualDirection)) * rate;
+				ySpeed = Math.sin(Math.toRadians(actualDirection)) * rate;
 
-				if (actualDirection > 180) {
-					xSpeed = -xSpeed;
-				}
-
-				if (actualDirection < 270 && actualDirection > 90) {
-					ySpeed = -ySpeed;
-				}
-
-				acceleration.setVector(rate, direction);
+				acceleration.setAcceleration(rate, direction);
 				assertEquals(acceleration.getRate(), rate, Math.ulp(rate));
 				assertEquals(acceleration.getDirection(), actualDirection, Math.ulp(actualDirection));
-				assertEquals(acceleration.getXMagnitude(), xSpeed, Math.ulp(xSpeed));
-				assertEquals(acceleration.getYMagnitude(), ySpeed, Math.ulp(ySpeed));
+				assertEquals(acceleration.getXRate(), xSpeed, Math.ulp(xSpeed));
+				assertEquals(acceleration.getYRate(), ySpeed, Math.ulp(ySpeed));
 			}
 
 			// test setRate method
@@ -102,22 +86,14 @@ public class AccelerationTest {
 
 				rate = Math.random() * Math.pow(10, i);
 
-				xSpeed = Math.sin(Math.toRadians(actualDirection)) * rate;
-				ySpeed = Math.cos(Math.toRadians(actualDirection)) * rate;
-
-				if (actualDirection > 180) {
-					xSpeed = -xSpeed;
-				}
-
-				if (actualDirection < 270 && actualDirection > 90) {
-					ySpeed = -ySpeed;
-				}
+				xSpeed = Math.cos(Math.toRadians(actualDirection)) * rate;
+				ySpeed = Math.sin(Math.toRadians(actualDirection)) * rate;
 
 				acceleration.setRate(rate);
 				assertEquals(acceleration.getRate(), rate, Math.ulp(rate));
 				assertEquals(acceleration.getDirection(), actualDirection, Math.ulp(actualDirection));
-				assertEquals(acceleration.getXMagnitude(), xSpeed, Math.ulp(xSpeed));
-				assertEquals(acceleration.getYMagnitude(), ySpeed, Math.ulp(ySpeed));
+				assertEquals(acceleration.getXRate(), xSpeed, Math.ulp(xSpeed));
+				assertEquals(acceleration.getYRate(), ySpeed, Math.ulp(ySpeed));
 			}
 
 			// test setDirection method
@@ -129,22 +105,14 @@ public class AccelerationTest {
 				direction = Math.random() * degreeRange;
 				actualDirection = direction % Vector.MAX_DEGREES;
 
-				xSpeed = Math.sin(Math.toRadians(actualDirection)) * rate;
-				ySpeed = Math.cos(Math.toRadians(actualDirection)) * rate;
-
-				if (actualDirection > 180) {
-					xSpeed = -xSpeed;
-				}
-
-				if (actualDirection < 270 && actualDirection > 90) {
-					ySpeed = -ySpeed;
-				}
+				xSpeed = Math.cos(Math.toRadians(actualDirection)) * rate;
+				ySpeed = Math.sin(Math.toRadians(actualDirection)) * rate;
 
 				acceleration.setDirection(actualDirection);
 				assertEquals(acceleration.getRate(), rate, Math.ulp(rate));
 				assertEquals(acceleration.getDirection(), actualDirection, Math.ulp(actualDirection));
-				assertEquals(acceleration.getXMagnitude(), xSpeed, Math.ulp(xSpeed));
-				assertEquals(acceleration.getYMagnitude(), ySpeed, Math.ulp(ySpeed));
+				assertEquals(acceleration.getXRate(), xSpeed, Math.ulp(xSpeed));
+				assertEquals(acceleration.getYRate(), ySpeed, Math.ulp(ySpeed));
 			}
 
 		}

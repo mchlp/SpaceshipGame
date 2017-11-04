@@ -43,16 +43,28 @@ public class Velocity extends Vector {
 	}
 
 	/**
+	 * Adds two Velocity objects together and returns the sum
+	 * 
+	 * @param velocity2
+	 *            Velocity object to add
+	 * @return Velocity object representing the sum
+	 */
+	public Velocity add(Velocity velocity2) {
+		return new Velocity(this.getXComponent() + velocity2.getXComponent(),
+				this.getYComponent() + velocity2.getYComponent());
+	}
+
+	/**
 	 * @return Speed in the X direction
 	 */
 	public double getXSpeed() {
-		return super.getXMagnitude();
+		return super.getXComponent();
 	}
 
 	/**
 	 * @return Speed in the Y direction
 	 */
 	public double getYSpeed() {
-		return super.getYMagnitude();
+		return super.getYComponent();
 	}
 }

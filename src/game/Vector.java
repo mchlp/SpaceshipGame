@@ -9,79 +9,80 @@ public abstract class Vector {
 
 	public static final int MAX_DEGREES = 360;
 
-	public Vector() {
+	protected Vector() {
 		this(0, 0);
 	}
 
-	public Vector(double magnitude, double direction) {
+	/**
+	 * Creates a Vector object using magnitude and direction
+	 * 
+	 * @param magnitude
+	 *            Magnitude of vector
+	 * @param direction
+	 *            Direction of vector
+	 */
+	protected Vector(double magnitude, double direction) {
 		setVector(magnitude, direction);
 	}
 
 	/**
-	 * updates the xToyRatio and xyCoefficient variables using the value stored in
-	 * the direction variable
+	 * Creates a Vector object using X and Y components
+	 * 
+	 * @param xComponent
+	 *            X Component of vector
+	 * @param yComponent
+	 *            Y Component of vector
+	 * @param xyComponent
+	 *            To differentiate between magnitude and direction constructor
 	 */
-	protected void updateXY() {
-
-		// set ratio of magnitude in X direction to magnitude in Y direction
-		xyRatio.setX(Math.sin(Math.toRadians(direction)));
-		xyRatio.setY(Math.cos(Math.toRadians(direction)));
-
-		// set direction of magnitude in X direction
-		if (direction == 0 || direction == 180) {
-			xyCoefficient.setX(0);
-		} else if (direction < 180) {
-			xyCoefficient.setX(1);
-		} else {
-			xyCoefficient.setX(-1);
-		}
-
-		// set direction of magnitude in Y direction
-		if (direction == 90 || direction == 270) {
-			xyCoefficient.setY(0);
-		} else if (direction > 270 || direction < 90) {
-			xyCoefficient.setY(1);
-		} else {
-			xyCoefficient.setY(-1);
-		}
+	protected Vector(double xComponent, double yComponent, boolean xyComponent) {
+		double[] magnitudeAndDirection = componentToMagnitudeAndDirection(xComponent, yComponent);
+		setVector(magnitudeAndDirection[0], magnitudeAndDirection[1]);
 	}
 
-	public void setVector(double magnitude, double direction) {
+	private double[] componentToMagnitudeAndDirection(double xComponent, double yComponent) {
+		double[] result = new double[2];
+		result[0] = Math.sqrt(Math.pow(xComponent, 2) + Math.pow(yComponent, 2));
+		result[1] = Math.toDegrees(Math.atan(yComponent / xComponent));
+		return result;
+
+	}
+
+	protected void setVector(double magnitude, double direction) {
 		this.magnitude = magnitude;
 		this.direction = direction % MAX_DEGREES;
 		xyCoefficient = new Coordinate();
 		xyRatio = new Coordinate();
-		updateXY();
 	}
 
-	public void setMagnitude(double magnitude) {
+	protected void setMagnitude(double magnitude) {
 		setVector(magnitude, direction);
 	}
 
-	public void setDirection(double direction) {
+	protected void setDirection(double direction) {
 		setVector(magnitude, direction);
 	}
 
-	public double getMagnitude() {
+	protected double getMagnitude() {
 		return magnitude;
 	}
 
-	public double getDirection() {
+	protected double getDirection() {
 		return direction;
 	}
 
 	/**
 	 * @return magnitude in the X direction
 	 */
-	public double getXMagnitude() {
-		return xyRatio.getX() * xyCoefficient.getX() * magnitude;
+	protected double getXComponent() {
+		return magnitude * Math.cos(Math.toRadians(direction));
 	}
 
 	/**
 	 * @return magnitude in the Y direction
 	 */
-	public double getYMagnitude() {
-		return xyRatio.getY() * xyCoefficient.getY() * magnitude;
+	protected double getYComponent() {
+		return magnitude * Math.sin(Math.toRadians(direction));
 	}
 
 }
