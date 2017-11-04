@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import game.Vector;
 import game.Velocity;
 
 public class VelocityTest {
@@ -12,7 +13,7 @@ public class VelocityTest {
 
 	private final int testRange = 10; // test numbers from 10^-(testRange) to 10^(testRange)
 	private final int numTestPerRange = 100; // number of random numbers to test per range
-	private final int degreeRange = Velocity.MAX_DEGREES * 5; // test direction from 0 to this number of degrees
+	private final int degreeRange = Vector.MAX_DEGREES * 5; // test direction from 0 to this number of degrees
 
 	/**
 	 * Tests the constructor with no parameters
@@ -21,8 +22,8 @@ public class VelocityTest {
 	public void testBlankConstructor() {
 		assertEquals(velocity.getDirection(), 0, Math.ulp(0));
 		assertEquals(velocity.getSpeed(), 0, Math.ulp(0));
-		assertEquals(velocity.getXSpeed(), 0, Math.ulp(0));
-		assertEquals(velocity.getYSpeed(), 0, Math.ulp(0));
+		assertEquals(velocity.getXMagnitude(), 0, Math.ulp(0));
+		assertEquals(velocity.getYMagnitude(), 0, Math.ulp(0));
 	}
 
 	/**
@@ -37,7 +38,7 @@ public class VelocityTest {
 				// creating test data
 				speed = Math.random() * Math.pow(10, i);
 				direction = Math.random() * degreeRange;
-				actualDirection = direction % Velocity.MAX_DEGREES;
+				actualDirection = direction % Vector.MAX_DEGREES;
 				xSpeed = Math.sin(Math.toRadians(actualDirection)) * speed;
 				ySpeed = Math.cos(Math.toRadians(actualDirection)) * speed;
 
@@ -53,8 +54,8 @@ public class VelocityTest {
 				velocity = new Velocity(speed, direction);
 				assertEquals(velocity.getSpeed(), speed, Math.ulp(speed));
 				assertEquals(velocity.getDirection(), actualDirection, Math.ulp(actualDirection));
-				assertEquals(velocity.getXSpeed(), xSpeed, Math.ulp(xSpeed));
-				assertEquals(velocity.getYSpeed(), ySpeed, Math.ulp(ySpeed));
+				assertEquals(velocity.getXMagnitude(), xSpeed, Math.ulp(xSpeed));
+				assertEquals(velocity.getYMagnitude(), ySpeed, Math.ulp(ySpeed));
 			}
 		}
 	}
@@ -73,7 +74,7 @@ public class VelocityTest {
 
 				speed = Math.random() * Math.pow(10, i);
 				direction = Math.random() * degreeRange;
-				actualDirection = direction % Velocity.MAX_DEGREES;
+				actualDirection = direction % Vector.MAX_DEGREES;
 				xSpeed = Math.sin(Math.toRadians(actualDirection)) * speed;
 				ySpeed = Math.cos(Math.toRadians(actualDirection)) * speed;
 
@@ -85,16 +86,16 @@ public class VelocityTest {
 					ySpeed = -ySpeed;
 				}
 
-				velocity.setVelocity(speed, direction);
+				velocity.setVector(speed, direction);
 				assertEquals(velocity.getSpeed(), speed, Math.ulp(speed));
 				assertEquals(velocity.getDirection(), actualDirection, Math.ulp(actualDirection));
-				assertEquals(velocity.getXSpeed(), xSpeed, Math.ulp(xSpeed));
-				assertEquals(velocity.getYSpeed(), ySpeed, Math.ulp(ySpeed));
+				assertEquals(velocity.getXMagnitude(), xSpeed, Math.ulp(xSpeed));
+				assertEquals(velocity.getYMagnitude(), ySpeed, Math.ulp(ySpeed));
 			}
 
 			// test setSpeed method
 			direction = Math.random() * degreeRange;
-			actualDirection = direction % Velocity.MAX_DEGREES;
+			actualDirection = direction % Vector.MAX_DEGREES;
 			velocity = new Velocity(0, direction);
 
 			for (int j = 0; j < numTestPerRange; j++) {
@@ -115,8 +116,8 @@ public class VelocityTest {
 				velocity.setSpeed(speed);
 				assertEquals(velocity.getSpeed(), speed, Math.ulp(speed));
 				assertEquals(velocity.getDirection(), actualDirection, Math.ulp(actualDirection));
-				assertEquals(velocity.getXSpeed(), xSpeed, Math.ulp(xSpeed));
-				assertEquals(velocity.getYSpeed(), ySpeed, Math.ulp(ySpeed));
+				assertEquals(velocity.getXMagnitude(), xSpeed, Math.ulp(xSpeed));
+				assertEquals(velocity.getYMagnitude(), ySpeed, Math.ulp(ySpeed));
 			}
 
 			// test setDirection method
@@ -126,7 +127,7 @@ public class VelocityTest {
 			for (int j = 0; j < numTestPerRange; j++) {
 
 				direction = Math.random() * degreeRange;
-				actualDirection = direction % Velocity.MAX_DEGREES;
+				actualDirection = direction % Vector.MAX_DEGREES;
 
 				xSpeed = Math.sin(Math.toRadians(actualDirection)) * speed;
 				ySpeed = Math.cos(Math.toRadians(actualDirection)) * speed;
@@ -142,8 +143,8 @@ public class VelocityTest {
 				velocity.setDirection(actualDirection);
 				assertEquals(velocity.getSpeed(), speed, Math.ulp(speed));
 				assertEquals(velocity.getDirection(), actualDirection, Math.ulp(actualDirection));
-				assertEquals(velocity.getXSpeed(), xSpeed, Math.ulp(xSpeed));
-				assertEquals(velocity.getYSpeed(), ySpeed, Math.ulp(ySpeed));
+				assertEquals(velocity.getXMagnitude(), xSpeed, Math.ulp(xSpeed));
+				assertEquals(velocity.getYMagnitude(), ySpeed, Math.ulp(ySpeed));
 			}
 
 		}
