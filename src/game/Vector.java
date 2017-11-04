@@ -83,4 +83,5 @@ public abstract class Vector {
 	public double getYMagnitude() {
 		return xyRatio.getY() * xyCoefficient.getY() * magnitude;
 	}
+
 }

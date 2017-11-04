@@ -1,5 +1,12 @@
 package game;
 
+/**
+ * Represents acceleration and stores a rate and a direction
+ * 
+ * @author Michael Pu
+ *
+ */
+
 public class Acceleration extends Vector {
 
 	public Acceleration() {
@@ -9,9 +16,9 @@ public class Acceleration extends Vector {
 	/**
 	 * 
 	 * @param rate
-	 *            in m/s/s
+	 *            Rate in m/s/s
 	 * @param direction
-	 *            in degrees (0-365, inclusive)
+	 *            Direction in degrees (0-365, inclusive)
 	 */
 	public Acceleration(double rate, double direction) {
 		super(rate, direction);
@@ -38,14 +45,14 @@ public class Acceleration extends Vector {
 	}
 
 	/**
-	 * @return rate in the X direction
+	 * @return Rate in the X direction
 	 */
 	public double getXRate() {
 		return super.getXMagnitude();
 	}
 
 	/**
-	 * @return rate in the Y direction
+	 * @return Rate in the Y direction
 	 */
 	public double getYRate() {
 		return super.getYMagnitude();

@@ -1,5 +1,11 @@
 package game;
 
+/**
+ * Represents velocity and stores a speed and a direction
+ * 
+ * @author Michael Pu
+ */
+
 public class Velocity extends Vector {
 
 	public Velocity() {
@@ -8,9 +14,9 @@ public class Velocity extends Vector {
 
 	/**
 	 * @param speed
-	 *            in m/s
+	 *            Speed in m/s
 	 * @param direction
-	 *            in degrees (0-365 inclusive)
+	 *            Direction in degrees (0-365 inclusive)
 	 */
 	public Velocity(double speed, double direction) {
 		super(speed, direction);
@@ -37,14 +43,14 @@ public class Velocity extends Vector {
 	}
 
 	/**
-	 * @return speed in the X direction
+	 * @return Speed in the X direction
 	 */
 	public double getXSpeed() {
 		return super.getXMagnitude();
 	}
 
 	/**
-	 * @return speed in the Y direction
+	 * @return Speed in the Y direction
 	 */
 	public double getYSpeed() {
 		return super.getYMagnitude();

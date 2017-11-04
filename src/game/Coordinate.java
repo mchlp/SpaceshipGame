@@ -1,5 +1,12 @@
 package game;
 
+/**
+ * Stores a point in 2-D space with an x and y value with double precision
+ * 
+ * @author Michael Pu
+ *
+ */
+
 public class Coordinate {
 
 	private double x;
