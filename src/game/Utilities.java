@@ -2,6 +2,8 @@ package game;
 
 public final class Utilities {
 
+	public static final double EPSILON = 1E-5;
+
 	/**
 	 * Calculates the acceleration of an object from its mass and force applied
 	 * 

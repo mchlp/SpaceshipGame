@@ -4,8 +4,6 @@ public abstract class Vector {
 
 	protected double magnitude;
 	protected double direction; // 0-359 degrees
-	protected Coordinate xyRatio; // ratio of magnitude in X direction : magnitude in Y direction
-	protected Coordinate xyCoefficient; // direction (positive or negative) of magnitude in X and Y direction
 
 	public static final int MAX_DEGREES = 360;
 
@@ -44,23 +42,28 @@ public abstract class Vector {
 		double[] result = new double[2];
 		result[0] = Math.sqrt(Math.pow(xComponent, 2) + Math.pow(yComponent, 2));
 		result[1] = Math.toDegrees(Math.atan(yComponent / xComponent));
+		if (xComponent <= 0 && yComponent > 0) {
+			result[1] += 90;
+		} else if (xComponent <= 0 && yComponent <= 0) {
+			result[1] += 180;
+		} else if (xComponent > 0 && yComponent <= 0) {
+			result[1] += 270;
+		}
 		return result;
 
 	}
 
 	protected void setVector(double magnitude, double direction) {
-		this.magnitude = magnitude;
-		this.direction = direction % MAX_DEGREES;
-		xyCoefficient = new Coordinate();
-		xyRatio = new Coordinate();
+		setMagnitude(magnitude);
+		setDirection(direction);
 	}
 
 	protected void setMagnitude(double magnitude) {
-		setVector(magnitude, direction);
+		this.magnitude = magnitude;
 	}
 
 	protected void setDirection(double direction) {
-		setVector(magnitude, direction);
+		this.direction = direction % MAX_DEGREES;
 	}
 
 	protected double getMagnitude() {

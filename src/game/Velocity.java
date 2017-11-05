@@ -13,10 +13,26 @@ public class Velocity extends Vector {
 	}
 
 	/**
+	 * Creates a Vector object using X and Y speeds
+	 * 
+	 * @param xSpeed
+	 *            X Speed of vector
+	 * @param ySpeed
+	 *            Y Speed of vector
+	 * @param xySpeed
+	 *            To differentiate between magnitude and direction constructor
+	 */
+	public Velocity(double xSpeed, double ySpeed, boolean xySpeed) {
+		super(xSpeed, ySpeed, xySpeed);
+	}
+
+	/**
+	 * Creates a Velocity object from speed and direction
+	 * 
 	 * @param speed
-	 *            Speed in m/s
+	 *            Speed of velocity in m/s
 	 * @param direction
-	 *            Direction in degrees (0-365 inclusive)
+	 *            Direction of velocity in degrees (0-365 inclusive)
 	 */
 	public Velocity(double speed, double direction) {
 		super(speed, direction);
@@ -51,7 +67,7 @@ public class Velocity extends Vector {
 	 */
 	public Velocity add(Velocity velocity2) {
 		return new Velocity(this.getXComponent() + velocity2.getXComponent(),
-				this.getYComponent() + velocity2.getYComponent());
+				this.getYComponent() + velocity2.getYComponent(), true);
 	}
 
 	/**
