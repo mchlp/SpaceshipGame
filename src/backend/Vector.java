@@ -40,14 +40,17 @@ public class Vector {
 	private double[] componentToMagnitudeAndDirection(double xComponent, double yComponent) {
 		double[] result = new double[2];
 		result[0] = Math.sqrt(Math.pow(xComponent, 2) + Math.pow(yComponent, 2));
-		result[1] = Math.toDegrees(Math.atan(yComponent / xComponent));
-
-		if (xComponent <= 0 && yComponent > 0) {
-			result[1] += 180;
-		} else if (xComponent <= 0 && yComponent <= 0) {
-			result[1] += 180;
-		} else if (xComponent > 0 && yComponent <= 0) {
-			result[1] += 360;
+		if (xComponent == 0) { // prevent divide by zero error
+			result[1] = yComponent == 0 ? 180 : yComponent > 0 ? 90 : 270;
+		} else {
+			result[1] = Math.toDegrees(Math.atan(yComponent / xComponent));
+			if (xComponent <= 0 && yComponent > 0) {
+				result[1] += 180;
+			} else if (xComponent <= 0 && yComponent <= 0) {
+				result[1] += 180;
+			} else if (xComponent > 0 && yComponent <= 0) {
+				result[1] += 360;
+			}
 		}
 
 		return result;
@@ -90,21 +93,25 @@ public class Vector {
 	public Vector add(Vector vector2) {
 		double newXComponent = this.getXComponent() + vector2.getXComponent();
 		double newYComponent = this.getYComponent() + vector2.getYComponent();
+		newXComponent = Math.abs(newXComponent) > Utilities.EPSILON ? newXComponent : 0;
+		newYComponent = Math.abs(newYComponent) > Utilities.EPSILON ? newYComponent : 0;
 		return new Vector(newXComponent, newYComponent, true);
 	}
 
 	/**
-	 * @return magnitude in the X direction
+	 * @return magnitude in the X direction, 0 if it is less than
+	 *         {@value backend.Utilities#EPSILON}
 	 */
 	public double getXComponent() {
-		return magnitude * Math.cos(Math.toRadians(direction));
+		return magnitude < Utilities.EPSILON ? 0 : magnitude * Math.cos(Math.toRadians(direction));
 	}
 
 	/**
-	 * @return magnitude in the Y direction
+	 * @return magnitude in the Y direction, 0 if it is less than
+	 *         {@value backend.Utilities#EPSILON}
 	 */
 	public double getYComponent() {
-		return magnitude * Math.sin(Math.toRadians(direction));
+		return magnitude < Utilities.EPSILON ? 0 : magnitude * Math.sin(Math.toRadians(direction));
 	}
 
 }

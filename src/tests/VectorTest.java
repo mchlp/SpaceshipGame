@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import backend.Utilities;
 import backend.Vector;
 
 public class VectorTest {
@@ -33,7 +34,7 @@ public class VectorTest {
 
 		// test add function
 		testData2 = new VectorTestData(10, 585);
-		testData3 = new VectorTestData(0, 315);
+		testData3 = new VectorTestData(0, 180);
 		testVectorAdd(testData1, testData2, testData3);
 	}
 
@@ -105,14 +106,20 @@ public class VectorTest {
 						+ magnitude2 * Math.cos(Math.toRadians(direction2));
 				newYComponent = magnitude * Math.sin(Math.toRadians(direction))
 						+ magnitude2 * Math.sin(Math.toRadians(direction2));
+				newXComponent = Math.abs(newXComponent) > Utilities.EPSILON ? newXComponent : 0;
+				newYComponent = Math.abs(newXComponent) > Utilities.EPSILON ? newYComponent : 0;
 				magnitude3 = Math.sqrt(Math.pow(newXComponent, 2) + Math.pow(newYComponent, 2));
-				direction3 = Math.toDegrees(Math.atan(newYComponent / newXComponent));
-				if (newXComponent <= 0 && newYComponent > 0) {
-					direction3 += 90;
-				} else if (newXComponent <= 0 && newYComponent <= 0) {
-					direction3 += 180;
-				} else if (newXComponent > 0 && newYComponent <= 0) {
-					direction3 += 270;
+				if (newXComponent == 0) { // prevent divide by zero error
+					direction3 = newYComponent == 0 ? 180 : newYComponent > 0 ? 90 : 270;
+				} else {
+					direction3 = Math.toDegrees(Math.atan(newYComponent / newXComponent));
+					if (newXComponent <= 0 && newYComponent > 0) {
+						direction3 += 180;
+					} else if (newXComponent <= 0 && newYComponent <= 0) {
+						direction3 += 180;
+					} else if (newXComponent > 0 && newYComponent <= 0) {
+						direction3 += 360;
+					}
 				}
 
 				testData1 = new VectorTestData(magnitude, direction);

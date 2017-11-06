@@ -9,7 +9,7 @@ import javafx.scene.image.ImageView;
  * @author Michael Pu
  */
 
-public class Spaceship extends Object {
+public class Spaceship extends Sprite {
 
 	private long mEngineThrust; // newtons
 	private double mFuelTimeLeft; // seconds

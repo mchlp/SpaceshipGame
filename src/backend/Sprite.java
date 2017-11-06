@@ -2,14 +2,14 @@ package backend;
 
 import javafx.scene.image.ImageView;
 
-public abstract class Object {
+public abstract class Sprite {
 
 	protected long mMass;
 	protected Velocity mVelocity;
 	protected Coordinate mPosition;
 	protected ImageView mImage;
 
-	protected Object(long mass, Velocity velocity, Coordinate position, ImageView image) {
+	protected Sprite(long mass, Velocity velocity, Coordinate position, ImageView image) {
 		mMass = mass;
 		mVelocity = velocity;
 		mPosition = position;
