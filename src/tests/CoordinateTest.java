@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import game.Coordinate;
+import backend.Coordinate;
 
 public class CoordinateTest {
 

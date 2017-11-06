@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import game.Vector;
-import game.Velocity;
+import backend.Vector;
+import backend.Velocity;
 
 public class VelocityTest {
 

@@ -1,4 +1,4 @@
-package game;
+package backend;
 
 /**
  * Stores a point in 2-D space with an x and y value with double precision

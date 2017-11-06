@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import game.Vector;
+import backend.Vector;
 
 public class VectorTest {
 
@@ -33,7 +33,7 @@ public class VectorTest {
 
 		// test add function
 		testData2 = new VectorTestData(10, 585);
-		testData3 = new VectorTestData(0, 0);
+		testData3 = new VectorTestData(0, 315);
 		testVectorAdd(testData1, testData2, testData3);
 	}
 

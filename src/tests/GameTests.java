@@ -7,5 +7,4 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({ CoordinateTest.class, VelocityTest.class, VectorTest.class })
 public class GameTests {
-
 }

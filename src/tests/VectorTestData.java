@@ -1,6 +1,6 @@
 package tests;
 
-import game.Vector;
+import backend.Vector;
 
 public class VectorTestData {
 

@@ -1,4 +1,4 @@
-package game;
+package backend;
 
 public class Vector {
 
@@ -90,7 +90,7 @@ public class Vector {
 	public Vector add(Vector vector2) {
 		double newXComponent = this.getXComponent() + vector2.getXComponent();
 		double newYComponent = this.getYComponent() + vector2.getYComponent();
-		return new Vector(newXComponent, newYComponent);
+		return new Vector(newXComponent, newYComponent, true);
 	}
 
 	/**

@@ -1,4 +1,4 @@
-package game;
+package backend;
 
 /**
  * Represents velocity and stores a speed and a direction
