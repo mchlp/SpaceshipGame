@@ -6,24 +6,36 @@ package game;
  * @author Michael Pu
  */
 
-public class Velocity extends Vector {
+public class Velocity {
+
+	private Vector mVector = new Vector();
 
 	public Velocity() {
-		super();
+		mVector.setVector(0, 0);
 	}
 
 	/**
-	 * Creates a Vector object using X and Y speeds
+	 * Creates a Velocity object using a vector object
+	 * 
+	 * @param vector
+	 *            a Vector object representing the speed and direction
+	 */
+	public Velocity(Vector vector) {
+		mVector = vector;
+	}
+
+	/**
+	 * Creates a Velocity object using X and Y speeds
 	 * 
 	 * @param xSpeed
-	 *            X Speed of vector
+	 *            X Speed of velocity in m/s
 	 * @param ySpeed
-	 *            Y Speed of vector
+	 *            Y Speed of velocity in m/s
 	 * @param xySpeed
 	 *            To differentiate between magnitude and direction constructor
 	 */
 	public Velocity(double xSpeed, double ySpeed, boolean xySpeed) {
-		super(xSpeed, ySpeed, xySpeed);
+		mVector.setXY(xSpeed, ySpeed);
 	}
 
 	/**
@@ -35,27 +47,27 @@ public class Velocity extends Vector {
 	 *            Direction of velocity in degrees (0-365 inclusive)
 	 */
 	public Velocity(double speed, double direction) {
-		super(speed, direction);
+		setVelocity(speed, direction);
 	}
 
 	public void setVelocity(double speed, double direction) {
-		super.setVector(speed, direction);
+		mVector.setVector(speed, direction);
 	}
 
 	public void setSpeed(double speed) {
-		super.setMagnitude(speed);
+		mVector.setMagnitude(speed);
 	}
 
 	public void setDirection(double direction) {
-		super.setDirection(direction);
+		mVector.setDirection(direction);
 	}
 
 	public double getSpeed() {
-		return super.getMagnitude();
+		return mVector.getMagnitude();
 	}
 
 	public double getDirection() {
-		return super.getDirection();
+		return mVector.getDirection();
 	}
 
 	/**
@@ -66,21 +78,20 @@ public class Velocity extends Vector {
 	 * @return Velocity object representing the sum
 	 */
 	public Velocity add(Velocity velocity2) {
-		return new Velocity(this.getXComponent() + velocity2.getXComponent(),
-				this.getYComponent() + velocity2.getYComponent(), true);
+		return new Velocity(mVector.add(velocity2.mVector));
 	}
 
 	/**
 	 * @return Speed in the X direction
 	 */
 	public double getXSpeed() {
-		return super.getXComponent();
+		return mVector.getXComponent();
 	}
 
 	/**
 	 * @return Speed in the Y direction
 	 */
 	public double getYSpeed() {
-		return super.getYComponent();
+		return mVector.getYComponent();
 	}
 }

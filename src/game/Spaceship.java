@@ -115,7 +115,7 @@ public class Spaceship extends Object {
 		return mPosition;
 	}
 
-	public Vector getVelocity() {
+	public Velocity getVelocity() {
 		return mVelocity;
 	}
 

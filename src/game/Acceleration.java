@@ -14,11 +14,26 @@ public class Acceleration extends Vector {
 	}
 
 	/**
+	 * Creates a Acceleration object using X and Y Rate
 	 * 
-	 * @param rate
-	 *            Rate in m/s/s
+	 * @param xRate
+	 *            X Rate of acceleration in m/s/s
+	 * @param yRate
+	 *            Y Rate of acceleration in m/s/s
+	 * @param xySpeed
+	 *            To differentiate between rate and direction constructor
+	 */
+	public Acceleration(double xRate, double yRate, boolean xyRate) {
+		super(xRate, yRate, xyRate);
+	}
+
+	/**
+	 * Creates a Velocity object from speed and direction
+	 * 
+	 * @param speed
+	 *            Rate of acceleration in m/s/s
 	 * @param direction
-	 *            Direction in degrees (0-365, inclusive)
+	 *            Direction of acceleration in degrees (0-365 inclusive)
 	 */
 	public Acceleration(double rate, double direction) {
 		super(rate, direction);

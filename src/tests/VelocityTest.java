@@ -23,28 +23,24 @@ public class VelocityTest {
 	 */
 	@Test
 	public void simpleTest() {
+
+		// test add function
 		double speed = 10;
 		double direction = 405;
-		double actualDirection = 45;
+		// double actualDirection = 45;
 		double xSpeed = Math.sqrt(50);
 		double ySpeed = Math.sqrt(50);
 
-		velocity = new Velocity(speed, direction);
-		checkVariables(velocity, speed, actualDirection, xSpeed, ySpeed);
-
-		velocity = new Velocity(xSpeed, ySpeed, true);
-		checkVariables(velocity, speed, actualDirection, xSpeed, ySpeed);
-
 		double speed2 = 10;
 		double direction2 = 585;
-		double actualDirection2 = 225;
+		// double actualDirection2 = 225;
 		double xSpeed2 = -Math.sqrt(50);
 		double ySpeed2 = -Math.sqrt(50);
 
 		double speed3 = 0;
 		double xSpeed3 = xSpeed + xSpeed2;
 		double ySpeed3 = ySpeed + ySpeed2;
-		double actualDirection3 = 180;
+		double actualDirection3 = 0;
 
 		velocity = new Velocity(xSpeed, ySpeed, true);
 		velocity2 = new Velocity(xSpeed2, ySpeed2, true);
@@ -57,38 +53,6 @@ public class VelocityTest {
 		velocity3 = velocity.add(velocity2);
 
 		checkVariables(velocity3, speed3, actualDirection3, xSpeed3, ySpeed3);
-	}
-
-	/**
-	 * Tests the constructor with no parameters
-	 */
-	@Test
-	public void testBlankConstructor() {
-		velocity = new Velocity();
-		checkVariables(velocity, 0, 0, 0, 0);
-	}
-
-	/**
-	 * Tests the constructor with speed and direction parameters
-	 */
-	@Test
-	public void testConstructor() {
-		double speed, direction, actualDirection, xSpeed, ySpeed;
-		for (int i = -TEST_RANGE; i < TEST_RANGE; i++) {
-			for (int j = 0; j < NUM_PER_TEST_RANGE; j++) {
-
-				// creating test data
-				speed = Math.random() * Math.pow(10, i);
-				direction = Math.random() * DEGREE_RANGE;
-				actualDirection = direction % Vector.MAX_DEGREES;
-				xSpeed = Math.cos(Math.toRadians(actualDirection)) * speed;
-				ySpeed = Math.sin(Math.toRadians(actualDirection)) * speed;
-
-				// create new Velocity object and test get methods
-				velocity = new Velocity(speed, direction);
-				checkVariables(velocity, speed, actualDirection, xSpeed, ySpeed);
-			}
-		}
 	}
 
 	/**
@@ -115,7 +79,6 @@ public class VelocityTest {
 
 			// test setSpeed method
 			direction = Math.random() * DEGREE_RANGE;
-			direction = 270;
 
 			actualDirection = direction % Vector.MAX_DEGREES;
 
@@ -131,27 +94,11 @@ public class VelocityTest {
 				velocity.setSpeed(speed);
 				checkVariables(velocity, speed, actualDirection, xSpeed, ySpeed);
 			}
-
-			// test setDirection method
-			speed = Math.random() * Math.pow(10, i);
-			velocity = new Velocity(speed, 0);
-
-			for (int j = 0; j < NUM_PER_TEST_RANGE; j++) {
-
-				direction = Math.random() * DEGREE_RANGE;
-				actualDirection = direction % Vector.MAX_DEGREES;
-
-				xSpeed = Math.cos(Math.toRadians(actualDirection)) * speed;
-				ySpeed = Math.sin(Math.toRadians(actualDirection)) * speed;
-
-				velocity.setDirection(actualDirection);
-				checkVariables(velocity, speed, actualDirection, xSpeed, ySpeed);
-			}
 		}
 	}
 
 	/**
-	 * Tests add method
+	 * Tests add method using random values
 	 */
 	@Test
 	public void testAddMethod() {
