@@ -1,6 +1,6 @@
 package backend;
 
-import javax.swing.text.html.ImageView;
+import javafx.scene.image.ImageView;
 
 /**
  * Represents a spaceship sprite and stores various values relating to the

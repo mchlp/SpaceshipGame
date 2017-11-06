@@ -1,6 +1,6 @@
 package backend;
 
-import javax.swing.text.html.ImageView;
+import javafx.scene.image.ImageView;
 
 public abstract class Object {
 
