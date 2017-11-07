@@ -48,6 +48,6 @@ public class VelocityTest {
 		assertEquals(expectedSpeed, velocity3.getSpeed(), TARGET_ACCURACY);
 		assertEquals(expectedDirection, velocity3.getDirection(), TARGET_ACCURACY);
 		assertEquals(expectedY, velocity3.getXSpeed(), TARGET_ACCURACY);
-		assertEquals(expectedSpeed, velocity3.getYSpeed(), TARGET_ACCURACY);
+		assertEquals(expectedX, velocity3.getYSpeed(), TARGET_ACCURACY);
 	}
 }

@@ -32,7 +32,7 @@ public class Velocity {
 	 * @param ySpeed
 	 *            Y Speed of velocity in m/s
 	 * @param xySpeed
-	 *            To differentiate between magnitude and direction constructor
+	 *            To differentiate between speed and direction constructor
 	 */
 	public Velocity(double xSpeed, double ySpeed, boolean xySpeed) {
 		mVector.setXY(xSpeed, ySpeed);
