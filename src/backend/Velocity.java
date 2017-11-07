@@ -51,7 +51,8 @@ public class Velocity {
 	}
 
 	public void setVelocity(double speed, double direction) {
-		mVector.setVector(speed, direction);
+		setSpeed(speed);
+		setDirection(direction);
 	}
 
 	public void setSpeed(double speed) {

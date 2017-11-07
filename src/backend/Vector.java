@@ -39,16 +39,21 @@ public class Vector {
 
 	private double[] componentToMagnitudeAndDirection(double xComponent, double yComponent) {
 		double[] result = new double[2];
+
 		result[0] = Math.sqrt(Math.pow(xComponent, 2) + Math.pow(yComponent, 2));
+
 		if (xComponent == 0) { // prevent divide by zero error
 			result[1] = yComponent == 0 ? 180 : yComponent > 0 ? 90 : 270;
 		} else {
 			result[1] = Math.toDegrees(Math.atan(yComponent / xComponent));
-			if (xComponent <= 0 && yComponent > 0) {
+			if (xComponent < 0 && yComponent > 0) {
+				// quadrant 2
 				result[1] += 180;
-			} else if (xComponent <= 0 && yComponent <= 0) {
+			} else if (xComponent < 0 && yComponent <= 0) {
+				// quadrant 3
 				result[1] += 180;
-			} else if (xComponent > 0 && yComponent <= 0) {
+			} else if (xComponent > 0 && yComponent < 0) {
+				// quadrant 4
 				result[1] += 360;
 			}
 		}

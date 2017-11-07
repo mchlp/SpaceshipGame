@@ -4,175 +4,108 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import backend.Utilities;
 import backend.Vector;
 
 public class VectorTest {
 
-	Vector vector;
-	Vector vector2;
-	Vector vector3;
-
-	VectorTestData testData1;
-	VectorTestData testData2;
-	VectorTestData testData3;
-
 	private final static double TARGET_ACCURACY = 0.00001;
-	private final static int TEST_RANGE = 1; // test numbers from 10^-(testRange) to 10^(testRange)
-	private final static int NUM_PER_TEST_RANGE = 100; // number of random numbers to test per range
-	private final static int DEGREE_RANGE = Vector.MAX_DEGREES * 5; // test direction from 0 to this number of degrees
 
-	/**
-	 * Tests using hard-coded values
-	 */
 	@Test
-	public void simpleTest() {
+	public void testConstructor() {
 
-		// test constructor
-		testData1 = new VectorTestData(10, 405);
-		testVectorConstructor(testData1);
+		Vector vector = new Vector();
+		assertEquals(0, vector.getXComponent(), TARGET_ACCURACY);
+		assertEquals(0, vector.getYComponent(), TARGET_ACCURACY);
+		assertEquals(0, vector.getMagnitude(), TARGET_ACCURACY);
+		assertEquals(0, vector.getDirection(), TARGET_ACCURACY);
 
-		// test add function
-		testData2 = new VectorTestData(10, 585);
-		testData3 = new VectorTestData(0, 180);
-		testVectorAdd(testData1, testData2, testData3);
+		vector = new Vector(10, 405);
+		assertEquals(10, vector.getMagnitude(), TARGET_ACCURACY);
+		assertEquals(45, vector.getDirection(), TARGET_ACCURACY);
+		assertEquals(Math.sqrt(50), vector.getXComponent(), TARGET_ACCURACY);
+		assertEquals(Math.sqrt(50), vector.getYComponent(), TARGET_ACCURACY);
+
+		vector = new Vector(10, 10, true);
+		assertEquals(Math.sqrt(200), vector.getMagnitude(), TARGET_ACCURACY);
+		assertEquals(45, vector.getDirection(), TARGET_ACCURACY);
+		assertEquals(10, vector.getXComponent(), TARGET_ACCURACY);
+		assertEquals(10, vector.getYComponent(), TARGET_ACCURACY);
+
+		vector = new Vector(3, 4, true);
+		assertEquals(5, vector.getMagnitude(), TARGET_ACCURACY);
+		assertEquals(Math.toDegrees(Math.atan(4.0 / 3)), vector.getDirection(), TARGET_ACCURACY);
+		assertEquals(3, vector.getXComponent(), TARGET_ACCURACY);
+		assertEquals(4, vector.getYComponent(), TARGET_ACCURACY);
+
+		vector = new Vector(-3, -4, true);
+		assertEquals(5, vector.getMagnitude(), TARGET_ACCURACY);
+		assertEquals(180 + Math.toDegrees(Math.atan(-4.0 / -3)), vector.getDirection(), TARGET_ACCURACY);
+		assertEquals(-3, vector.getXComponent(), TARGET_ACCURACY);
+		assertEquals(-4, vector.getYComponent(), TARGET_ACCURACY);
+
+		vector = new Vector(-3, 4, true);
+		assertEquals(5, vector.getMagnitude(), TARGET_ACCURACY);
+		assertEquals(180 + Math.toDegrees(Math.atan(4.0 / -3)), vector.getDirection(), TARGET_ACCURACY);
+		assertEquals(-3, vector.getXComponent(), TARGET_ACCURACY);
+		assertEquals(4, vector.getYComponent(), TARGET_ACCURACY);
+
+		vector = new Vector(3, -4, true);
+		assertEquals(5, vector.getMagnitude(), TARGET_ACCURACY);
+		assertEquals(360 + Math.toDegrees(Math.atan(-4.0 / 3)), vector.getDirection(), TARGET_ACCURACY);
+		assertEquals(3, vector.getXComponent(), TARGET_ACCURACY);
+		assertEquals(-4, vector.getYComponent(), TARGET_ACCURACY);
+
+		vector = new Vector(0, 3, true);
+		assertEquals(3, vector.getMagnitude(), TARGET_ACCURACY);
+		assertEquals(90, vector.getDirection(), TARGET_ACCURACY);
+		assertEquals(0, vector.getXComponent(), TARGET_ACCURACY);
+		assertEquals(3, vector.getYComponent(), TARGET_ACCURACY);
+
+		vector = new Vector(0, -3, true);
+		assertEquals(3, vector.getMagnitude(), TARGET_ACCURACY);
+		assertEquals(270, vector.getDirection(), TARGET_ACCURACY);
+		assertEquals(0, vector.getXComponent(), TARGET_ACCURACY);
+		assertEquals(-3, vector.getYComponent(), TARGET_ACCURACY);
+
 	}
 
-	/**
-	 * Tests the constructor with no parameters
-	 */
 	@Test
-	public void testBlankConstructor() {
-		testData1 = new VectorTestData(0, 0);
-		vector = new Vector();
-		checkVariables(vector, testData1);
+	public void testOppositeDirectionAdd() {
+		testAdd(10, 405, 10, 585, 0, 180, 0, 0);
 	}
 
-	/**
-	 * Tests using random values
-	 */
 	@Test
-	public void randomTest() {
-		double magnitude, direction;
-		for (int i = -TEST_RANGE; i < TEST_RANGE; i++) {
-			for (int j = 0; j < NUM_PER_TEST_RANGE; j++) {
-				magnitude = Math.random() * Math.pow(10, i);
-				direction = Math.random() * DEGREE_RANGE;
-				testData1 = new VectorTestData(magnitude, direction);
-				testVectorConstructor(testData1);
-				testVectorSetters(testData1);
-			}
-		}
+	public void testSameDirectionAdd() {
+		testAdd(10, 45, 10, 45, 20, 45, Math.sqrt(200), Math.sqrt(200));
 	}
 
-	/**
-	 * Tests setter methods
-	 */
 	@Test
-	public void testSetterMethods() {
-		vector = new Vector();
-		double magnitude, direction;
-		for (int i = -TEST_RANGE; i < TEST_RANGE; i++) {
-			for (int j = 0; j < NUM_PER_TEST_RANGE; j++) {
-				magnitude = Math.random() * Math.pow(10, i);
-				direction = Math.random() * DEGREE_RANGE;
-				testData1 = new VectorTestData(magnitude, direction);
+	public void testDifferentDirectionAdd() {
+		testAdd(10, 20, 10, 40, 19.6961550602, 30, 17.057370639, 9.8480775301);
+		testAdd(12, 20, 25, 60, 35.05177, 47.287512, 23.776311, 25.754877);
 
-			}
-		}
 	}
 
-	/**
-	 * Tests add method using random values
-	 */
 	@Test
-	public void testAddMethod() {
-
-		vector = new Vector();
-		vector2 = new Vector();
-
-		double magnitude, magnitude2, direction, direction2, magnitude3, direction3, newXComponent, newYComponent;
-		for (int i = -TEST_RANGE; i < TEST_RANGE; i++) {
-			for (int j = 0; j < NUM_PER_TEST_RANGE; j++) {
-
-				// creating test data
-				magnitude = Math.random() * Math.pow(10, i);
-				magnitude2 = Math.random() * Math.pow(10, i);
-				direction = Math.random() * DEGREE_RANGE;
-				direction2 = Math.random() * DEGREE_RANGE;
-
-				// generate data for combined vector
-				newXComponent = magnitude * Math.cos(Math.toRadians(direction))
-						+ magnitude2 * Math.cos(Math.toRadians(direction2));
-				newYComponent = magnitude * Math.sin(Math.toRadians(direction))
-						+ magnitude2 * Math.sin(Math.toRadians(direction2));
-				newXComponent = Math.abs(newXComponent) > Utilities.EPSILON ? newXComponent : 0;
-				newYComponent = Math.abs(newXComponent) > Utilities.EPSILON ? newYComponent : 0;
-				magnitude3 = Math.sqrt(Math.pow(newXComponent, 2) + Math.pow(newYComponent, 2));
-				if (newXComponent == 0) { // prevent divide by zero error
-					direction3 = newYComponent == 0 ? 180 : newYComponent > 0 ? 90 : 270;
-				} else {
-					direction3 = Math.toDegrees(Math.atan(newYComponent / newXComponent));
-					if (newXComponent <= 0 && newYComponent > 0) {
-						direction3 += 180;
-					} else if (newXComponent <= 0 && newYComponent <= 0) {
-						direction3 += 180;
-					} else if (newXComponent > 0 && newYComponent <= 0) {
-						direction3 += 360;
-					}
-				}
-
-				testData1 = new VectorTestData(magnitude, direction);
-				testData2 = new VectorTestData(magnitude2, direction2);
-				testData3 = new VectorTestData(magnitude3, direction3);
-
-				testVectorAdd(testData1, testData2, testData3);
-			}
-		}
+	public void testXAxisAdd() {
+		testAdd(10, 0, 10, 0, 20, 0, 20, 0);
+		testAdd(20, 180, 20, 180, 40, 180, -40, 0);
 	}
 
-	private void testVectorSetters(VectorTestData testData) {
-		vector = new Vector();
-		// test setVector
-		vector.setVector(testData.getmMagnitude(), testData.getmDirection());
-		checkVariables(vector, testData);
-		// test setDirection
-		vector.setDirection(testData.getmDirection());
-		checkVariables(vector, testData);
-		// test setMagnitude
-		vector.setMagnitude(testData.getmMagnitude());
-		checkVariables(vector, testData);
+	@Test
+	public void testYAxisAdd() {
+		testAdd(10, 90, 10, 90, 20, 90, 0, 20);
+		testAdd(30, 270, 30, 270, 60, 270, 0, -60);
 	}
 
-	private void testVectorAdd(VectorTestData testData1, VectorTestData testData2, VectorTestData testData3) {
-
-		vector = new Vector(testData1.getmXMagnitude(), testData1.getmYMagnitude(), true);
-		vector2 = new Vector(testData2.getmXMagnitude(), testData2.getmYMagnitude(), true);
-		vector3 = vector.add(vector2);
-
-		checkVariables(vector3, testData3);
-
-		vector = new Vector(testData1.getmMagnitude(), testData1.getmDirection());
-		vector2 = new Vector(testData2.getmMagnitude(), testData2.getmDirection());
-		vector3 = vector.add(vector2);
-
-		checkVariables(vector3, testData3);
-	}
-
-	private void testVectorConstructor(VectorTestData testData) {
-
-		vector = new Vector(testData.getmMagnitude(), testData.getmDirection());
-		checkVariables(vector, testData);
-
-		vector = new Vector(testData.getmXMagnitude(), testData.getmYMagnitude(), true);
-		checkVariables(vector, testData);
-	}
-
-	private void checkVariables(Vector checkVector, VectorTestData testData) {
-
-		assertEquals(testData.getmMagnitude(), checkVector.getMagnitude(), TARGET_ACCURACY);
-		assertEquals(testData.getmActualDirection(), checkVector.getDirection(), TARGET_ACCURACY);
-		assertEquals(testData.getmXMagnitude(), checkVector.getXComponent(), TARGET_ACCURACY);
-		assertEquals(testData.getmYMagnitude(), checkVector.getYComponent(), TARGET_ACCURACY);
+	private void testAdd(double magnitude1, double direction1, double mangitude2, double direction2,
+			double expectedMagnitude, double expectedDirection, double expectedX, double expectedY) {
+		Vector vector1 = new Vector(magnitude1, direction1);
+		Vector vector2 = new Vector(mangitude2, direction2);
+		Vector vector3 = vector1.add(vector2);
+		assertEquals(expectedMagnitude, vector3.getMagnitude(), TARGET_ACCURACY);
+		assertEquals(expectedDirection, vector3.getDirection(), TARGET_ACCURACY);
+		assertEquals(expectedX, vector3.getXComponent(), TARGET_ACCURACY);
+		assertEquals(expectedY, vector3.getYComponent(), TARGET_ACCURACY);
 	}
 }
