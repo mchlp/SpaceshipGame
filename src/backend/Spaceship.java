@@ -94,7 +94,10 @@ public class Spaceship extends Sprite {
 	 *            Frames per second the game is running at
 	 */
 	public void update(int FPS) {
-
+		Acceleration curAccel = new Acceleration();
+		Acceleration gravAccel = new Acceleration(9.8, 270);
+		curAccel = curAccel.add(gravAccel);
+		mVelocity.accelerate(curAccel);
 	}
 
 	/**

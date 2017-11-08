@@ -95,4 +95,13 @@ public class Velocity {
 	public double getYSpeed() {
 		return mVector.getYComponent();
 	}
+
+	/**
+	 * 
+	 * @param acceleration
+	 *            An acceleration object representing how much to accelerate by
+	 */
+	public void accelerate(Acceleration acceleration) {
+		this.add(new Velocity(acceleration.getRate(), acceleration.getDirection()));
+	}
 }
