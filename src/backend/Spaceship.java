@@ -97,7 +97,9 @@ public class Spaceship extends Sprite {
 		Acceleration curAccel = new Acceleration();
 		Acceleration gravAccel = new Acceleration(9.8, 270);
 		curAccel = curAccel.add(gravAccel);
+		mMass--;
 		mVelocity.accelerate(curAccel);
+		mImage.setY(mImage.getY() - 1);
 	}
 
 	/**

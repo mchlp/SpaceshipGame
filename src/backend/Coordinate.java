@@ -36,4 +36,9 @@ public class Coordinate {
 	public void setY(double y) {
 		this.y = y;
 	}
+
+	public void move(Velocity velocity) {
+		this.x += velocity.getXSpeed();
+		this.y += velocity.getYSpeed();
+	}
 }

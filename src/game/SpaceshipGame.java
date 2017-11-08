@@ -1,6 +1,7 @@
 package game;
 
 import backend.Spaceship;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -70,6 +71,15 @@ public class SpaceshipGame extends Application {
 				}
 			}
 		});
+
+		new AnimationTimer() {
+			@Override
+			public void handle(long curTime) {
+				System.out.println(spaceship.getMass());
+				spaceship.update(60);
+			}
+		}.start();
+		;
 
 		primaryStage.setTitle("Spaceship Game");
 		// Set the scene for this stage

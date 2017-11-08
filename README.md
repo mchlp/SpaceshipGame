@@ -1,2 +1,2 @@
 # SpaceshipGame
-Object Oriented Programming Assignment for ICS3U1 
+Object Oriented Programming and JavaFX Assignment for ICS3U1 
