@@ -28,9 +28,9 @@ public class Acceleration {
 	 * Creates an Acceleration object using X and Y speeds
 	 * 
 	 * @param xRate
-	 *            X Rate of acceleration in m/s
+	 *            X Rate of acceleration in m/s/s
 	 * @param yRate
-	 *            Y Rate of velocity in m/s
+	 *            Y Rate of acceleration in m/s/s
 	 * @param xyRate
 	 *            To differentiate between rate and direction constructor
 	 */
