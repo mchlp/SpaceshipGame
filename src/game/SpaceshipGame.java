@@ -31,11 +31,11 @@ public class SpaceshipGame extends Application {
 		backgroundImageView.setImage(backgroundImage);
 
 		// Load the spaceship image file
-		Image spaceshipImage = new Image(getClass().getResourceAsStream("/images/rocket.png"));
+		Image engineOffImage = new Image(getClass().getResourceAsStream("/images/rocket.png"));
+		Image engineOnImage = new Image(getClass().getResourceAsStream("/images/rocketFlame.png"));
 		ImageView spaceshipImageView = new ImageView();
-		spaceshipImageView.setImage(spaceshipImage);
 		spaceshipImageView.setPreserveRatio(true);
-		spaceshipImageView.setFitHeight(200);
+		spaceshipImageView.setFitWidth(100);
 		spaceshipImageView.setX(500);
 		spaceshipImageView.setY(500);
 
@@ -49,8 +49,7 @@ public class SpaceshipGame extends Application {
 		prankView.setVisible(false);
 
 		// Create your spaceship here
-		spaceship = new Spaceship(spaceshipImageView);
-		System.out.println(spaceship.getVelocity().getSpeed());
+		spaceship = new Spaceship(spaceshipImageView, engineOffImage, engineOnImage);
 
 		// Add your images to the root pane
 		root.getChildren().add(backgroundImageView);

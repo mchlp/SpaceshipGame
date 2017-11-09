@@ -1,5 +1,6 @@
 package backend;
 
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
@@ -18,6 +19,8 @@ public class Spaceship extends Sprite {
 	private double mBurnRatePerSecond; // kilograms per second
 	private double mSecondsEngineOnFor; // seconds
 	private boolean mEngineOn;
+	private Image mEngineOnImage;
+	private Image mEngineOffImage;
 
 	private static final int MAX_IMPACT_SPEED = 60; // metres per second
 	private static final double GRAVITY_ACCEL = 9.81; // metres per second per second
@@ -33,21 +36,21 @@ public class Spaceship extends Sprite {
 	private static final Coordinate INITAL_POSITION = new Coordinate(500, 10);
 
 	/**
-	 * @param image
+	 * @param imageView
 	 *            {@link ImageView} of spaceship
 	 */
-	public Spaceship(ImageView image) {
-		this(DEFAULT_MASS, image);
+	public Spaceship(ImageView imageView, Image engineOffImage, Image engineOnImage) {
+		this(DEFAULT_MASS, imageView, engineOffImage, engineOnImage);
 	}
 
 	/**
 	 * @param mass
 	 *            Mass of spaceship in kilograms
-	 * @param image
+	 * @param imageView
 	 *            Image of spaceship
 	 */
-	public Spaceship(long mass, ImageView image) {
-		this(mass, INITAL_VELOCITY, INITAL_POSITION, image);
+	public Spaceship(long mass, ImageView imageView, Image engineOffImage, Image engineOnImage) {
+		this(mass, INITAL_VELOCITY, INITAL_POSITION, imageView, engineOffImage, engineOnImage);
 	}
 
 	/**
@@ -57,12 +60,13 @@ public class Spaceship extends Sprite {
 	 *            Starting velocity
 	 * @param position
 	 *            Starting position
-	 * @param image
+	 * @param imageView
 	 *            Image of spaceship
 	 */
-	public Spaceship(long mass, Velocity velocity, Coordinate position, ImageView image) {
-		this(mass, velocity, position, image, DEFAULT_ENGINE_THRUST, DEFAULT_FUEL_TIME_LEFT,
-				DEFAULT_BURN_RATE_PER_SECOND);
+	public Spaceship(long mass, Velocity velocity, Coordinate position, ImageView imageView, Image engineOffImage,
+			Image engineOnImage) {
+		this(mass, velocity, position, imageView, DEFAULT_ENGINE_THRUST, DEFAULT_FUEL_TIME_LEFT,
+				DEFAULT_BURN_RATE_PER_SECOND, engineOffImage, engineOnImage);
 	}
 
 	/**
@@ -82,7 +86,7 @@ public class Spaceship extends Sprite {
 	 *            Kilograms of fuel burned per second
 	 */
 	public Spaceship(long mass, Velocity velocity, Coordinate position, ImageView image, long engineThrust,
-			double fuelTimeLeft, double burnRatePerSecond) {
+			double fuelTimeLeft, double burnRatePerSecond, Image engineOffImage, Image engineOnImage) {
 
 		super(mass, velocity, position, image);
 		mPosition = INITAL_POSITION;
@@ -91,8 +95,9 @@ public class Spaceship extends Sprite {
 		mEngineThrust = engineThrust;
 		mFuelTimeLeft = fuelTimeLeft;
 		mBurnRatePerSecond = burnRatePerSecond;
-		mImageView.setPreserveRatio(true);
-		mImageView.setFitHeight(200);
+		mEngineOnImage = engineOnImage;
+		mEngineOffImage = engineOffImage;
+		engineOff();
 		updatePositionOfImageView(mPosition);
 	}
 
@@ -112,14 +117,12 @@ public class Spaceship extends Sprite {
 		}
 		mVelocity = mVelocity.accelerate(curAccel);
 		// mVelocity = new Velocity(1 * deltaTime, 270);
-		if (mPosition.getY() > mImageView.getScene().getHeight() - mImageView.getFitHeight()) {
+		if (mPosition.getY() > mImageView.getScene().getHeight() - mImageView.getBoundsInParent().getHeight()) {
 			if (mVelocity.getDirection() > 180) {
 				mVelocity = new Velocity();
 			}
 		}
 		mPosition.move(mVelocity, 0.5);
-		// System.out.println(frameCount + " " + mVelocity.getSpeed());
-		System.out.println(mEngineOn);
 		updatePositionOfImageView(mPosition);
 		frameCount++;
 	}
@@ -128,6 +131,9 @@ public class Spaceship extends Sprite {
 	 * Engine turned on
 	 */
 	public void engineOn() {
+		mImageView.setImage(mEngineOnImage);
+		// mImageView.setFitWidth(150);
+		// mImageView.setPreserveRatio(true);
 		mEngineOn = true;
 	}
 
@@ -135,6 +141,9 @@ public class Spaceship extends Sprite {
 	 * Engine turned off
 	 */
 	public void engineOff() {
+		mImageView.setImage(mEngineOffImage);
+		// mImageView.setFitWidth(150);
+		// mImageView.setPreserveRatio(true);
 		mEngineOn = false;
 		mSecondsEngineOnFor = 0;
 	}
