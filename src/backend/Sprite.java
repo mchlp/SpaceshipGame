@@ -7,12 +7,12 @@ public abstract class Sprite {
 	protected long mMass;
 	protected Velocity mVelocity;
 	protected Coordinate mPosition;
-	protected ImageView mImage;
+	protected ImageView mImageView;
 
 	protected Sprite(long mass, Velocity velocity, Coordinate position, ImageView image) {
 		mMass = mass;
 		mVelocity = velocity;
 		mPosition = position;
-		mImage = image;
+		mImageView = image;
 	}
 }

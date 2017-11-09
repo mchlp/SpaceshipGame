@@ -100,8 +100,9 @@ public class Velocity {
 	 * 
 	 * @param acceleration
 	 *            An acceleration object representing how much to accelerate by
+	 * @return the new velocity
 	 */
-	public void accelerate(Acceleration acceleration) {
-		this.add(new Velocity(acceleration.getRate(), acceleration.getDirection()));
+	public Velocity accelerate(Acceleration acceleration) {
+		return this.add(new Velocity(acceleration.getRate(), acceleration.getDirection()));
 	}
 }

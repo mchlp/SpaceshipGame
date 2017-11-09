@@ -13,12 +13,16 @@ import javafx.stage.Stage;
 
 public class SpaceshipGame extends Application {
 
+	private long prevTime;
+	private Spaceship spaceship;
+
 	public static void main(String[] args) {
 		launch(args);
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+
 		Pane root = new Pane();
 
 		// Load the background image file
@@ -45,7 +49,7 @@ public class SpaceshipGame extends Application {
 		prankView.setVisible(false);
 
 		// Create your spaceship here
-		Spaceship spaceship = new Spaceship(spaceshipImageView);
+		spaceship = new Spaceship(spaceshipImageView);
 		System.out.println(spaceship.getVelocity().getSpeed());
 
 		// Add your images to the root pane
@@ -56,30 +60,51 @@ public class SpaceshipGame extends Application {
 		// Create your scene using the root pane
 		Scene scene = new Scene(root, backgroundImage.getWidth(), backgroundImage.getHeight());
 
-		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-			public void handle(KeyEvent e) {
-				String code = e.getCode().toString();
+		scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 
+			@Override
+			public void handle(KeyEvent keyPressed) {
+				String code = keyPressed.getCode().toString();
 				switch (code) {
 				case "SPACE":
+					spaceship.engineOn();
+					/*
 					if (prankView.isVisible()) {
 						prankView.setVisible(false);
 					} else {
 						prankView.setVisible(true);
 					}
+					*/
 					break;
 				}
 			}
 		});
 
-		new AnimationTimer() {
+		scene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+
+			@Override
+			public void handle(KeyEvent keyReleased) {
+				String code = keyReleased.getCode().toString();
+				switch (code) {
+				case "SPACE":
+					spaceship.engineOff();
+					break;
+				}
+
+			}
+		});
+
+		prevTime = System.nanoTime();
+		AnimationTimer timer = new AnimationTimer() {
 			@Override
 			public void handle(long curTime) {
-				System.out.println(spaceship.getMass());
-				spaceship.update(60);
+				double deltaTime = (curTime - prevTime) / 1E9;
+				onUpdate(deltaTime);
+				prevTime = curTime;
 			}
-		}.start();
-		;
+		};
+
+		timer.start();
 
 		primaryStage.setTitle("Spaceship Game");
 		// Set the scene for this stage
@@ -88,4 +113,7 @@ public class SpaceshipGame extends Application {
 		primaryStage.show();
 	}
 
+	private void onUpdate(double deltaTime) {
+		spaceship.update(deltaTime);
+	}
 }

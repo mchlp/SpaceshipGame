@@ -37,8 +37,8 @@ public class Coordinate {
 		this.y = y;
 	}
 
-	public void move(Velocity velocity) {
-		this.x += velocity.getXSpeed();
-		this.y += velocity.getYSpeed();
+	public void move(Velocity velocity, double modifier) {
+		this.x += velocity.getXSpeed() * modifier;
+		this.y -= velocity.getYSpeed() * modifier;
 	}
 }
