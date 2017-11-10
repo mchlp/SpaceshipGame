@@ -22,6 +22,7 @@ public class Spaceship extends Sprite {
 	private double mSpaceshipHeight;
 	private Image mEngineOnImage;
 	private Image mEngineOffImage;
+	private Planet mPlanet;
 
 	private static final int MAX_IMPACT_SPEED = 60; // metres per second
 	private static final double GRAVITY_ACCEL = 9.81; // metres per second per second
@@ -40,8 +41,8 @@ public class Spaceship extends Sprite {
 	 * @param imageView
 	 *            {@link ImageView} of spaceship
 	 */
-	public Spaceship(ImageView imageView, Image engineOffImage, Image engineOnImage) {
-		this(DEFAULT_MASS, imageView, engineOffImage, engineOnImage);
+	public Spaceship(ImageView imageView, Image engineOffImage, Image engineOnImage, Planet planet) {
+		this(DEFAULT_MASS, imageView, engineOffImage, engineOnImage, planet);
 	}
 
 	/**
@@ -50,8 +51,8 @@ public class Spaceship extends Sprite {
 	 * @param imageView
 	 *            Image of spaceship
 	 */
-	public Spaceship(long mass, ImageView imageView, Image engineOffImage, Image engineOnImage) {
-		this(mass, INITAL_VELOCITY, INITAL_POSITION, imageView, engineOffImage, engineOnImage);
+	public Spaceship(long mass, ImageView imageView, Image engineOffImage, Image engineOnImage, Planet planet) {
+		this(mass, INITAL_VELOCITY, INITAL_POSITION, imageView, engineOffImage, engineOnImage, planet);
 	}
 
 	/**
@@ -65,9 +66,9 @@ public class Spaceship extends Sprite {
 	 *            Image of spaceship
 	 */
 	public Spaceship(long mass, Velocity velocity, Coordinate position, ImageView imageView, Image engineOffImage,
-			Image engineOnImage) {
+			Image engineOnImage, Planet planet) {
 		this(mass, velocity, position, imageView, DEFAULT_ENGINE_THRUST, DEFAULT_FUEL_TIME_LEFT,
-				DEFAULT_BURN_RATE_PER_SECOND, engineOffImage, engineOnImage);
+				DEFAULT_BURN_RATE_PER_SECOND, engineOffImage, engineOnImage, planet);
 	}
 
 	/**
@@ -87,7 +88,7 @@ public class Spaceship extends Sprite {
 	 *            Kilograms of fuel burned per second
 	 */
 	public Spaceship(long mass, Velocity velocity, Coordinate position, ImageView image, long engineThrust,
-			double fuelTimeLeft, double burnRatePerSecond, Image engineOffImage, Image engineOnImage) {
+			double fuelTimeLeft, double burnRatePerSecond, Image engineOffImage, Image engineOnImage, Planet planet) {
 
 		super(mass, velocity, position, image);
 		mPosition = INITAL_POSITION;
@@ -98,6 +99,7 @@ public class Spaceship extends Sprite {
 		mBurnRatePerSecond = burnRatePerSecond;
 		mEngineOnImage = engineOnImage;
 		mEngineOffImage = engineOffImage;
+		mPlanet = planet;
 		engineOff();
 		mSpaceshipHeight = mImageView.getBoundsInParent().getHeight();
 		updatePositionOfImageView(mPosition);
@@ -111,10 +113,11 @@ public class Spaceship extends Sprite {
 	 */
 	public void update(double deltaTime) {
 		Acceleration curAccel = new Acceleration();
-		Acceleration gravAccel = new Acceleration(9.8 * deltaTime, 270);
+		Acceleration gravAccel = mPlanet.getPlanetaryAcceleration();
+		gravAccel.setRate(gravAccel.getRate() * deltaTime);
 		curAccel = curAccel.add(gravAccel);
 		if (mEngineOn) {
-			Acceleration engineAccel = new Acceleration(13 * deltaTime, 90);
+			Acceleration engineAccel = new Acceleration(17 * deltaTime, 90);
 			curAccel = curAccel.add(engineAccel);
 		}
 		mVelocity = mVelocity.accelerate(curAccel);

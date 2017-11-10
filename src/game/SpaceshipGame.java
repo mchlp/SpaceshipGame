@@ -1,5 +1,6 @@
 package game;
 
+import backend.Planet;
 import backend.Spaceship;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -15,6 +16,7 @@ public class SpaceshipGame extends Application {
 
 	private long prevTime;
 	private Spaceship spaceship;
+	private Planet earth;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -49,7 +51,8 @@ public class SpaceshipGame extends Application {
 		prankView.setVisible(false);
 
 		// Create your spaceship here
-		spaceship = new Spaceship(spaceshipImageView, engineOffImage, engineOnImage);
+		earth = new Planet();
+		spaceship = new Spaceship(spaceshipImageView, engineOffImage, engineOnImage, earth);
 
 		// Add your images to the root pane
 		root.getChildren().add(backgroundImageView);
@@ -113,7 +116,6 @@ public class SpaceshipGame extends Application {
 	}
 
 	private void onUpdate(double deltaTime) {
-		System.out.println(spaceship.getVelocity().getSpeed());
 		spaceship.update(deltaTime);
 	}
 }
