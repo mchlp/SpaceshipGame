@@ -71,6 +71,7 @@ public class SpaceshipGame extends Application {
 				case "SPACE":
 					spaceship.engineOn();
 					/*
+					old code
 					if (prankView.isVisible()) {
 						prankView.setVisible(false);
 					} else {
