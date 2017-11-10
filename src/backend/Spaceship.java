@@ -112,7 +112,7 @@ public class Spaceship extends Sprite {
 		Acceleration gravAccel = new Acceleration(9.8 * deltaTime, 270);
 		curAccel = curAccel.add(gravAccel);
 		if (mEngineOn) {
-			Acceleration engineAccel = new Acceleration(20 * deltaTime, 90);
+			Acceleration engineAccel = new Acceleration(13 * deltaTime, 90);
 			curAccel = curAccel.add(engineAccel);
 		}
 		mVelocity = mVelocity.accelerate(curAccel);
