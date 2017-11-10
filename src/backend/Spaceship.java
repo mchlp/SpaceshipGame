@@ -19,6 +19,7 @@ public class Spaceship extends Sprite {
 	private double mBurnRatePerSecond; // kilograms per second
 	private double mSecondsEngineOnFor; // seconds
 	private boolean mEngineOn;
+	private double mSpaceshipHeight;
 	private Image mEngineOnImage;
 	private Image mEngineOffImage;
 
@@ -98,6 +99,7 @@ public class Spaceship extends Sprite {
 		mEngineOnImage = engineOnImage;
 		mEngineOffImage = engineOffImage;
 		engineOff();
+		mSpaceshipHeight = mImageView.getBoundsInParent().getHeight();
 		updatePositionOfImageView(mPosition);
 	}
 
@@ -117,7 +119,7 @@ public class Spaceship extends Sprite {
 		}
 		mVelocity = mVelocity.accelerate(curAccel);
 		// mVelocity = new Velocity(1 * deltaTime, 270);
-		if (mPosition.getY() > mImageView.getScene().getHeight() - mImageView.getBoundsInParent().getHeight()) {
+		if (mPosition.getY() > mImageView.getScene().getHeight() - mSpaceshipHeight) {
 			if (mVelocity.getDirection() > 180) {
 				mVelocity = new Velocity();
 			}

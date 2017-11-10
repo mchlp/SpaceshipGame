@@ -35,7 +35,7 @@ public class SpaceshipGame extends Application {
 		Image engineOnImage = new Image(getClass().getResourceAsStream("/images/rocketFlame.png"));
 		ImageView spaceshipImageView = new ImageView();
 		spaceshipImageView.setPreserveRatio(true);
-		spaceshipImageView.setFitWidth(100);
+		spaceshipImageView.setFitWidth(50);
 		spaceshipImageView.setX(500);
 		spaceshipImageView.setY(500);
 
@@ -113,6 +113,7 @@ public class SpaceshipGame extends Application {
 	}
 
 	private void onUpdate(double deltaTime) {
+		System.out.println(spaceship.getVelocity().getSpeed());
 		spaceship.update(deltaTime);
 	}
 }
