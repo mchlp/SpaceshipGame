@@ -23,10 +23,12 @@ public class SpaceshipGame extends Application {
 	private static final String IMAGE_ROCKET_RIGHT_ON = IMAGE_DIRECTORY + "rocketRightOn.png";
 	private static final String IMAGE_ROCKET_MIDDLE_OFF = IMAGE_DIRECTORY + "rocketMiddleOff.png";
 	private static final String IMAGE_ROCKET_MIDDLE_ON = IMAGE_DIRECTORY + "rocketMiddleOn.png";
+	private static final String IMAGE_BACKGROUND = IMAGE_DIRECTORY + "planet.jpg";
 
 	private long prevTime;
 	private Spaceship spaceship;
 	private Planet earth;
+	private Planet moon;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -38,20 +40,19 @@ public class SpaceshipGame extends Application {
 		Pane root = new Pane();
 
 		// Load the background image file
-		Image backgroundImage = new Image(getClass().getResourceAsStream("/images/planet.jpg"));
+		Image backgroundImage = new Image(getClass().getResourceAsStream(IMAGE_BACKGROUND));
 		ImageView backgroundImageView = new ImageView();
 		backgroundImageView.setImage(backgroundImage);
 
-		// Load the spaceship image file
+		// Load the spaceship image files
 		SpaceshipImageSet spaceshipImageSet = new SpaceshipImageSet(IMAGE_ROCKET_LEFT_OFF, IMAGE_ROCKET_LEFT_ON,
 				IMAGE_ROCKET_RIGHT_OFF, IMAGE_ROCKET_RIGHT_ON, IMAGE_ROCKET_MIDDLE_OFF, IMAGE_ROCKET_MIDDLE_ON);
-		ImageView spaceshipImageView = new ImageView();
-		spaceshipImageView.setPreserveRatio(true);
-		spaceshipImageView.setFitWidth(50);
-		spaceshipImageView.setX(500);
-		spaceshipImageView.setY(500);
 
-		// Create your spaceship here
+		// Create and set up spaceship imageview
+		ImageView spaceshipImageView = new ImageView();
+
+		// Create spaceship object
+		moon = new Planet(7.34747309E+22, 1737000);
 		earth = new Planet();
 		spaceship = new Spaceship(spaceshipImageView, spaceshipImageSet, earth);
 
@@ -62,8 +63,8 @@ public class SpaceshipGame extends Application {
 		// Create your scene using the root pane
 		Scene scene = new Scene(root, backgroundImage.getWidth(), backgroundImage.getHeight());
 
+		// Handle key presses
 		scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-
 			@Override
 			public void handle(KeyEvent keyPressed) {
 				String code = keyPressed.getCode().toString();
@@ -80,6 +81,7 @@ public class SpaceshipGame extends Application {
 			}
 		});
 
+		// Handles key releases
 		scene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
 
 			@Override
@@ -99,6 +101,7 @@ public class SpaceshipGame extends Application {
 			}
 		});
 
+		// Game loop
 		prevTime = System.nanoTime();
 		AnimationTimer timer = new AnimationTimer() {
 			@Override
@@ -112,9 +115,7 @@ public class SpaceshipGame extends Application {
 		timer.start();
 
 		primaryStage.setTitle("Spaceship Game");
-		// Set the scene for this stage
 		primaryStage.setScene(scene);
-		// Finally, show the primary stage
 		primaryStage.show();
 	}
 
