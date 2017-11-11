@@ -95,4 +95,8 @@ public class Acceleration {
 	public double getYRate() {
 		return mVector.getYComponent();
 	}
+
+	public Acceleration getAccelerationByTime(double time) {
+		return new Acceleration(mVector.getMagnitude() * time, mVector.getDirection());
+	}
 }

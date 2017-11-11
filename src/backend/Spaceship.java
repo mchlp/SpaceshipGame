@@ -1,6 +1,5 @@
 package backend;
 
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
@@ -20,12 +19,19 @@ public class Spaceship extends Sprite {
 	private double mSecondsEngineOnFor; // seconds
 	private boolean mEngineOn;
 	private double mSpaceshipHeight;
-	private Image mEngineOnImage;
-	private Image mEngineOffImage;
+	private SpaceshipImageSet mImageSet;
 	private Planet mPlanet;
+	private Acceleration mEngineAccel = new Acceleration(17, 90);
+	private Acceleration mCurEngineAccel;
+	private SpaceshipEngineDirection mEngineDirection = SpaceshipEngineDirection.MIDDLE;
 
 	private static final int MAX_IMPACT_SPEED = 60; // metres per second
 	private static final double GRAVITY_ACCEL = 9.81; // metres per second per second
+	private static final Acceleration ZERO_ACCELERATION = new Acceleration();
+
+	private static final double MIDDLE_ENGINE_ANGLE = 90;
+	private static final double LEFT_ENGINE_ANGLE = MIDDLE_ENGINE_ANGLE - 20;
+	private static final double RIGHT_ENGINE_ANGLE = MIDDLE_ENGINE_ANGLE + 20;
 
 	// Initial/Default Values
 	private static final long DEFAULT_MASS = 549_100; // kilograms
@@ -41,34 +47,9 @@ public class Spaceship extends Sprite {
 	 * @param imageView
 	 *            {@link ImageView} of spaceship
 	 */
-	public Spaceship(ImageView imageView, Image engineOffImage, Image engineOnImage, Planet planet) {
-		this(DEFAULT_MASS, imageView, engineOffImage, engineOnImage, planet);
-	}
-
-	/**
-	 * @param mass
-	 *            Mass of spaceship in kilograms
-	 * @param imageView
-	 *            Image of spaceship
-	 */
-	public Spaceship(long mass, ImageView imageView, Image engineOffImage, Image engineOnImage, Planet planet) {
-		this(mass, INITAL_VELOCITY, INITAL_POSITION, imageView, engineOffImage, engineOnImage, planet);
-	}
-
-	/**
-	 * @param mass
-	 *            Mass of spaceship in kilograms
-	 * @param velocity
-	 *            Starting velocity
-	 * @param position
-	 *            Starting position
-	 * @param imageView
-	 *            Image of spaceship
-	 */
-	public Spaceship(long mass, Velocity velocity, Coordinate position, ImageView imageView, Image engineOffImage,
-			Image engineOnImage, Planet planet) {
-		this(mass, velocity, position, imageView, DEFAULT_ENGINE_THRUST, DEFAULT_FUEL_TIME_LEFT,
-				DEFAULT_BURN_RATE_PER_SECOND, engineOffImage, engineOnImage, planet);
+	public Spaceship(ImageView imageView, SpaceshipImageSet imageSet, Planet planet) {
+		this(DEFAULT_MASS, INITAL_VELOCITY, INITAL_POSITION, imageView, DEFAULT_ENGINE_THRUST, DEFAULT_FUEL_TIME_LEFT,
+				DEFAULT_BURN_RATE_PER_SECOND, imageSet, planet);
 	}
 
 	/**
@@ -88,7 +69,7 @@ public class Spaceship extends Sprite {
 	 *            Kilograms of fuel burned per second
 	 */
 	public Spaceship(long mass, Velocity velocity, Coordinate position, ImageView image, long engineThrust,
-			double fuelTimeLeft, double burnRatePerSecond, Image engineOffImage, Image engineOnImage, Planet planet) {
+			double fuelTimeLeft, double burnRatePerSecond, SpaceshipImageSet imageSet, Planet planet) {
 
 		super(mass, velocity, position, image);
 		mPosition = INITAL_POSITION;
@@ -97,8 +78,7 @@ public class Spaceship extends Sprite {
 		mEngineThrust = engineThrust;
 		mFuelTimeLeft = fuelTimeLeft;
 		mBurnRatePerSecond = burnRatePerSecond;
-		mEngineOnImage = engineOnImage;
-		mEngineOffImage = engineOffImage;
+		mImageSet = imageSet;
 		mPlanet = planet;
 		engineOff();
 		mSpaceshipHeight = mImageView.getBoundsInParent().getHeight();
@@ -116,10 +96,7 @@ public class Spaceship extends Sprite {
 		Acceleration gravAccel = mPlanet.getPlanetaryAcceleration();
 		gravAccel.setRate(gravAccel.getRate() * deltaTime);
 		curAccel = curAccel.add(gravAccel);
-		if (mEngineOn) {
-			Acceleration engineAccel = new Acceleration(17 * deltaTime, 90);
-			curAccel = curAccel.add(engineAccel);
-		}
+		curAccel = curAccel.add(mCurEngineAccel.getAccelerationByTime(deltaTime));
 		mVelocity = mVelocity.accelerate(curAccel);
 		// mVelocity = new Velocity(1 * deltaTime, 270);
 		if (mPosition.getY() > mImageView.getScene().getHeight() - mSpaceshipHeight) {
@@ -136,7 +113,21 @@ public class Spaceship extends Sprite {
 	 * Engine turned on
 	 */
 	public void engineOn() {
-		mImageView.setImage(mEngineOnImage);
+		mCurEngineAccel = mEngineAccel;
+		switch (mEngineDirection) {
+		case LEFT:
+			mImageView.setImage(mImageSet.getmImageRocketLeftOn());
+			mCurEngineAccel.setDirection(LEFT_ENGINE_ANGLE);
+			break;
+		case RIGHT:
+			mImageView.setImage(mImageSet.getmImageRocketRightOn());
+			mCurEngineAccel.setDirection(RIGHT_ENGINE_ANGLE);
+			break;
+		default:
+			mImageView.setImage(mImageSet.getmImageRocketMiddleOn());
+			mCurEngineAccel.setDirection(MIDDLE_ENGINE_ANGLE);
+			break;
+		}
 		// mImageView.setFitWidth(150);
 		// mImageView.setPreserveRatio(true);
 		mEngineOn = true;
@@ -146,11 +137,31 @@ public class Spaceship extends Sprite {
 	 * Engine turned off
 	 */
 	public void engineOff() {
-		mImageView.setImage(mEngineOffImage);
+		switch (mEngineDirection) {
+		case LEFT:
+			mImageView.setImage(mImageSet.getmImageRocketLeftOff());
+			break;
+		case RIGHT:
+			mImageView.setImage(mImageSet.getmImageRocketRightOff());
+			break;
+		default:
+			mImageView.setImage(mImageSet.getmImageRocketMiddleOff());
+			break;
+		}
+		mCurEngineAccel = ZERO_ACCELERATION;
 		// mImageView.setFitWidth(150);
 		// mImageView.setPreserveRatio(true);
 		mEngineOn = false;
 		mSecondsEngineOnFor = 0;
+	}
+
+	public void setEngineDirection(SpaceshipEngineDirection state) {
+		mEngineDirection = state;
+		if (mEngineOn) {
+			engineOn();
+		} else {
+			engineOff();
+		}
 	}
 
 	public Coordinate getPosition() {

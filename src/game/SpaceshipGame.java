@@ -2,6 +2,8 @@ package game;
 
 import backend.Planet;
 import backend.Spaceship;
+import backend.SpaceshipEngineDirection;
+import backend.SpaceshipImageSet;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -13,6 +15,14 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class SpaceshipGame extends Application {
+
+	private static final String IMAGE_DIRECTORY = "/images/";
+	private static final String IMAGE_ROCKET_LEFT_OFF = IMAGE_DIRECTORY + "rocketLeftOff.png";
+	private static final String IMAGE_ROCKET_LEFT_ON = IMAGE_DIRECTORY + "rocketLeftOn.png";
+	private static final String IMAGE_ROCKET_RIGHT_OFF = IMAGE_DIRECTORY + "rocketRightOff.png";
+	private static final String IMAGE_ROCKET_RIGHT_ON = IMAGE_DIRECTORY + "rocketRightOn.png";
+	private static final String IMAGE_ROCKET_MIDDLE_OFF = IMAGE_DIRECTORY + "rocketMiddleOff.png";
+	private static final String IMAGE_ROCKET_MIDDLE_ON = IMAGE_DIRECTORY + "rocketMiddleOn.png";
 
 	private long prevTime;
 	private Spaceship spaceship;
@@ -33,31 +43,21 @@ public class SpaceshipGame extends Application {
 		backgroundImageView.setImage(backgroundImage);
 
 		// Load the spaceship image file
-		Image engineOffImage = new Image(getClass().getResourceAsStream("/images/rocket.png"));
-		Image engineOnImage = new Image(getClass().getResourceAsStream("/images/rocketFlame.png"));
+		SpaceshipImageSet spaceshipImageSet = new SpaceshipImageSet(IMAGE_ROCKET_LEFT_OFF, IMAGE_ROCKET_LEFT_ON,
+				IMAGE_ROCKET_RIGHT_OFF, IMAGE_ROCKET_RIGHT_ON, IMAGE_ROCKET_MIDDLE_OFF, IMAGE_ROCKET_MIDDLE_ON);
 		ImageView spaceshipImageView = new ImageView();
 		spaceshipImageView.setPreserveRatio(true);
 		spaceshipImageView.setFitWidth(50);
 		spaceshipImageView.setX(500);
 		spaceshipImageView.setY(500);
 
-		Image prankImage = new Image(getClass().getResourceAsStream("/images/clown.png"));
-		ImageView prankView = new ImageView();
-		prankView.setImage(prankImage);
-		prankView.setPreserveRatio(true);
-		prankView.setFitHeight(1000);
-		prankView.setX(100);
-		prankView.setY(100);
-		prankView.setVisible(false);
-
 		// Create your spaceship here
 		earth = new Planet();
-		spaceship = new Spaceship(spaceshipImageView, engineOffImage, engineOnImage, earth);
+		spaceship = new Spaceship(spaceshipImageView, spaceshipImageSet, earth);
 
 		// Add your images to the root pane
 		root.getChildren().add(backgroundImageView);
 		root.getChildren().add(spaceshipImageView);
-		root.getChildren().add(prankView);
 
 		// Create your scene using the root pane
 		Scene scene = new Scene(root, backgroundImage.getWidth(), backgroundImage.getHeight());
@@ -70,15 +70,12 @@ public class SpaceshipGame extends Application {
 				switch (code) {
 				case "SPACE":
 					spaceship.engineOn();
-					/*
-					old code
-					if (prankView.isVisible()) {
-						prankView.setVisible(false);
-					} else {
-						prankView.setVisible(true);
-					}
-					*/
 					break;
+				case "LEFT":
+					spaceship.setEngineDirection(SpaceshipEngineDirection.RIGHT);
+					break;
+				case "RIGHT":
+					spaceship.setEngineDirection(SpaceshipEngineDirection.LEFT);
 				}
 			}
 		});
@@ -92,6 +89,11 @@ public class SpaceshipGame extends Application {
 				case "SPACE":
 					spaceship.engineOff();
 					break;
+				case "LEFT":
+					spaceship.setEngineDirection(SpaceshipEngineDirection.MIDDLE);
+					break;
+				case "RIGHT":
+					spaceship.setEngineDirection(SpaceshipEngineDirection.MIDDLE);
 				}
 
 			}
