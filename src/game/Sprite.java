@@ -17,4 +17,8 @@ public abstract class Sprite {
 	}
 
 	public abstract void update(double deltaTime);
+
+	public ImageView getmImageView() {
+		return mImageView;
+	}
 }

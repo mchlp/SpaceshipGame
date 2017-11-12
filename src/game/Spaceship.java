@@ -34,12 +34,13 @@ public class Spaceship extends Sprite {
 	private double mLandingTimeout = DEFAULT_LANDING_TIMEOUT;
 	private double mGroundLevel;
 	private boolean mAtSafeSpeed;
+	private double mPixelToMetreRatio;
 
 	private boolean mFuelAlarmPlayed = false;
 
 	private static final double FUEL_CRITICAL = 1.5;
 	private static final double GROUND_PROXIMITY = 300;
-	private static final int MAX_IMPACT_SPEED = 10; // metres per second
+	private static final int MAX_IMPACT_SPEED = 20; // metres per second
 	private static final Acceleration ZERO_ACCELERATION = new Acceleration();
 
 	private static final double MIDDLE_ENGINE_ANGLE = 90;
@@ -83,6 +84,7 @@ public class Spaceship extends Sprite {
 	public void update(double deltaTime) {
 
 		mGroundLevel = mImageView.getScene().getHeight();
+		mPixelToMetreRatio = mGroundLevel / 4000;
 
 		Acceleration curAccel = new Acceleration();
 		Acceleration gravAccel = mPlanet.getPlanetaryAcceleration();
@@ -117,10 +119,10 @@ public class Spaceship extends Sprite {
 				mPosition.setY(mGroundLevel - mSpaceshipHeight);
 			}
 		}
-		mPosition.move(mVelocity, 0.5);
+		mPosition.move(mVelocity, mPixelToMetreRatio);
 
 		if (mPosition.getY() >= mGroundLevel - mSpaceshipHeight) {
-			if (mVelocity.getSpeed() > MAX_IMPACT_SPEED) {
+			if (mVelocity.getSpeed() > MAX_IMPACT_SPEED * mPixelToMetreRatio) {
 				mState = SpaceshipState.CRASHED;
 				AudioControl.playExplosion();
 				mImageView.setImage(null);
@@ -133,7 +135,7 @@ public class Spaceship extends Sprite {
 			}
 		}
 
-		if (Math.abs(mVelocity.getYSpeed()) <= MAX_IMPACT_SPEED) {
+		if (Math.abs(mVelocity.getYSpeed()) <= MAX_IMPACT_SPEED * mPixelToMetreRatio) {
 			mAtSafeSpeed = true;
 			AudioControl.fast.stop();
 		} else {
@@ -145,6 +147,7 @@ public class Spaceship extends Sprite {
 
 		updatePositionOfImageView(mPosition);
 		frameCount++;
+		System.out.println(mVelocity.getYSpeed());
 	}
 
 	/**

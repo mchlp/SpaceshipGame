@@ -56,7 +56,7 @@ public class LandingPad extends Sprite {
 		} else {
 
 			if (checkInside(checkBounds)) {
-
+				AudioControl.terrainAlarm.stop();
 				if (mSpaceship.getmState() == SpaceshipState.LANDED) {
 					mState = State.LANDED;
 				} else {
@@ -74,6 +74,7 @@ public class LandingPad extends Sprite {
 					mSpaceship.setState(SpaceshipState.FLYING);
 				}
 				if (checkAbove(checkBounds)) {
+					AudioControl.terrainAlarm.stop();
 					mState = State.CLOSE;
 					mSpaceship.setState(SpaceshipState.CLOSE);
 				} else {
