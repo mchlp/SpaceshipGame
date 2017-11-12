@@ -83,71 +83,74 @@ public class Spaceship extends Sprite {
 	@Override
 	public void update(double deltaTime) {
 
-		mGroundLevel = mImageView.getScene().getHeight();
-		mPixelToMetreRatio = mGroundLevel / 4000;
+		if (mState != SpaceshipState.CRASHED) {
 
-		Acceleration curAccel = new Acceleration();
-		Acceleration gravAccel = mPlanet.getPlanetaryAcceleration();
-		gravAccel.setRate(gravAccel.getRate() * deltaTime);
-		curAccel = curAccel.add(gravAccel);
+			mGroundLevel = mImageView.getScene().getHeight();
+			mPixelToMetreRatio = mGroundLevel / 2112;
 
-		if (mState == SpaceshipState.TOUCHED) {
-			mLandingTimeout -= deltaTime;
-			if (mLandingTimeout <= 0) {
-				mState = SpaceshipState.LANDED;
-				engineOff();
+			Acceleration curAccel = new Acceleration();
+			Acceleration gravAccel = mPlanet.getPlanetaryAcceleration();
+			gravAccel.setRate(gravAccel.getRate() * deltaTime);
+			curAccel = curAccel.add(gravAccel);
+
+			if (mState == SpaceshipState.TOUCHED) {
+				mLandingTimeout -= deltaTime;
+				if (mLandingTimeout <= 0) {
+					mState = SpaceshipState.LANDED;
+					engineOff();
+				}
+			} else {
+				mLandingTimeout = DEFAULT_LANDING_TIMEOUT;
 			}
-		} else {
-			mLandingTimeout = DEFAULT_LANDING_TIMEOUT;
-		}
 
-		if (mFuelTimeLeft <= FUEL_CRITICAL && !mFuelAlarmPlayed) {
-			AudioControl.playFuelAlarm();
-			mFuelAlarmPlayed = true;
-		}
-		if (mEngineOn) {
-			mFuelTimeLeft -= deltaTime;
-			curAccel = curAccel.add(mCurEngineAccel.getAccelerationByTime(deltaTime));
-			if (mFuelTimeLeft < 0) {
-				engineOff();
+			if (mFuelTimeLeft <= FUEL_CRITICAL && !mFuelAlarmPlayed) {
+				AudioControl.playFuelAlarm();
+				mFuelAlarmPlayed = true;
 			}
-		}
-		mVelocity = mVelocity.accelerate(curAccel);
-		if (mPosition.getY() > mGroundLevel - mSpaceshipHeight) {
-			if (mVelocity.getDirection() > 180) {
-				mVelocity = new Velocity();
-				mPosition.setY(mGroundLevel - mSpaceshipHeight);
+			if (mEngineOn) {
+				mFuelTimeLeft -= deltaTime;
+				curAccel = curAccel.add(mCurEngineAccel.getAccelerationByTime(deltaTime));
+				if (mFuelTimeLeft < 0) {
+					engineOff();
+				}
 			}
-		}
-		mPosition.move(mVelocity, mPixelToMetreRatio);
+			mVelocity = mVelocity.accelerate(curAccel);
+			if (mPosition.getY() > mGroundLevel - mSpaceshipHeight) {
+				if (mVelocity.getDirection() > 180) {
+					mVelocity = new Velocity();
+					mPosition.setY(mGroundLevel - mSpaceshipHeight);
+				}
+			}
+			mPosition.move(mVelocity, mPixelToMetreRatio);
 
-		if (mPosition.getY() >= mGroundLevel - mSpaceshipHeight) {
-			if (mVelocity.getSpeed() > MAX_IMPACT_SPEED * mPixelToMetreRatio) {
-				mState = SpaceshipState.CRASHED;
-				AudioControl.playExplosion();
-				mImageView.setImage(null);
+			if (mPosition.getY() >= mGroundLevel - mSpaceshipHeight) {
+				if (mVelocity.getSpeed() > MAX_IMPACT_SPEED * mPixelToMetreRatio) {
+					mState = SpaceshipState.CRASHED;
+					AudioControl.playExplosion();
+					mImageView.setImage(null);
+				}
 			}
-		}
 
-		if (mState == SpaceshipState.FLYING && (mGroundLevel - mPosition.getY()) < GROUND_PROXIMITY) {
-			if (!AudioControl.terrainAlarm.isPlaying()) {
-				AudioControl.playTerrainAlarm();
+			if (mState == SpaceshipState.FLYING && (mGroundLevel - mPosition.getY()) < GROUND_PROXIMITY) {
+				if (!AudioControl.terrainAlarm.isPlaying()) {
+					AudioControl.playTerrainAlarm();
+				}
 			}
-		}
 
-		if (Math.abs(mVelocity.getYSpeed()) <= MAX_IMPACT_SPEED * mPixelToMetreRatio) {
-			mAtSafeSpeed = true;
-			AudioControl.fast.stop();
-		} else {
-			if (!AudioControl.fast.isPlaying()) {
-				AudioControl.playFast();
+			if (Math.abs(mVelocity.getYSpeed()) <= MAX_IMPACT_SPEED * mPixelToMetreRatio) {
+				mAtSafeSpeed = true;
+				AudioControl.fast.stop();
+			} else {
+				if (!AudioControl.fast.isPlaying()) {
+					AudioControl.playFast();
+				}
+				mAtSafeSpeed = false;
 			}
-			mAtSafeSpeed = false;
-		}
 
-		updatePositionOfImageView(mPosition);
-		frameCount++;
-		System.out.println(mVelocity.getYSpeed());
+			updatePositionOfImageView(mPosition);
+			frameCount++;
+			System.out.println(mVelocity.getYSpeed());
+		}
 	}
 
 	/**
@@ -180,16 +183,18 @@ public class Spaceship extends Sprite {
 	 */
 	public void engineOff() {
 		AudioControl.stopEngines();
-		switch (mEngineDirection) {
-		case LEFT:
-			mImageView.setImage(mImageSet.getmImageRocketLeftOff());
-			break;
-		case RIGHT:
-			mImageView.setImage(mImageSet.getmImageRocketRightOff());
-			break;
-		default:
-			mImageView.setImage(mImageSet.getmImageRocketMiddleOff());
-			break;
+		if (mState != SpaceshipState.CRASHED) {
+			switch (mEngineDirection) {
+			case LEFT:
+				mImageView.setImage(mImageSet.getmImageRocketLeftOff());
+				break;
+			case RIGHT:
+				mImageView.setImage(mImageSet.getmImageRocketRightOff());
+				break;
+			default:
+				mImageView.setImage(mImageSet.getmImageRocketMiddleOff());
+				break;
+			}
 		}
 		mCurEngineAccel = ZERO_ACCELERATION;
 		mEngineOn = false;
