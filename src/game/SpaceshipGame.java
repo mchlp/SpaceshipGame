@@ -19,14 +19,13 @@ import javafx.stage.Stage;
 
 public class SpaceshipGame extends Application {
 
-	private static final String IMAGE_DIRECTORY = "/images/";
-	private static final String IMAGE_ROCKET_LEFT_OFF = IMAGE_DIRECTORY + "rocketLeftOff.png";
-	private static final String IMAGE_ROCKET_LEFT_ON = IMAGE_DIRECTORY + "rocketLeftOn.png";
-	private static final String IMAGE_ROCKET_RIGHT_OFF = IMAGE_DIRECTORY + "rocketRightOff.png";
-	private static final String IMAGE_ROCKET_RIGHT_ON = IMAGE_DIRECTORY + "rocketRightOn.png";
-	private static final String IMAGE_ROCKET_MIDDLE_OFF = IMAGE_DIRECTORY + "rocketMiddleOff.png";
-	private static final String IMAGE_ROCKET_MIDDLE_ON = IMAGE_DIRECTORY + "rocketMiddleOn.png";
-	private static final String IMAGE_BACKGROUND = IMAGE_DIRECTORY + "planet.jpg";
+	private static final String IMAGE_ROCKET_LEFT_OFF = Utilities.IMAGE_DIRECTORY + "rocketLeftOff.png";
+	private static final String IMAGE_ROCKET_LEFT_ON = Utilities.IMAGE_DIRECTORY + "rocketLeftOn.png";
+	private static final String IMAGE_ROCKET_RIGHT_OFF = Utilities.IMAGE_DIRECTORY + "rocketRightOff.png";
+	private static final String IMAGE_ROCKET_RIGHT_ON = Utilities.IMAGE_DIRECTORY + "rocketRightOn.png";
+	private static final String IMAGE_ROCKET_MIDDLE_OFF = Utilities.IMAGE_DIRECTORY + "rocketMiddleOff.png";
+	private static final String IMAGE_ROCKET_MIDDLE_ON = Utilities.IMAGE_DIRECTORY + "rocketMiddleOn.png";
+	private static final String IMAGE_BACKGROUND = Utilities.IMAGE_DIRECTORY + "planet.jpg";
 
 	private Scene scene;
 
@@ -94,6 +93,11 @@ public class SpaceshipGame extends Application {
 		// Add sprites to add sprite list
 		allSprites.add(spaceship);
 		allSprites.add(landingPad);
+
+		// Set up list to add explosion
+		Explosion.setSpriteArrayList(allSprites);
+
+		// new Explosion(new Coordinate(100, 100));
 
 		// Handle key presses
 		scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {

@@ -5,6 +5,8 @@ import java.io.InputStream;
 public final class Utilities {
 
 	public static final double EPSILON = 1E-5;
+	public static final String IMAGE_DIRECTORY = "/images/";
+	public static final String AUDIO_DIRECTORY = "/audio/";
 
 	/**
 	 * Calculates the acceleration of an object from its mass and force applied

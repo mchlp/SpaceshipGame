@@ -7,14 +7,13 @@ import javafx.scene.media.MediaPlayer;
 
 public class AudioControl {
 
-	private static final String AUDIO_DIRECTORY = "/audio/";
-	private static final String AUDIO_ALARM = AUDIO_DIRECTORY + "alarm.mp3";
-	private static final String AUDIO_FUEL_ALARM = AUDIO_DIRECTORY + "fuelAlarm.mp3";
-	private static final String AUDIO_ENGINE = AUDIO_DIRECTORY + "engines.mp3";
-	private static final String AUDIO_TERRAIN_ALARM = AUDIO_DIRECTORY + "terrainAlarm.mp3";
-	private static final String AUDIO_FAST = AUDIO_DIRECTORY + "fast.mp3";
-	private static final String AUDIO_LANDED = AUDIO_DIRECTORY + "landed.mp3";
-	private static final String AUDIO_EXPLOSION = AUDIO_DIRECTORY + "explosion.mp3";
+	private static final String AUDIO_ALARM = Utilities.AUDIO_DIRECTORY + "alarm.mp3";
+	private static final String AUDIO_FUEL_ALARM = Utilities.AUDIO_DIRECTORY + "fuelAlarm.mp3";
+	private static final String AUDIO_ENGINE = Utilities.AUDIO_DIRECTORY + "engines.mp3";
+	private static final String AUDIO_TERRAIN_ALARM = Utilities.AUDIO_DIRECTORY + "terrainAlarm.mp3";
+	private static final String AUDIO_FAST = Utilities.AUDIO_DIRECTORY + "fast.mp3";
+	private static final String AUDIO_LANDED = Utilities.AUDIO_DIRECTORY + "landed.mp3";
+	private static final String AUDIO_EXPLOSION = Utilities.AUDIO_DIRECTORY + "explosion.mp3";
 
 	public static AudioClip alarm = new AudioClip(Utilities.getResource(AUDIO_ALARM));
 	public static AudioClip fuelAlarm = new AudioClip(Utilities.getResource(AUDIO_FUEL_ALARM));

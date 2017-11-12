@@ -2,8 +2,8 @@ package backend;
 
 import game.AudioControl;
 import game.Spaceship;
-import game.Sprite;
 import game.Spaceship.SpaceshipState;
+import game.Sprite;
 import javafx.geometry.Bounds;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -49,7 +49,7 @@ public class LandingPad extends Sprite {
 		mPosition.setX(mRectangle.getX());
 		mPosition.setY(mRectangle.getY());
 
-		Bounds checkBounds = mSpaceship.mImageView.getBoundsInParent();
+		Bounds checkBounds = mSpaceship.getmImageView().getBoundsInParent();
 
 		if (mSpaceship.getmState() == SpaceshipState.CRASHED) {
 			mState = State.NOT_LANDED;

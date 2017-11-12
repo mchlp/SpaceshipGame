@@ -229,4 +229,8 @@ public class Spaceship extends Sprite {
 	public double getmSpaceshipHeight() {
 		return mSpaceshipHeight;
 	}
+
+	public ImageView getmImageView() {
+		return mImageView;
+	}
 }
