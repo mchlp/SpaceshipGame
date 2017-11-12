@@ -146,6 +146,7 @@ public class SpaceshipGame extends Application {
 				prevTime = curTime;
 			}
 		};
+
 		timer.start();
 	}
 

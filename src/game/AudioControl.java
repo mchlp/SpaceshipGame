@@ -1,5 +1,6 @@
-package backend;
+package game;
 
+import backend.Utilities;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;

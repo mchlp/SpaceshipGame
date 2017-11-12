@@ -1,5 +1,6 @@
 package backend;
 
+import game.AudioControl;
 import javafx.scene.image.ImageView;
 
 /**
@@ -118,6 +119,7 @@ public class Spaceship extends Sprite {
 			if (mVelocity.getSpeed() > MAX_IMPACT_SPEED) {
 				mState = SpaceshipState.CRASHED;
 				AudioControl.playExplosion();
+				mImageView.setImage(null);
 			}
 		}
 
