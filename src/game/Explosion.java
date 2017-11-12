@@ -14,16 +14,17 @@ public class Explosion {
 
 	public static final int FPS = 120;
 
-	public static final int CELL_WIDTH = 256;
-	public static final int CELL_HEIGHT = 256;
-	private static final int NUM_ROWS = 6;
-	private static final int NUM_COLS = 8;
 	private static final String SPRITESHEET_LOCATION = Utilities.IMAGE_DIRECTORY + "explosion.png";
 	private static final Image SPRITESHEET = new Image(SPRITESHEET_LOCATION);
+	private static final int NUM_ROWS = 6;
+	private static final int NUM_COLS = 8;
+	public static final double CELL_WIDTH = SPRITESHEET.getWidth() / NUM_COLS;
+	public static final double CELL_HEIGHT = SPRITESHEET.getHeight() / NUM_ROWS;
 
 	private int frameNumber = 1;
 	private ImageView mImageView;
 	private long prevTime;
+	private AnimationTimer timer;
 
 	public Explosion(Coordinate centrePosition) {
 		mImageView = new ImageView(SPRITESHEET);
@@ -34,7 +35,7 @@ public class Explosion {
 		AudioControl.playExplosion();
 
 		prevTime = System.nanoTime();
-		AnimationTimer timer = new AnimationTimer() {
+		timer = new AnimationTimer() {
 			@Override
 			public void handle(long curTime) {
 				double deltaTime = (curTime - prevTime) / 1E9;
@@ -61,6 +62,7 @@ public class Explosion {
 		if (frameNumber >= NUM_COLS * NUM_ROWS) {
 			mImageView.setImage(null);
 			sPane.getChildren().remove(mImageView);
+			timer.stop();
 		}
 		frameNumber += (int) (deltaTime * FPS);
 	}
