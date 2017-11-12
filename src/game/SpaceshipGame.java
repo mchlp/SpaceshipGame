@@ -3,11 +3,8 @@ package game;
 import java.util.ArrayList;
 
 import backend.LandingPad;
-import backend.Planet;
-import backend.Spaceship;
 import backend.SpaceshipEngineDirection;
 import backend.SpaceshipImageSet;
-import backend.Sprite;
 import backend.Utilities;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;

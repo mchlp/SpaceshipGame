@@ -1,4 +1,6 @@
-package backend;
+package game;
+
+import backend.Acceleration;
 
 public class Planet {
 

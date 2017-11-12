@@ -1,5 +1,7 @@
-package backend;
+package game;
 
+import backend.Coordinate;
+import backend.Velocity;
 import javafx.scene.image.ImageView;
 
 public abstract class Sprite {
