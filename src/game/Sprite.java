@@ -25,7 +25,6 @@ public abstract class Sprite {
 	public Coordinate getCentreofImage() {
 		double centreX = mImageView.getX() + mImageView.getFitWidth() / 2;
 		double centreY = mImageView.getY() + mImageView.getFitHeight() / 2;
-		System.out.println(centreX + " " + centreY);
 		return new Coordinate(centreX, centreY);
 	}
 }

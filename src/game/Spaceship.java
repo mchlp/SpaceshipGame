@@ -126,12 +126,7 @@ public class Spaceship extends Sprite {
 
 			if (mPosition.getY() >= mGroundLevel - mSpaceshipHeight) {
 				if (mVelocity.getSpeed() > MAX_IMPACT_SPEED * mPixelToMetreRatio) {
-					mState = SpaceshipState.CRASHED;
-					mImageView.setImage(null);
-					if (!mExplosionAnimated) {
-						new Explosion(getCentreofImage());
-						mExplosionAnimated = true;
-					}
+					explode();
 				}
 			}
 
@@ -153,7 +148,15 @@ public class Spaceship extends Sprite {
 
 			updatePositionOfImageView(mPosition);
 			frameCount++;
-			System.out.println(mVelocity.getYSpeed());
+		}
+	}
+
+	private void explode() {
+		mState = SpaceshipState.CRASHED;
+		mImageView.setImage(null);
+		if (!mExplosionAnimated) {
+			new Explosion(getCentreofImage());
+			mExplosionAnimated = true;
 		}
 	}
 
