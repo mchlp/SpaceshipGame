@@ -94,10 +94,7 @@ public class SpaceshipGame extends Application {
 		allSprites.add(spaceship);
 		allSprites.add(landingPad);
 
-		// Set up list to add explosion
-		Explosion.setSpriteArrayList(allSprites);
-
-		// new Explosion(new Coordinate(100, 100));
+		Explosion.setPane(root);
 
 		// Handle key presses
 		scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {

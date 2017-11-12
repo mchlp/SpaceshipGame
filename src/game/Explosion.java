@@ -1,53 +1,79 @@
 package game;
 
-import java.util.ArrayList;
-
 import backend.Coordinate;
 import backend.Utilities;
-import backend.Velocity;
+import javafx.animation.AnimationTimer;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.layout.Pane;
 
-public class Explosion extends Sprite {
+public class Explosion {
 
-	private static ArrayList<Sprite> sSpriteList;
+	private static Pane sPane;
 
-	private static final int CELL_WIDTH = 256;
-	private static final int CELL_HEIGHT = 256;
+	public static final int FPS = 120;
+
+	public static final int CELL_WIDTH = 256;
+	public static final int CELL_HEIGHT = 256;
 	private static final int NUM_ROWS = 6;
 	private static final int NUM_COLS = 8;
-	private static final String SPRITESHEET_LOCATION = Utilities.IMAGE_DIRECTORY + "rocketLeftOff.png";
+	private static final String SPRITESHEET_LOCATION = Utilities.IMAGE_DIRECTORY + "explosion.png";
 	private static final Image SPRITESHEET = new Image(SPRITESHEET_LOCATION);
 
 	private int frameNumber = 1;
-	private Rectangle viewPort;
+	private ImageView mImageView;
+	private long prevTime;
 
-	protected Explosion(Coordinate position) {
-		super(new Velocity(), position, new ImageView());
-		sSpriteList.add(this);
-		mImageView.setImage(SPRITESHEET);
-		viewPort = new Rectangle(CELL_WIDTH, CELL_HEIGHT);
+	public Explosion(Coordinate centrePosition) {
+		mImageView = new ImageView(SPRITESHEET);
+		Coordinate position = getTopLeftPosition(centrePosition);
+		mImageView.setX(position.getX());
+		mImageView.setY(position.getY());
+		sPane.getChildren().add(mImageView);
+		AudioControl.playExplosion();
+
+		prevTime = System.nanoTime();
+		AnimationTimer timer = new AnimationTimer() {
+			@Override
+			public void handle(long curTime) {
+				double deltaTime = (curTime - prevTime) / 1E9;
+				update(deltaTime);
+				prevTime = curTime;
+			}
+		};
+
+		update(1 / 60);
+		timer.start();
 	}
 
-	@Override
-	public void update(double deltaTime) {
+	// Game loop
+
+	private void update(double deltaTime) {
+
 		int row = frameNumber / NUM_COLS;
 		int col = (frameNumber % NUM_COLS) - 1;
 
-		viewPort.setX(col * NUM_COLS);
-		viewPort.setY(row * NUM_ROWS);
+		Rectangle2D viewPort = new Rectangle2D(col * CELL_WIDTH, row * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
 
-		mImageView.setClip(viewPort);
+		mImageView.setViewport(viewPort);
 
 		if (frameNumber >= NUM_COLS * NUM_ROWS) {
-			sSpriteList.remove(this);
+			mImageView.setImage(null);
+			sPane.getChildren().remove(mImageView);
 		}
-
-		frameNumber++;
+		frameNumber += (int) (deltaTime * FPS);
 	}
 
-	public static void setSpriteArrayList(ArrayList<Sprite> arrayList) {
-		sSpriteList = arrayList;
+	public static void setPane(Pane pane) {
+		sPane = pane;
+	}
+
+	private Coordinate getTopLeftPosition(Coordinate centrePosition) {
+		double centreX = centrePosition.getX();
+		double centreY = centrePosition.getY();
+		double topLeftX = centreX - CELL_WIDTH / 2;
+		double topLeftY = centreY - CELL_HEIGHT / 2;
+		return new Coordinate(topLeftX, topLeftY);
 	}
 }

@@ -37,6 +37,7 @@ public class Spaceship extends Sprite {
 	private double mPixelToMetreRatio;
 
 	private boolean mFuelAlarmPlayed = false;
+	private boolean mExplosionAnimated = false;
 
 	private static final double FUEL_CRITICAL = 1.5;
 	private static final double GROUND_PROXIMITY = 300;
@@ -126,8 +127,11 @@ public class Spaceship extends Sprite {
 			if (mPosition.getY() >= mGroundLevel - mSpaceshipHeight) {
 				if (mVelocity.getSpeed() > MAX_IMPACT_SPEED * mPixelToMetreRatio) {
 					mState = SpaceshipState.CRASHED;
-					AudioControl.playExplosion();
 					mImageView.setImage(null);
+					if (!mExplosionAnimated) {
+						new Explosion(getCentreofImage());
+						mExplosionAnimated = true;
+					}
 				}
 			}
 
