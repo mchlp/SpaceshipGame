@@ -5,7 +5,7 @@ import javafx.geometry.Bounds;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class LandingPad {
+public class LandingPad extends Sprite {
 
 	private enum State {
 		NOT_LANDED, CLOSE, TOUCHED, LANDED
@@ -21,11 +21,14 @@ public class LandingPad {
 
 	private State mState;
 	private Rectangle mRectangle;
+	private Spaceship mSpaceship;
 
 	private boolean playedLanded = false;
 	private boolean playingClose = false;
 
-	public LandingPad(Rectangle rectangle, double maxX, double maxY) {
+	public LandingPad(Spaceship spaceship, Rectangle rectangle, double maxX, double maxY) {
+		super(new Velocity(), new Coordinate(), null);
+		mSpaceship = spaceship;
 		mRectangle = rectangle;
 		mState = State.NOT_LANDED;
 		mRectangle.setX((int) (Math.random() * (maxX - PAD_WIDTH)));
@@ -35,44 +38,49 @@ public class LandingPad {
 		updateColor();
 	}
 
-	public void update(double deltaTime, Spaceship spaceship) {
+	@Override
+	public void update(double deltaTime) {
 
 		// update the y position of the landing pad if window was resized
 		mRectangle.setY(mRectangle.getScene().getHeight() - PAD_HEIGHT);
+		mPosition.setX(mRectangle.getX());
+		mPosition.setY(mRectangle.getY());
 
-		Bounds checkBounds = spaceship.mImageView.getBoundsInParent();
-		if (checkInside(checkBounds)) {
-			AudioControl.stopClose();
-			playingClose = false;
-			if (spaceship.getState() == SpaceshipState.LANDED) {
-				mState = State.LANDED;
-			} else {
-				mState = State.TOUCHED;
-				spaceship.setState(SpaceshipState.TOUCHED);
-				if (!playedLanded) {
-					AudioControl.playTouched();
-					playedLanded = true;
-				}
-			}
+		Bounds checkBounds = mSpaceship.mImageView.getBoundsInParent();
+
+		if (mSpaceship.getmState() == SpaceshipState.CRASHED) {
+			mState = State.NOT_LANDED;
 		} else {
-			playedLanded = false;
-			if (spaceship.getState() != SpaceshipState.CRASHED) {
-				spaceship.setState(SpaceshipState.FLYING);
-			}
-			if (checkAbove(checkBounds)) {
-				mState = State.CLOSE;
-				spaceship.setState(SpaceshipState.CLOSE);
-				if (!playingClose) {
-					AudioControl.playClose();
-					playingClose = true;
+
+			if (checkInside(checkBounds)) {
+
+				if (mSpaceship.getmState() == SpaceshipState.LANDED) {
+					mState = State.LANDED;
+				} else {
+					mState = State.TOUCHED;
+					mSpaceship.setState(SpaceshipState.TOUCHED);
+					if (!playedLanded) {
+						AudioControl.playTouched();
+						playedLanded = true;
+					}
 				}
+
 			} else {
-				AudioControl.stopClose();
-				playingClose = false;
-				mState = State.NOT_LANDED;
+				playedLanded = false;
+				if (mSpaceship.getmState() != SpaceshipState.CRASHED) {
+					mSpaceship.setState(SpaceshipState.FLYING);
+				}
+				if (checkAbove(checkBounds)) {
+					mState = State.CLOSE;
+					mSpaceship.setState(SpaceshipState.CLOSE);
+				} else {
+					mState = State.NOT_LANDED;
+				}
 			}
 		}
+
 		updateColor();
+
 	}
 
 	public boolean checkAbove(Bounds checkBounds) {
@@ -83,7 +91,8 @@ public class LandingPad {
 	public boolean checkInside(Bounds checkBounds) {
 		return (checkBounds.getMaxX() < mRectangle.getBoundsInParent().getMaxX()
 				&& checkBounds.getMinX() > mRectangle.getBoundsInParent().getMinX()
-				&& checkBounds.getMaxY() > mRectangle.getBoundsInParent().getMinY());
+				&& checkBounds.getMaxY() - (checkBounds.getHeight() - mSpaceship.getmSpaceshipHeight()) > mRectangle
+						.getBoundsInParent().getMinY());
 	}
 
 	public void updateColor() {

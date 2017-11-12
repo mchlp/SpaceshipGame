@@ -1,10 +1,13 @@
 package game;
 
+import java.util.ArrayList;
+
 import backend.LandingPad;
 import backend.Planet;
 import backend.Spaceship;
 import backend.SpaceshipEngineDirection;
 import backend.SpaceshipImageSet;
+import backend.Sprite;
 import backend.Utilities;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -29,6 +32,8 @@ public class SpaceshipGame extends Application {
 	private static final String IMAGE_BACKGROUND = IMAGE_DIRECTORY + "planet.jpg";
 
 	private Scene scene;
+
+	private ArrayList<Sprite> allSprites = new ArrayList<>();
 
 	private long prevTime;
 	private Spaceship spaceship;
@@ -83,11 +88,15 @@ public class SpaceshipGame extends Application {
 
 		// Create landing pad
 		landingPadView = new Rectangle();
-		landingPad = new LandingPad(landingPadView, windowWidth, windowHeight);
+		landingPad = new LandingPad(spaceship, landingPadView, windowWidth, windowHeight);
 
 		// Add children to root
 		root.getChildren().add(spaceshipImageView);
 		root.getChildren().add(landingPadView);
+
+		// Add sprites to add sprite list
+		allSprites.add(spaceship);
+		allSprites.add(landingPad);
 
 		// Handle key presses
 		scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
@@ -141,7 +150,8 @@ public class SpaceshipGame extends Application {
 	}
 
 	private void onUpdate(double deltaTime) {
-		spaceship.update(deltaTime);
-		landingPad.update(deltaTime, spaceship);
+		for (Sprite sprite : allSprites) {
+			sprite.update(deltaTime);
+		}
 	}
 }

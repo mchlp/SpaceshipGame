@@ -27,7 +27,8 @@ public class Spaceship extends Sprite {
 	private SpaceshipEngineDirection mEngineDirection = SpaceshipEngineDirection.MIDDLE;
 	private SpaceshipState mState;
 	private double mLandingTimeout = DEFAULT_LANDING_TIMEOUT;
-	private double groundLevel;
+	private double mGroundLevel;
+	private boolean mAtSafeSpeed;
 
 	private boolean mFuelAlarmPlayed = false;
 
@@ -42,7 +43,7 @@ public class Spaceship extends Sprite {
 
 	// Initial/Default Values
 	private static final int DEFAULT_LANDING_TIMEOUT = 2;
-	private static final double DEFAULT_FUEL_TIME_LEFT = 5; // seconds
+	private static final double DEFAULT_FUEL_TIME_LEFT = 7; // seconds
 	private static final Velocity INITAL_VELOCITY = new Velocity(0, 0);
 	private static final Coordinate INITAL_POSITION = new Coordinate(200, 10);
 
@@ -73,9 +74,10 @@ public class Spaceship extends Sprite {
 	 * @param deltaTime
 	 *            Number of seconds that have elapsed since the last update
 	 */
+	@Override
 	public void update(double deltaTime) {
 
-		groundLevel = mImageView.getScene().getHeight();
+		mGroundLevel = mImageView.getScene().getHeight();
 
 		Acceleration curAccel = new Acceleration();
 		Acceleration gravAccel = mPlanet.getPlanetaryAcceleration();
@@ -104,25 +106,35 @@ public class Spaceship extends Sprite {
 			}
 		}
 		mVelocity = mVelocity.accelerate(curAccel);
-		if (mPosition.getY() > groundLevel - mSpaceshipHeight) {
+		if (mPosition.getY() > mGroundLevel - mSpaceshipHeight) {
 			if (mVelocity.getDirection() > 180) {
 				mVelocity = new Velocity();
-				mPosition.setY(groundLevel - mSpaceshipHeight);
+				mPosition.setY(mGroundLevel - mSpaceshipHeight);
 			}
 		}
 		mPosition.move(mVelocity, 0.5);
 
-		if (mPosition.getY() >= groundLevel - mSpaceshipHeight) {
+		if (mPosition.getY() >= mGroundLevel - mSpaceshipHeight) {
 			if (mVelocity.getSpeed() > MAX_IMPACT_SPEED) {
 				mState = SpaceshipState.CRASHED;
 				AudioControl.playExplosion();
 			}
 		}
 
-		if (mState == SpaceshipState.FLYING && (groundLevel - mPosition.getY()) < GROUND_PROXIMITY) {
+		if (mState == SpaceshipState.FLYING && (mGroundLevel - mPosition.getY()) < GROUND_PROXIMITY) {
 			if (!AudioControl.terrainAlarm.isPlaying()) {
 				AudioControl.playTerrainAlarm();
 			}
+		}
+
+		if (Math.abs(mVelocity.getYSpeed()) <= MAX_IMPACT_SPEED) {
+			mAtSafeSpeed = true;
+			AudioControl.fast.stop();
+		} else {
+			if (!AudioControl.fast.isPlaying()) {
+				AudioControl.playFast();
+			}
+			mAtSafeSpeed = false;
 		}
 
 		updatePositionOfImageView(mPosition);
@@ -200,7 +212,15 @@ public class Spaceship extends Sprite {
 		mImageView.setY(position.getY());
 	}
 
-	public SpaceshipState getState() {
+	public boolean getmAtSafeSpeed() {
+		return mAtSafeSpeed;
+	}
+
+	public SpaceshipState getmState() {
 		return mState;
+	}
+
+	public double getmSpaceshipHeight() {
+		return mSpaceshipHeight;
 	}
 }

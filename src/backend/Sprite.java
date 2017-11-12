@@ -13,4 +13,6 @@ public abstract class Sprite {
 		mPosition = position;
 		mImageView = image;
 	}
+
+	public abstract void update(double deltaTime);
 }
