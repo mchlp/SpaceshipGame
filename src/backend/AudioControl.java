@@ -8,29 +8,61 @@ public class AudioControl {
 
 	private static final String AUDIO_DIRECTORY = "/audio/";
 	private static final String AUDIO_ALARM = AUDIO_DIRECTORY + "alarm.mp3";
+	private static final String AUDIO_FUEL_ALARM = AUDIO_DIRECTORY + "fuelAlarm.mp3";
 	private static final String AUDIO_ENGINE = AUDIO_DIRECTORY + "engines.mp3";
+	private static final String AUDIO_TERRAIN_ALARM = AUDIO_DIRECTORY + "terrainAlarm.mp3";
+	private static final String AUDIO_CLOSE = AUDIO_DIRECTORY + "close.mp3";
+	private static final String AUDIO_LANDED = AUDIO_DIRECTORY + "landed.mp3";
+	private static final String AUDIO_EXPLOSION = AUDIO_DIRECTORY + "explosion.mp3";
 
-	private AudioClip mAlarm;
-	private Media mEngines;
-	private MediaPlayer mEnginesPlayer;
+	public static AudioClip alarm = new AudioClip(Utilities.getResource(AUDIO_ALARM));
+	public static AudioClip fuelAlarm = new AudioClip(Utilities.getResource(AUDIO_FUEL_ALARM));
+	public static AudioClip terrainAlarm = new AudioClip(Utilities.getResource(AUDIO_TERRAIN_ALARM));
+	public static AudioClip touched = new AudioClip(Utilities.getResource(AUDIO_LANDED));
+	public static AudioClip explosion = new AudioClip(Utilities.getResource(AUDIO_EXPLOSION));
 
-	public AudioControl() {
-		mAlarm = new AudioClip(getClass().getResource(AUDIO_ALARM).toString());
-		mEngines = new Media(getClass().getResource(AUDIO_ENGINE).toString());
-		mEnginesPlayer = new MediaPlayer(mEngines);
+	private static Media engines = new Media(Utilities.getResource(AUDIO_ENGINE));
+	private static MediaPlayer enginesPlayer = new MediaPlayer(engines);
+	private static Media close = new Media(Utilities.getResource(AUDIO_CLOSE));
+	private static MediaPlayer closePlayer = new MediaPlayer(close);
 
+	public static void playAlarm() {
+		alarm.play();
 	}
 
-	public void playAlarm() {
-		mAlarm.play();
+	public static void playFuelAlarm() {
+		fuelAlarm.play();
 	}
 
-	public void playEngines() {
-		mEnginesPlayer.play();
+	public static void playEngines() {
+		closePlayer.setCycleCount(MediaPlayer.INDEFINITE);
+		enginesPlayer.play();
 	}
 
-	public void stopEngines() {
-		mEnginesPlayer.stop();
-		mEnginesPlayer.seek(mEnginesPlayer.getStartTime());
+	public static void stopEngines() {
+		enginesPlayer.stop();
+		enginesPlayer.seek(enginesPlayer.getStartTime());
+	}
+
+	public static void playTerrainAlarm() {
+		terrainAlarm.play();
+	}
+
+	public static void playTouched() {
+		touched.play();
+	}
+
+	public static void playExplosion() {
+		explosion.play();
+	}
+
+	public static void playClose() {
+		closePlayer.setCycleCount(MediaPlayer.INDEFINITE);
+		closePlayer.play();
+	}
+
+	public static void stopClose() {
+		closePlayer.stop();
+		closePlayer.seek(closePlayer.getStartTime());
 	}
 }

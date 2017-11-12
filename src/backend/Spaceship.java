@@ -11,6 +11,10 @@ import javafx.scene.image.ImageView;
 
 public class Spaceship extends Sprite {
 
+	public enum SpaceshipState {
+		FLYING, TOUCHED, LANDED, CLOSE, CRASHED
+	}
+
 	private long frameCount = 0;
 
 	private Acceleration mEngineAccel = new Acceleration(17, 90);
@@ -21,12 +25,15 @@ public class Spaceship extends Sprite {
 	private Planet mPlanet;
 	private Acceleration mCurEngineAccel;
 	private SpaceshipEngineDirection mEngineDirection = SpaceshipEngineDirection.MIDDLE;
-	private AudioControl mAudioControl = new AudioControl();
+	private SpaceshipState mState;
+	private double mLandingTimeout = DEFAULT_LANDING_TIMEOUT;
+	private double groundLevel;
 
 	private boolean mFuelAlarmPlayed = false;
 
-	private static final double FUEL_CRITICAL = 1;
-	private static final int MAX_IMPACT_SPEED = 60; // metres per second
+	private static final double FUEL_CRITICAL = 1.5;
+	private static final double GROUND_PROXIMITY = 300;
+	private static final int MAX_IMPACT_SPEED = 10; // metres per second
 	private static final Acceleration ZERO_ACCELERATION = new Acceleration();
 
 	private static final double MIDDLE_ENGINE_ANGLE = 90;
@@ -34,6 +41,7 @@ public class Spaceship extends Sprite {
 	private static final double RIGHT_ENGINE_ANGLE = MIDDLE_ENGINE_ANGLE + 20;
 
 	// Initial/Default Values
+	private static final int DEFAULT_LANDING_TIMEOUT = 2;
 	private static final double DEFAULT_FUEL_TIME_LEFT = 5; // seconds
 	private static final Velocity INITAL_VELOCITY = new Velocity(0, 0);
 	private static final Coordinate INITAL_POSITION = new Coordinate(200, 10);
@@ -48,6 +56,7 @@ public class Spaceship extends Sprite {
 		super(velocity, position, image);
 		mPosition = INITAL_POSITION;
 		mVelocity = INITAL_VELOCITY;
+		mState = SpaceshipState.FLYING;
 		mFuelTimeLeft = fuelTimeLeft;
 		mImageSet = imageSet;
 		mPlanet = planet;
@@ -65,12 +74,26 @@ public class Spaceship extends Sprite {
 	 *            Number of seconds that have elapsed since the last update
 	 */
 	public void update(double deltaTime) {
+
+		groundLevel = mImageView.getScene().getHeight();
+
 		Acceleration curAccel = new Acceleration();
 		Acceleration gravAccel = mPlanet.getPlanetaryAcceleration();
 		gravAccel.setRate(gravAccel.getRate() * deltaTime);
 		curAccel = curAccel.add(gravAccel);
+
+		if (mState == SpaceshipState.TOUCHED) {
+			mLandingTimeout -= deltaTime;
+			if (mLandingTimeout <= 0) {
+				mState = SpaceshipState.LANDED;
+				engineOff();
+			}
+		} else {
+			mLandingTimeout = DEFAULT_LANDING_TIMEOUT;
+		}
+
 		if (mFuelTimeLeft <= FUEL_CRITICAL && !mFuelAlarmPlayed) {
-			mAudioControl.playAlarm();
+			AudioControl.playFuelAlarm();
 			mFuelAlarmPlayed = true;
 		}
 		if (mEngineOn) {
@@ -81,13 +104,27 @@ public class Spaceship extends Sprite {
 			}
 		}
 		mVelocity = mVelocity.accelerate(curAccel);
-		if (mPosition.getY() > mImageView.getScene().getHeight() - mSpaceshipHeight) {
+		if (mPosition.getY() > groundLevel - mSpaceshipHeight) {
 			if (mVelocity.getDirection() > 180) {
 				mVelocity = new Velocity();
-				mPosition.setY(mImageView.getScene().getHeight() - mSpaceshipHeight);
+				mPosition.setY(groundLevel - mSpaceshipHeight);
 			}
 		}
 		mPosition.move(mVelocity, 0.5);
+
+		if (mPosition.getY() >= groundLevel - mSpaceshipHeight) {
+			if (mVelocity.getSpeed() > MAX_IMPACT_SPEED) {
+				mState = SpaceshipState.CRASHED;
+				AudioControl.playExplosion();
+			}
+		}
+
+		if (mState == SpaceshipState.FLYING && (groundLevel - mPosition.getY()) < GROUND_PROXIMITY) {
+			if (!AudioControl.terrainAlarm.isPlaying()) {
+				AudioControl.playTerrainAlarm();
+			}
+		}
+
 		updatePositionOfImageView(mPosition);
 		frameCount++;
 	}
@@ -96,9 +133,9 @@ public class Spaceship extends Sprite {
 	 * Engine turned on
 	 */
 	public void engineOn() {
-		if (mFuelTimeLeft > 0) {
+		if (mFuelTimeLeft > 0 && mState != SpaceshipState.LANDED && mState != SpaceshipState.CRASHED) {
 			mCurEngineAccel = mEngineAccel;
-			mAudioControl.playEngines();
+			AudioControl.playEngines();
 			switch (mEngineDirection) {
 			case LEFT:
 				mImageView.setImage(mImageSet.getmImageRocketLeftOn());
@@ -121,7 +158,7 @@ public class Spaceship extends Sprite {
 	 * Engine turned off
 	 */
 	public void engineOff() {
-		mAudioControl.stopEngines();
+		AudioControl.stopEngines();
 		switch (mEngineDirection) {
 		case LEFT:
 			mImageView.setImage(mImageSet.getmImageRocketLeftOff());
@@ -134,9 +171,11 @@ public class Spaceship extends Sprite {
 			break;
 		}
 		mCurEngineAccel = ZERO_ACCELERATION;
-		// mImageView.setFitWidth(150);
-		// mImageView.setPreserveRatio(true);
 		mEngineOn = false;
+	}
+
+	public void setState(SpaceshipState state) {
+		mState = state;
 	}
 
 	public void setEngineDirection(SpaceshipEngineDirection state) {
@@ -159,5 +198,9 @@ public class Spaceship extends Sprite {
 	private void updatePositionOfImageView(Coordinate position) {
 		mImageView.setX(position.getX());
 		mImageView.setY(position.getY());
+	}
+
+	public SpaceshipState getState() {
+		return mState;
 	}
 }

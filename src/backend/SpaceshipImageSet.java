@@ -13,12 +13,12 @@ public class SpaceshipImageSet {
 
 	public SpaceshipImageSet(String imageRocketLeftOff, String imageRocketLeftOn, String imageRocketRightOff,
 			String imageRocketRightOn, String imageRocketMiddleOff, String imageRocketMiddleOn) {
-		mImageRocketLeftOff = new Image(getClass().getResourceAsStream(imageRocketLeftOff));
-		mImageRocketLeftOn = new Image(getClass().getResourceAsStream(imageRocketLeftOn));
-		mImageRocketRightOff = new Image(getClass().getResourceAsStream(imageRocketRightOff));
-		mImageRocketRightOn = new Image(getClass().getResourceAsStream(imageRocketRightOn));
-		mImageRocketMiddleOff = new Image(getClass().getResourceAsStream(imageRocketMiddleOff));
-		mImageRocketMiddleOn = new Image(getClass().getResourceAsStream(imageRocketMiddleOn));
+		mImageRocketLeftOff = new Image(Utilities.getResourceAsStream(imageRocketLeftOff));
+		mImageRocketLeftOn = new Image(Utilities.getResourceAsStream(imageRocketLeftOn));
+		mImageRocketRightOff = new Image(Utilities.getResourceAsStream(imageRocketRightOff));
+		mImageRocketRightOn = new Image(Utilities.getResourceAsStream(imageRocketRightOn));
+		mImageRocketMiddleOff = new Image(Utilities.getResourceAsStream(imageRocketMiddleOff));
+		mImageRocketMiddleOn = new Image(Utilities.getResourceAsStream(imageRocketMiddleOn));
 	}
 
 	public Image getmImageRocketLeftOff() {

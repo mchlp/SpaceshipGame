@@ -1,5 +1,7 @@
 package backend;
 
+import java.io.InputStream;
+
 public final class Utilities {
 
 	public static final double EPSILON = 1E-5;
@@ -15,5 +17,13 @@ public final class Utilities {
 	 */
 	public static Acceleration getAcceleration(Force force, long mass) {
 		return new Acceleration(force.getForce() / mass, force.getDirection());
+	}
+
+	public static String getResource(String name) {
+		return Utilities.class.getResource(name).toString();
+	}
+
+	public static InputStream getResourceAsStream(String name) {
+		return Utilities.class.getResourceAsStream(name);
 	}
 }
