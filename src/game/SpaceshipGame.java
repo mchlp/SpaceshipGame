@@ -38,14 +38,17 @@ public class SpaceshipGame extends Application {
 	private Planet moon;
 	private LandingPad landingPad;
 	private FuelIndicator fuelIndicator;
+	private TimeIndicator timeIndicator;
 
 	private ImageView spaceshipImageView;
 	private ImageView backgroundImageView;
 	private Rectangle landingPadView;
 	private Text fuelLeftText;
+	private Text timePassedText;
 
 	private double windowWidth;
 	private double windowHeight;
+	public double timePassed;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -93,15 +96,21 @@ public class SpaceshipGame extends Application {
 		fuelLeftText = new Text();
 		fuelIndicator = new FuelIndicator(fuelLeftText, spaceship);
 
+		// Create text for time passed
+		timePassedText = new Text();
+		timeIndicator = new TimeIndicator(timePassedText);
+
 		// Add children to root
 		root.getChildren().add(spaceshipImageView);
 		root.getChildren().add(landingPadView);
 		root.getChildren().add(fuelLeftText);
+		root.getChildren().add(timePassedText);
 
 		// Add sprites to add sprite list
 		allSprites.add(spaceship);
 		allSprites.add(landingPad);
 		allSprites.add(fuelIndicator);
+		allSprites.add(timeIndicator);
 
 		Explosion.setPane(root);
 
@@ -151,6 +160,7 @@ public class SpaceshipGame extends Application {
 				double deltaTime = (curTime - prevTime) / 1E9;
 				onUpdate(deltaTime);
 				prevTime = curTime;
+				timePassed += deltaTime;
 			}
 		};
 
