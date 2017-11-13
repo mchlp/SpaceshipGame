@@ -15,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class SpaceshipGame extends Application {
@@ -36,10 +37,12 @@ public class SpaceshipGame extends Application {
 	private Planet earth;
 	private Planet moon;
 	private LandingPad landingPad;
+	private FuelIndicator fuelIndicator;
 
 	private ImageView spaceshipImageView;
 	private ImageView backgroundImageView;
 	private Rectangle landingPadView;
+	private Text fuelLeftText;
 
 	private double windowWidth;
 	private double windowHeight;
@@ -86,13 +89,19 @@ public class SpaceshipGame extends Application {
 		landingPadView = new Rectangle();
 		landingPad = new LandingPad(spaceship, landingPadView, windowWidth, windowHeight);
 
+		// Create text for fuel left
+		fuelLeftText = new Text();
+		fuelIndicator = new FuelIndicator(fuelLeftText, spaceship);
+
 		// Add children to root
 		root.getChildren().add(spaceshipImageView);
 		root.getChildren().add(landingPadView);
+		root.getChildren().add(fuelLeftText);
 
 		// Add sprites to add sprite list
 		allSprites.add(spaceship);
 		allSprites.add(landingPad);
+		allSprites.add(fuelIndicator);
 
 		Explosion.setPane(root);
 

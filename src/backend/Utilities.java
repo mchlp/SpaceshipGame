@@ -28,4 +28,9 @@ public final class Utilities {
 	public static InputStream getResourceAsStream(String name) {
 		return Utilities.class.getResourceAsStream(name);
 	}
+
+	public static String round(double number, int places) {
+		int roundedDouble = (int) (number * Math.pow(10, places));
+		return Double.toString((double) roundedDouble / Math.pow(10, places));
+	}
 }

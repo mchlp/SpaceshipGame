@@ -34,7 +34,7 @@ public class Spaceship extends Sprite {
 	private double mLandingTimeout = DEFAULT_LANDING_TIMEOUT;
 	private double mGroundLevel;
 	private boolean mAtSafeSpeed;
-	private double mPixelToMetreRatio;
+	private Coordinate mScreenDimesions;
 
 	private boolean mFuelAlarmPlayed = false;
 	private boolean mExplosionAnimated = false;
@@ -50,7 +50,7 @@ public class Spaceship extends Sprite {
 
 	// Initial/Default Values
 	private static final int DEFAULT_LANDING_TIMEOUT = 2;
-	private static final double DEFAULT_FUEL_TIME_LEFT = 7; // seconds
+	private static final double DEFAULT_FUEL_TIME_LEFT = 5; // seconds
 	private static final Velocity INITAL_VELOCITY = new Velocity(0, 0);
 	private static final Coordinate INITAL_POSITION = new Coordinate(200, 10);
 
@@ -87,8 +87,7 @@ public class Spaceship extends Sprite {
 		if (mState != SpaceshipState.CRASHED) {
 
 			mGroundLevel = mImageView.getScene().getHeight();
-			mPixelToMetreRatio = mGroundLevel / 2112;
-			mPixelToMetreRatio = 1;
+			mScreenDimesions = new Coordinate(mImageView.getScene().getWidth(), mImageView.getScene().getHeight());
 
 			Acceleration curAccel = new Acceleration();
 			Acceleration gravAccel = mPlanet.getPlanetaryAcceleration();
@@ -117,14 +116,21 @@ public class Spaceship extends Sprite {
 				}
 			}
 			mVelocity = mVelocity.accelerate(curAccel);
+			mPosition.move(mVelocity, 1.0);
+
 			if (mPosition.getY() > mGroundLevel - mSpaceshipHeight) {
 				if (mVelocity.getDirection() > 180) {
 					mVelocity = new Velocity();
 					mPosition.setY(mGroundLevel - mSpaceshipHeight);
+					if (mState == SpaceshipState.FLYING) {
+						explode();
+					}
 				}
 			}
 
-			mPosition.move(mVelocity, 1.0);
+			if (mPosition.getX() < 0 || mPosition.getX() + mImageView.getFitWidth() > mScreenDimesions.getX()) {
+				explode();
+			}
 
 			if (Math.abs(mVelocity.getSpeed()) <= MAX_IMPACT_SPEED) {
 				mAtSafeSpeed = true;
@@ -249,5 +255,9 @@ public class Spaceship extends Sprite {
 
 	public ImageView getmImageView() {
 		return mImageView;
+	}
+
+	public double getmFuelTimeLeft() {
+		return mFuelTimeLeft;
 	}
 }
