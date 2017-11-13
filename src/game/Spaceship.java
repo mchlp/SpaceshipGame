@@ -89,6 +89,8 @@ public class Spaceship extends Sprite {
 			mGroundLevel = mImageView.getScene().getHeight();
 			mPixelToMetreRatio = mGroundLevel / 2112;
 
+			System.out.println(MAX_IMPACT_SPEED * mPixelToMetreRatio);
+
 			Acceleration curAccel = new Acceleration();
 			Acceleration gravAccel = mPlanet.getPlanetaryAcceleration();
 			gravAccel.setRate(gravAccel.getRate() * deltaTime);
@@ -122,7 +124,7 @@ public class Spaceship extends Sprite {
 					mPosition.setY(mGroundLevel - mSpaceshipHeight);
 				}
 			}
-			mPosition.move(mVelocity, mPixelToMetreRatio);
+			mPosition.move(mVelocity, 1);
 
 			if (mPosition.getY() >= mGroundLevel - mSpaceshipHeight) {
 				if (mVelocity.getSpeed() > MAX_IMPACT_SPEED * mPixelToMetreRatio) {
