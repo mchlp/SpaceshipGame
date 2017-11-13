@@ -22,6 +22,7 @@ public class Explosion {
 	public static final double CELL_HEIGHT = SPRITESHEET.getHeight() / NUM_ROWS;
 
 	private int frameNumber = 1;
+	private double sinceLastFrame = 0;
 	private ImageView mImageView;
 	private long prevTime;
 	private AnimationTimer timer;
@@ -62,9 +63,16 @@ public class Explosion {
 		if (frameNumber >= NUM_COLS * NUM_ROWS) {
 			mImageView.setImage(null);
 			sPane.getChildren().remove(mImageView);
+			System.out.println("END");
 			timer.stop();
 		}
-		frameNumber += (int) (deltaTime * FPS);
+		sinceLastFrame += deltaTime;
+		System.out.println(sinceLastFrame);
+		if (sinceLastFrame > 1.0 / FPS) {
+			int numFramesToAdvance = (int) (sinceLastFrame * FPS);
+			frameNumber += numFramesToAdvance;
+			sinceLastFrame -= (double) numFramesToAdvance / FPS;
+		}
 	}
 
 	public static void setPane(Pane pane) {
