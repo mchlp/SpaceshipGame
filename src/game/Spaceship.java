@@ -86,8 +86,6 @@ public class Spaceship extends Sprite {
 
 		if (mState != SpaceshipState.CRASHED) {
 
-			System.out.println(mVelocity.getSpeed());
-
 			mGroundLevel = mImageView.getScene().getHeight();
 			mPixelToMetreRatio = mGroundLevel / 2112;
 			mPixelToMetreRatio = 1;
