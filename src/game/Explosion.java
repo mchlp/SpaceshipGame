@@ -63,11 +63,9 @@ public class Explosion {
 		if (frameNumber >= NUM_COLS * NUM_ROWS) {
 			mImageView.setImage(null);
 			sPane.getChildren().remove(mImageView);
-			System.out.println("END");
 			timer.stop();
 		}
 		sinceLastFrame += deltaTime;
-		System.out.println(sinceLastFrame);
 		if (sinceLastFrame > 1.0 / FPS) {
 			int numFramesToAdvance = (int) (sinceLastFrame * FPS);
 			frameNumber += numFramesToAdvance;
