@@ -8,7 +8,7 @@ public class FuelIndicator extends TextLabel {
 
 	private Spaceship mSpaceship;
 
-	private static final Coordinate FUEL_TOP_LEFT = new Coordinate(20, 20);
+	private static final Coordinate FUEL_TOP_LEFT = new Coordinate(10, 10);
 
 	protected FuelIndicator(Text text, Spaceship spaceship) {
 		super(text, FUEL_TOP_LEFT);
@@ -17,7 +17,7 @@ public class FuelIndicator extends TextLabel {
 
 	@Override
 	public void update(double deltaTime) {
-		mText.setText(Utilities.round(mSpaceship.getmFuelTimeLeft(), 2));
+		mText.setText("Fuel Left: " + Utilities.round(mSpaceship.getmFuelTimeLeft(), 2));
 	}
 
 }

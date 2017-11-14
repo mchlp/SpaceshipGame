@@ -8,7 +8,7 @@ public class SpeedIndicator extends TextLabel {
 
 	private Spaceship mSpaceship;
 
-	private static final Coordinate SPEED_TOP_LEFT = new Coordinate(20, 100);
+	private static final Coordinate SPEED_TOP_LEFT = new Coordinate(10, 60);
 
 	protected SpeedIndicator(Text text, Spaceship spaceship) {
 		super(text, SPEED_TOP_LEFT);
@@ -17,7 +17,7 @@ public class SpeedIndicator extends TextLabel {
 
 	@Override
 	public void update(double deltaTime) {
-		mText.setText(Utilities.round(mSpaceship.getSpeed(), 2));
+		mText.setText("Speed: " + Utilities.round(mSpaceship.getSpeed(), 2));
 	}
 
 }
