@@ -260,4 +260,8 @@ public class Spaceship extends Sprite {
 	public double getmFuelTimeLeft() {
 		return mFuelTimeLeft;
 	}
+
+	public double getSpeed() {
+		return mVelocity.getSpeed();
+	}
 }

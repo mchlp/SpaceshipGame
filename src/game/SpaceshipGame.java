@@ -2,7 +2,6 @@ package game;
 
 import java.util.ArrayList;
 
-import backend.LandingPad;
 import backend.SpaceshipEngineDirection;
 import backend.SpaceshipImageSet;
 import backend.Utilities;
@@ -38,13 +37,13 @@ public class SpaceshipGame extends Application {
 	private Planet moon;
 	private LandingPad landingPad;
 	private FuelIndicator fuelIndicator;
-	private TimeIndicator timeIndicator;
+	private SpeedIndicator speedIndicator;
 
 	private ImageView spaceshipImageView;
 	private ImageView backgroundImageView;
 	private Rectangle landingPadView;
 	private Text fuelLeftText;
-	private Text timePassedText;
+	private Text speedText;
 
 	private double windowWidth;
 	private double windowHeight;
@@ -96,21 +95,21 @@ public class SpaceshipGame extends Application {
 		fuelLeftText = new Text();
 		fuelIndicator = new FuelIndicator(fuelLeftText, spaceship);
 
-		// Create text for time passed
-		timePassedText = new Text();
-		timeIndicator = new TimeIndicator(timePassedText);
+		// Create text for speed of spaceship
+		speedText = new Text();
+		speedIndicator = new SpeedIndicator(speedText, spaceship);
 
 		// Add children to root
 		root.getChildren().add(spaceshipImageView);
 		root.getChildren().add(landingPadView);
 		root.getChildren().add(fuelLeftText);
-		root.getChildren().add(timePassedText);
+		root.getChildren().add(speedText);
 
 		// Add sprites to add sprite list
 		allSprites.add(spaceship);
 		allSprites.add(landingPad);
 		allSprites.add(fuelIndicator);
-		allSprites.add(timeIndicator);
+		allSprites.add(speedIndicator);
 
 		Explosion.setPane(root);
 

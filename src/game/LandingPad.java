@@ -1,9 +1,8 @@
-package backend;
+package game;
 
-import game.AudioControl;
-import game.Spaceship;
+import backend.Coordinate;
+import backend.Velocity;
 import game.Spaceship.SpaceshipState;
-import game.Sprite;
 import javafx.geometry.Bounds;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
