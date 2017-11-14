@@ -1,4 +1,4 @@
-# SpaceshipGame
+# SpaceshipGame :rocket:
 Object Oriented Programming and JavaFX Assignment for ICS3U1
 
 - **Currently still in development!**
