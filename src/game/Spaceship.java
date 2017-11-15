@@ -118,20 +118,6 @@ public class Spaceship extends Sprite {
 			mVelocity = mVelocity.accelerate(curAccel);
 			mPosition.move(mVelocity, 1.0);
 
-			if (mPosition.getY() > mGroundLevel - mSpaceshipHeight) {
-				if (mVelocity.getDirection() > 180) {
-					mVelocity = new Velocity();
-					mPosition.setY(mGroundLevel - mSpaceshipHeight);
-					if (mState == SpaceshipState.FLYING) {
-						explode();
-					}
-				}
-			}
-
-			if (mPosition.getX() < 0 || mPosition.getX() + mImageView.getFitWidth() > mScreenDimesions.getX()) {
-				explode();
-			}
-
 			if (Math.abs(mVelocity.getSpeed()) <= MAX_IMPACT_SPEED) {
 				mAtSafeSpeed = true;
 				AudioControl.fast.stop();
@@ -142,10 +128,22 @@ public class Spaceship extends Sprite {
 				mAtSafeSpeed = false;
 			}
 
-			if (mPosition.getY() >= mGroundLevel - mSpaceshipHeight) {
-				if (!mAtSafeSpeed) {
-					explode();
+			if (mPosition.getY() > mGroundLevel - mSpaceshipHeight) {
+				if (mVelocity.getDirection() > 180) {
+					mVelocity = new Velocity();
+					mPosition.setY(mGroundLevel - mSpaceshipHeight);
+					if (mState == SpaceshipState.FLYING) {
+						explode();
+					} else {
+						if (!mAtSafeSpeed) {
+							explode();
+						}
+					}
 				}
+			}
+
+			if (mPosition.getX() < 0 || mPosition.getX() + mImageView.getFitWidth() > mScreenDimesions.getX()) {
+				explode();
 			}
 
 			if (mState == SpaceshipState.FLYING && (mGroundLevel - mPosition.getY()) < GROUND_PROXIMITY) {
