@@ -41,7 +41,7 @@ public class Spaceship extends Sprite {
 
 	private static final double FUEL_CRITICAL = 1.5;
 	private static final double GROUND_PROXIMITY = 300;
-	private static final int MAX_IMPACT_SPEED = 2; // metres per second
+	private static final int MAX_IMPACT_SPEED = 5; // metres per second
 	private static final Acceleration ZERO_ACCELERATION = new Acceleration();
 
 	private static final double MIDDLE_ENGINE_ANGLE = 90;

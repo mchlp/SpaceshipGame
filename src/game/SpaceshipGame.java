@@ -75,6 +75,7 @@ public class SpaceshipGame extends Application {
 		primaryStage.getIcons().add(new Image(Utilities.getResourceAsStream(IMAGE_ICON)));
 		primaryStage.setTitle("Spaceship Game");
 		primaryStage.setScene(scene);
+		primaryStage.setMaximized(true);
 		primaryStage.show();
 
 		windowWidth = primaryStage.getWidth();
