@@ -50,7 +50,7 @@ public class Spaceship extends Sprite {
 
 	// Initial/Default Values
 	private static final int DEFAULT_LANDING_TIMEOUT = 2;
-	private static final double DEFAULT_FUEL_TIME_LEFT = 5; // seconds
+	private static final double DEFAULT_FUEL_TIME_LEFT = 4; // seconds
 	private static final Velocity INITAL_VELOCITY = new Velocity(0, 0);
 	private static final Coordinate INITAL_POSITION = new Coordinate(200, 10);
 
