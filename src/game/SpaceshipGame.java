@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 
 public class SpaceshipGame extends Application {
 
+	private static final String IMAGE_ICON = Utilities.IMAGE_DIRECTORY + "icon.png";
 	private static final String IMAGE_ROCKET_LEFT_OFF = Utilities.IMAGE_DIRECTORY + "rocketLeftOff.png";
 	private static final String IMAGE_ROCKET_LEFT_ON = Utilities.IMAGE_DIRECTORY + "rocketLeftOn.png";
 	private static final String IMAGE_ROCKET_RIGHT_OFF = Utilities.IMAGE_DIRECTORY + "rocketRightOff.png";
@@ -38,12 +39,14 @@ public class SpaceshipGame extends Application {
 	private LandingPad landingPad;
 	private FuelIndicator fuelIndicator;
 	private SpeedIndicator speedIndicator;
+	private GameOverIndicator gameOverIndicator;
 
 	private ImageView spaceshipImageView;
 	private ImageView backgroundImageView;
 	private Rectangle landingPadView;
 	private Text fuelLeftText;
 	private Text speedText;
+	private Text gameOverText;
 
 	private double windowWidth;
 	private double windowHeight;
@@ -63,11 +66,13 @@ public class SpaceshipGame extends Application {
 
 		// Load the background image file
 		Image backgroundImage = new Image(Utilities.getResourceAsStream(IMAGE_BACKGROUND));
+
 		backgroundImageView = new ImageView();
 		backgroundImageView.setImage(backgroundImage);
 		root.getChildren().add(backgroundImageView);
 
 		// Add scene to stage and show
+		primaryStage.getIcons().add(new Image(Utilities.getResourceAsStream(IMAGE_ICON)));
 		primaryStage.setTitle("Spaceship Game");
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -99,17 +104,23 @@ public class SpaceshipGame extends Application {
 		speedText = new Text();
 		speedIndicator = new SpeedIndicator(speedText, spaceship);
 
+		// Create game over text label
+		gameOverText = new Text();
+		gameOverIndicator = new GameOverIndicator(gameOverText, spaceship);
+
 		// Add children to root
 		root.getChildren().add(spaceshipImageView);
 		root.getChildren().add(landingPadView);
 		root.getChildren().add(fuelLeftText);
 		root.getChildren().add(speedText);
+		root.getChildren().add(gameOverText);
 
 		// Add sprites to add sprite list
 		allSprites.add(spaceship);
 		allSprites.add(landingPad);
 		allSprites.add(fuelIndicator);
 		allSprites.add(speedIndicator);
+		allSprites.add(gameOverIndicator);
 
 		Explosion.setPane(root);
 

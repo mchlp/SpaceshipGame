@@ -23,4 +23,8 @@ public abstract class TextLabel extends Sprite {
 	@Override
 	public abstract void update(double deltaTime);
 
+	public void updatePosition() {
+		mText.setX(mPosition.getX());
+		mText.setY(mPosition.getY());
+	}
 }
