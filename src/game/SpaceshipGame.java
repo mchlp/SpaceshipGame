@@ -8,11 +8,14 @@ import backend.Sprite;
 import backend.Utilities;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
@@ -35,7 +38,7 @@ public class SpaceshipGame extends Application {
 	private Stage primaryStage;
 	private AnimationTimer timer;
 
-	private ArrayList<Sprite> allSprites = new ArrayList<>();
+	private ArrayList<Sprite> allSprites;
 
 	private long prevTime;
 	private Spaceship spaceship;
@@ -45,7 +48,7 @@ public class SpaceshipGame extends Application {
 	private FuelIndicator fuelIndicator;
 	private SpeedIndicator speedIndicator;
 	private GameOverIndicator gameOverIndicator;
-	private RestartButton restartButtonSprite;
+	private ContextMenu menuBar;
 
 	private ImageView spaceshipImageView;
 	private ImageView backgroundImageView;
@@ -53,7 +56,6 @@ public class SpaceshipGame extends Application {
 	private Text fuelLeftText;
 	private Text speedText;
 	private Text gameOverText;
-	private Button restartButton;
 
 	private double windowWidth;
 	private double windowHeight;
@@ -67,18 +69,15 @@ public class SpaceshipGame extends Application {
 	public void start(Stage primaryStage) throws Exception {
 
 		this.primaryStage = primaryStage;
-
-		root = new Pane();
-
-		// Create scene using root pane
-		scene = new Scene(root);
-
 		initalizeGame();
 	}
 
 	private void initalizeGame() {
 
-		root.getChildren().clear();
+		root = new Pane();
+		scene = new Scene(root);
+		allSprites = new ArrayList<>();
+		allSprites.clear();
 
 		// Load the background image file
 		Image backgroundImage = new Image(Utilities.getResourceAsStream(IMAGE_BACKGROUND));
@@ -125,9 +124,23 @@ public class SpaceshipGame extends Application {
 		gameOverText = new Text();
 		gameOverIndicator = new GameOverIndicator(gameOverText, spaceship);
 
-		// Restart button
-		restartButton = new Button();
-		restartButtonSprite = new RestartButton(restartButton);
+		// Menu on top
+		menuBar = new ContextMenu();
+		MenuItem restartMenuItem = new MenuItem("Restart");
+		restartMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				restart();
+			}
+		});
+
+		menuBar.getItems().add(restartMenuItem);
+		backgroundImageView.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
+			@Override
+			public void handle(ContextMenuEvent click) {
+				menuBar.show(backgroundImageView, click.getX(), click.getY());
+			}
+		});
 
 		// Add children to root
 		root.getChildren().add(spaceshipImageView);
@@ -135,7 +148,6 @@ public class SpaceshipGame extends Application {
 		root.getChildren().add(fuelLeftText);
 		root.getChildren().add(speedText);
 		root.getChildren().add(gameOverText);
-		root.getChildren().add(restartButton);
 
 		// Add sprites to add sprite list
 		allSprites.add(spaceship);
@@ -143,7 +155,6 @@ public class SpaceshipGame extends Application {
 		allSprites.add(fuelIndicator);
 		allSprites.add(speedIndicator);
 		allSprites.add(gameOverIndicator);
-		allSprites.add(restartButtonSprite);
 
 		Explosion.setPane(root);
 
@@ -161,8 +172,7 @@ public class SpaceshipGame extends Application {
 					break;
 				case "RIGHT":
 					spaceship.setEngineDirection(SpaceshipEngineDirection.LEFT);
-				case "R":
-					restart();
+					break;
 				}
 				keyPressed.consume();
 			}
@@ -183,6 +193,7 @@ public class SpaceshipGame extends Application {
 					break;
 				case "RIGHT":
 					spaceship.setEngineDirection(SpaceshipEngineDirection.MIDDLE);
+					break;
 				}
 				keyReleased.consume();
 
@@ -201,25 +212,21 @@ public class SpaceshipGame extends Application {
 			}
 		};
 
+		System.out.println("INITALIZED");
+
 		timer.start();
 	}
 
 	private void onUpdate(double deltaTime) {
 
-		if (restartButtonSprite.getmClicked()) {
-			restartButtonSprite.setmClicked(false);
-			restart();
-			return;
-		}
-
 		for (Sprite sprite : allSprites) {
 			sprite.update(deltaTime);
 		}
-
 	}
 
 	private void restart() {
-		System.out.println("RESTART");
+		menuBar.hide();
 		timer.stop();
+		initalizeGame();
 	}
 }

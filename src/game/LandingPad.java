@@ -117,4 +117,7 @@ public class LandingPad extends Sprite {
 
 	}
 
+	public Rectangle getmRectangle() {
+		return mRectangle;
+	}
 }
