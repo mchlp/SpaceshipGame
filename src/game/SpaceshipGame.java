@@ -161,6 +161,8 @@ public class SpaceshipGame extends Application {
 					break;
 				case "RIGHT":
 					spaceship.setEngineDirection(SpaceshipEngineDirection.LEFT);
+				case "R":
+					restart();
 				}
 				keyPressed.consume();
 			}
@@ -206,12 +208,18 @@ public class SpaceshipGame extends Application {
 
 		if (restartButtonSprite.getmClicked()) {
 			restartButtonSprite.setmClicked(false);
-			timer.stop();
+			restart();
+			return;
 		}
 
 		for (Sprite sprite : allSprites) {
 			sprite.update(deltaTime);
 		}
 
+	}
+
+	private void restart() {
+		System.out.println("RESTART");
+		timer.stop();
 	}
 }
