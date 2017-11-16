@@ -107,6 +107,7 @@ public class SpaceshipGame extends Application {
 		moon = new Planet(7.34747309E+22, 1737000);
 		earth = new Planet();
 		spaceship = new Spaceship(spaceshipImageView, spaceshipImageSet, earth);
+		System.out.println(spaceship.getPosition().getX() + " " + spaceship.getPosition().getY());
 
 		// Create landing pad
 		landingPadView = new Rectangle();

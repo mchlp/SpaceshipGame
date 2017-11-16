@@ -63,8 +63,6 @@ public class Spaceship extends Sprite {
 			SpaceshipImageSet imageSet, Planet planet) {
 
 		super(velocity, position, image);
-		mPosition = INITAL_POSITION;
-		mVelocity = INITAL_VELOCITY;
 		mState = SpaceshipState.FLYING;
 		mFuelTimeLeft = fuelTimeLeft;
 		mImageSet = imageSet;
