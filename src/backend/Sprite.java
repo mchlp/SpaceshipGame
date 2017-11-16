@@ -1,7 +1,5 @@
-package game;
+package backend;
 
-import backend.Coordinate;
-import backend.Velocity;
 import javafx.scene.image.ImageView;
 
 public abstract class Sprite {
@@ -14,6 +12,12 @@ public abstract class Sprite {
 		mVelocity = velocity;
 		mPosition = position;
 		mImageView = image;
+	}
+
+	protected Sprite() {
+		mVelocity = new Velocity();
+		mPosition = new Coordinate();
+		mImageView = new ImageView();
 	}
 
 	public abstract void update(double deltaTime);

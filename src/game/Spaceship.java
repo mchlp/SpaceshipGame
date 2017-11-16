@@ -4,6 +4,7 @@ import backend.Acceleration;
 import backend.Coordinate;
 import backend.SpaceshipEngineDirection;
 import backend.SpaceshipImageSet;
+import backend.Sprite;
 import backend.Velocity;
 import javafx.scene.image.ImageView;
 

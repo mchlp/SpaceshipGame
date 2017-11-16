@@ -1,6 +1,7 @@
 package game;
 
 import backend.Coordinate;
+import backend.Sprite;
 import backend.Velocity;
 import game.Spaceship.SpaceshipState;
 import javafx.geometry.Bounds;

@@ -4,11 +4,13 @@ import java.util.ArrayList;
 
 import backend.SpaceshipEngineDirection;
 import backend.SpaceshipImageSet;
+import backend.Sprite;
 import backend.Utilities;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -29,6 +31,9 @@ public class SpaceshipGame extends Application {
 	private static final String IMAGE_BACKGROUND = Utilities.IMAGE_DIRECTORY + "planet.jpg";
 
 	private Scene scene;
+	private Pane root;
+	private Stage primaryStage;
+	private AnimationTimer timer;
 
 	private ArrayList<Sprite> allSprites = new ArrayList<>();
 
@@ -40,6 +45,7 @@ public class SpaceshipGame extends Application {
 	private FuelIndicator fuelIndicator;
 	private SpeedIndicator speedIndicator;
 	private GameOverIndicator gameOverIndicator;
+	private RestartButton restartButtonSprite;
 
 	private ImageView spaceshipImageView;
 	private ImageView backgroundImageView;
@@ -47,6 +53,7 @@ public class SpaceshipGame extends Application {
 	private Text fuelLeftText;
 	private Text speedText;
 	private Text gameOverText;
+	private Button restartButton;
 
 	private double windowWidth;
 	private double windowHeight;
@@ -59,10 +66,19 @@ public class SpaceshipGame extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
-		Pane root = new Pane();
+		this.primaryStage = primaryStage;
+
+		root = new Pane();
 
 		// Create scene using root pane
 		scene = new Scene(root);
+
+		initalizeGame();
+	}
+
+	private void initalizeGame() {
+
+		root.getChildren().clear();
 
 		// Load the background image file
 		Image backgroundImage = new Image(Utilities.getResourceAsStream(IMAGE_BACKGROUND));
@@ -109,12 +125,17 @@ public class SpaceshipGame extends Application {
 		gameOverText = new Text();
 		gameOverIndicator = new GameOverIndicator(gameOverText, spaceship);
 
+		// Restart button
+		restartButton = new Button();
+		restartButtonSprite = new RestartButton(restartButton);
+
 		// Add children to root
 		root.getChildren().add(spaceshipImageView);
 		root.getChildren().add(landingPadView);
 		root.getChildren().add(fuelLeftText);
 		root.getChildren().add(speedText);
 		root.getChildren().add(gameOverText);
+		root.getChildren().add(restartButton);
 
 		// Add sprites to add sprite list
 		allSprites.add(spaceship);
@@ -122,11 +143,12 @@ public class SpaceshipGame extends Application {
 		allSprites.add(fuelIndicator);
 		allSprites.add(speedIndicator);
 		allSprites.add(gameOverIndicator);
+		allSprites.add(restartButtonSprite);
 
 		Explosion.setPane(root);
 
 		// Handle key presses
-		scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+		scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent keyPressed) {
 				String code = keyPressed.getCode().toString();
@@ -140,11 +162,12 @@ public class SpaceshipGame extends Application {
 				case "RIGHT":
 					spaceship.setEngineDirection(SpaceshipEngineDirection.LEFT);
 				}
+				keyPressed.consume();
 			}
 		});
 
 		// Handles key releases
-		scene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+		scene.addEventFilter(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
 
 			@Override
 			public void handle(KeyEvent keyReleased) {
@@ -159,13 +182,14 @@ public class SpaceshipGame extends Application {
 				case "RIGHT":
 					spaceship.setEngineDirection(SpaceshipEngineDirection.MIDDLE);
 				}
+				keyReleased.consume();
 
 			}
 		});
 
 		// Game loop
 		prevTime = System.nanoTime();
-		AnimationTimer timer = new AnimationTimer() {
+		timer = new AnimationTimer() {
 			@Override
 			public void handle(long curTime) {
 				double deltaTime = (curTime - prevTime) / 1E9;
@@ -179,8 +203,15 @@ public class SpaceshipGame extends Application {
 	}
 
 	private void onUpdate(double deltaTime) {
+
+		if (restartButtonSprite.getmClicked()) {
+			restartButtonSprite.setmClicked(false);
+			timer.stop();
+		}
+
 		for (Sprite sprite : allSprites) {
 			sprite.update(deltaTime);
 		}
+
 	}
 }

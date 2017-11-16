@@ -1,7 +1,5 @@
-package game;
+package backend;
 
-import backend.Coordinate;
-import backend.Velocity;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;

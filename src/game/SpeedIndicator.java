@@ -1,6 +1,7 @@
 package game;
 
 import backend.Coordinate;
+import backend.TextLabel;
 import backend.Utilities;
 import javafx.scene.text.Text;
 
