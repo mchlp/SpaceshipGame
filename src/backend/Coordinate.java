@@ -43,6 +43,10 @@ public class Coordinate {
 		this.y = y;
 	}
 
+	public void move(Velocity velocity) {
+		move(velocity, 1.0);
+	}
+
 	public void move(Velocity velocity, double modifier) {
 		this.x += velocity.getXSpeed() * modifier;
 		this.y -= velocity.getYSpeed() * modifier;

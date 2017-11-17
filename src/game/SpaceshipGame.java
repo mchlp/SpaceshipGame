@@ -8,10 +8,10 @@ package game;
 
 import java.util.ArrayList;
 
-import backend.SpaceshipEngineDirection;
 import backend.SpaceshipImageSet;
 import backend.Sprite;
 import backend.Utilities;
+import game.Spaceship.SpaceshipEngineDirection;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -60,13 +60,6 @@ public class SpaceshipGame extends Application {
 	private GameOverIndicator gameOverIndicator;
 	private ContextMenu menuBar;
 
-	private ImageView spaceshipImageView;
-	private ImageView backgroundImageView;
-	private Rectangle landingPadView;
-	private Text fuelLeftText;
-	private Text speedText;
-	private Text gameOverText;
-
 	private double windowWidth;
 	private double windowHeight;
 	public double timePassed;
@@ -93,7 +86,7 @@ public class SpaceshipGame extends Application {
 		// Load the background image file
 		Image backgroundImage = new Image(Utilities.getResourceAsStream(IMAGE_BACKGROUND));
 
-		backgroundImageView = new ImageView();
+		ImageView backgroundImageView = new ImageView();
 		backgroundImageView.setImage(backgroundImage);
 		root.getChildren().add(backgroundImageView);
 
@@ -112,7 +105,7 @@ public class SpaceshipGame extends Application {
 				IMAGE_ROCKET_RIGHT_OFF, IMAGE_ROCKET_RIGHT_ON, IMAGE_ROCKET_MIDDLE_OFF, IMAGE_ROCKET_MIDDLE_ON);
 
 		// Create and set up spaceship imageview
-		spaceshipImageView = new ImageView();
+		ImageView spaceshipImageView = new ImageView();
 
 		// Create spaceship object
 		moon = new Planet(7.34747309E+22, 1737000);
@@ -120,19 +113,19 @@ public class SpaceshipGame extends Application {
 		spaceship = new Spaceship(spaceshipImageView, spaceshipImageSet, earth);
 
 		// Create landing pad
-		landingPadView = new Rectangle();
+		Rectangle landingPadView = new Rectangle();
 		landingPad = new LandingPad(spaceship, landingPadView, windowWidth, windowHeight);
 
 		// Create text for fuel left
-		fuelLeftText = new Text();
+		Text fuelLeftText = new Text();
 		fuelIndicator = new FuelIndicator(fuelLeftText, spaceship);
 
 		// Create text for speed of spaceship
-		speedText = new Text();
+		Text speedText = new Text();
 		speedIndicator = new SpeedIndicator(speedText, spaceship);
 
 		// Create game over text label
-		gameOverText = new Text();
+		Text gameOverText = new Text();
 		gameOverIndicator = new GameOverIndicator(gameOverText, spaceship);
 
 		// Menu on top
