@@ -109,7 +109,7 @@ public class SpaceshipGame extends Application {
 		windowWidth = primaryStage.getWidth();
 		windowHeight = primaryStage.getHeight();
 
-		// Load the spaceship image filesSystem.out.println(scene.getHeight());
+		// Load the spaceship image files
 		SpaceshipImageSet spaceshipImageSet = new SpaceshipImageSet(IMAGE_ROCKET_LEFT_OFF, IMAGE_ROCKET_LEFT_ON,
 				IMAGE_ROCKET_RIGHT_OFF, IMAGE_ROCKET_RIGHT_ON, IMAGE_ROCKET_MIDDLE_OFF, IMAGE_ROCKET_MIDDLE_ON);
 
@@ -176,7 +176,6 @@ public class SpaceshipGame extends Application {
 			@Override
 			public void handle(KeyEvent keyPressed) {
 				String code = keyPressed.getCode().toString();
-				System.out.println(code);
 				switch (code) {
 				case "SPACE":
 					spaceship.engineOn();
@@ -237,7 +236,6 @@ public class SpaceshipGame extends Application {
 	}
 
 	private void restart() {
-		System.out.println("CODE");
 		menuBar.hide();
 		timer.stop();
 		initalizeGame();

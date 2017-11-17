@@ -8,6 +8,8 @@ package backend;
 
 import java.io.InputStream;
 
+import javafx.scene.image.ImageView;
+
 public final class Utilities {
 
 	public static final double EPSILON = 1E-5;
@@ -38,5 +40,11 @@ public final class Utilities {
 	public static String round(double number, int places) {
 		int roundedDouble = (int) (number * Math.pow(10, places));
 		return Double.toString((double) roundedDouble / Math.pow(10, places));
+	}
+
+	public static Coordinate getCentreofImage(ImageView imageView) {
+		double centreX = imageView.getX() + imageView.getFitWidth() / 2;
+		double centreY = imageView.getY() + imageView.getFitHeight() / 2;
+		return new Coordinate(centreX, centreY);
 	}
 }

@@ -11,6 +11,7 @@ import backend.Coordinate;
 import backend.SpaceshipEngineDirection;
 import backend.SpaceshipImageSet;
 import backend.Sprite;
+import backend.Utilities;
 import backend.Velocity;
 import javafx.scene.image.ImageView;
 
@@ -42,6 +43,7 @@ public class Spaceship extends Sprite {
 	private double mGroundLevel;
 	private boolean mAtSafeSpeed;
 	private Coordinate mScreenDimesions;
+	private ImageView mImageView;
 
 	private boolean mFuelAlarmPlayed = false;
 	private boolean mExplosionAnimated = false;
@@ -69,6 +71,7 @@ public class Spaceship extends Sprite {
 			SpaceshipImageSet imageSet, Planet planet) {
 
 		super(velocity, position, image);
+		mImageView = (ImageView) mNode;
 		mState = SpaceshipState.FLYING;
 		mFuelTimeLeft = fuelTimeLeft;
 		mImageSet = imageSet;
@@ -166,7 +169,7 @@ public class Spaceship extends Sprite {
 		mState = SpaceshipState.CRASHED;
 		mImageView.setImage(null);
 		if (!mExplosionAnimated) {
-			new Explosion(getCentreofImage());
+			new Explosion(Utilities.getCentreofImage(mImageView));
 			mExplosionAnimated = true;
 		}
 	}
