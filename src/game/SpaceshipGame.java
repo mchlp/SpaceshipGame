@@ -29,8 +29,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
- * 
- * 
  * JavaFX Application class to run game (entry point for game)
  */
 
@@ -219,6 +217,7 @@ public class SpaceshipGame extends Application {
 			@Override
 			public void handle(long curTime) {
 				double deltaTime = (curTime - prevTime) / 1E9;
+				System.out.println(1 / deltaTime);
 				onUpdate(deltaTime);
 				prevTime = curTime;
 				timePassed += deltaTime;

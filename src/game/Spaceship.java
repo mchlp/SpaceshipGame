@@ -117,7 +117,7 @@ public class Spaceship extends Sprite {
 				mFuelAlarmPlayed = true;
 			}
 			if (mEngineOn) {
-				mFuelTimeLeft -= deltaTime;
+				mFuelTimeLeft -= Math.min(deltaTime, mFuelTimeLeft);
 				curAccel = curAccel.add(mCurEngineAccel.getAccelerationByTime(deltaTime));
 				if (mFuelTimeLeft < 0) {
 					engineOff();
