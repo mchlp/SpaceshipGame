@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * Michael Pu
+ * Spaceship Game Assignment
+ * ICS3U1 - November 2017
+ * Mr. Radulovic
+ ******************************************************************************/
 package backend;
 
 /**
@@ -104,5 +110,9 @@ public class Velocity {
 	 */
 	public Velocity accelerate(Acceleration acceleration) {
 		return this.add(new Velocity(acceleration.getRate(), acceleration.getDirection()));
+	}
+
+	public Velocity copy() {
+		return new Velocity(getSpeed(), getDirection());
 	}
 }

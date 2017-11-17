@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * Michael Pu
+ * Spaceship Game Assignment
+ * ICS3U1 - November 2017
+ * Mr. Radulovic
+ ******************************************************************************/
 package game;
 
 import java.util.ArrayList;
@@ -21,6 +27,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+/**
+ * 
+ * 
+ * JavaFX Application class to run game (entry point for game)
+ */
 
 public class SpaceshipGame extends Application {
 
@@ -69,13 +81,14 @@ public class SpaceshipGame extends Application {
 	public void start(Stage primaryStage) throws Exception {
 
 		this.primaryStage = primaryStage;
+		root = new Pane();
+		scene = new Scene(root);
 		initalizeGame();
 	}
 
 	private void initalizeGame() {
 
-		root = new Pane();
-		scene = new Scene(root);
+		root.getChildren().clear();
 		allSprites = new ArrayList<>();
 		allSprites.clear();
 
@@ -107,7 +120,6 @@ public class SpaceshipGame extends Application {
 		moon = new Planet(7.34747309E+22, 1737000);
 		earth = new Planet();
 		spaceship = new Spaceship(spaceshipImageView, spaceshipImageSet, earth);
-		System.out.println(spaceship.getPosition().getX() + " " + spaceship.getPosition().getY());
 
 		// Create landing pad
 		landingPadView = new Rectangle();
@@ -164,6 +176,7 @@ public class SpaceshipGame extends Application {
 			@Override
 			public void handle(KeyEvent keyPressed) {
 				String code = keyPressed.getCode().toString();
+				System.out.println(code);
 				switch (code) {
 				case "SPACE":
 					spaceship.engineOn();
@@ -213,8 +226,6 @@ public class SpaceshipGame extends Application {
 			}
 		};
 
-		System.out.println("INITALIZED");
-
 		timer.start();
 	}
 
@@ -226,6 +237,7 @@ public class SpaceshipGame extends Application {
 	}
 
 	private void restart() {
+		System.out.println("CODE");
 		menuBar.hide();
 		timer.stop();
 		initalizeGame();

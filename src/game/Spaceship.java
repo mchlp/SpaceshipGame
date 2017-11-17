@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * Michael Pu
+ * Spaceship Game Assignment
+ * ICS3U1 - November 2017
+ * Mr. Radulovic
+ ******************************************************************************/
 package game;
 
 import backend.Acceleration;
@@ -56,7 +62,7 @@ public class Spaceship extends Sprite {
 	private static final Coordinate INITAL_POSITION = new Coordinate(200, 10);
 
 	public Spaceship(ImageView imageView, SpaceshipImageSet imageSet, Planet planet) {
-		this(INITAL_VELOCITY, INITAL_POSITION, imageView, DEFAULT_FUEL_TIME_LEFT, imageSet, planet);
+		this(INITAL_VELOCITY.copy(), INITAL_POSITION.copy(), imageView, DEFAULT_FUEL_TIME_LEFT, imageSet, planet);
 	}
 
 	public Spaceship(Velocity velocity, Coordinate position, ImageView image, double fuelTimeLeft,

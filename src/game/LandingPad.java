@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * Michael Pu
+ * Spaceship Game Assignment
+ * ICS3U1 - November 2017
+ * Mr. Radulovic
+ ******************************************************************************/
 package game;
 
 import backend.Coordinate;
@@ -33,12 +39,12 @@ public class LandingPad extends Sprite {
 		super(new Velocity(), new Coordinate(), null);
 		mSpaceship = spaceship;
 		mRectangle = rectangle;
+		mRectangle.setVisible(true);
 		mState = State.NOT_LANDED;
 		mRectangle.setX((int) (Math.random() * (maxX - PAD_WIDTH)));
 		mRectangle.setY(maxY - PAD_HEIGHT);
 		mRectangle.setWidth(PAD_WIDTH);
 		mRectangle.setHeight(PAD_HEIGHT);
-		updateColor();
 	}
 
 	@Override

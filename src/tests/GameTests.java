@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * Michael Pu
+ * Spaceship Game Assignment
+ * ICS3U1 - November 2017
+ * Mr. Radulovic
+ ******************************************************************************/
 package tests;
 
 import org.junit.runner.RunWith;

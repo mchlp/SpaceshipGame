@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * Michael Pu
+ * Spaceship Game Assignment
+ * ICS3U1 - November 2017
+ * Mr. Radulovic
+ ******************************************************************************/
 package backend;
 
 /**
@@ -40,5 +46,9 @@ public class Coordinate {
 	public void move(Velocity velocity, double modifier) {
 		this.x += velocity.getXSpeed() * modifier;
 		this.y -= velocity.getYSpeed() * modifier;
+	}
+
+	public Coordinate copy() {
+		return new Coordinate(getX(), getY());
 	}
 }
