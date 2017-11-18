@@ -109,7 +109,7 @@ public class Spaceship extends Sprite {
 	 * @param velocity
 	 *            Initial {@link Velocity} of spaceship
 	 * @param position
-	 *            Initial position {@link Coordinate} of spaceship
+	 *            Initial {@link Coordinate position} of spaceship
 	 * @param image
 	 *            {@link ImageView} of spaceship
 	 * @param fuelTimeLeft'starting
@@ -186,7 +186,7 @@ public class Spaceship extends Sprite {
 			if (mEngineOn) {
 				mFuelTimeLeft -= Math.min(deltaTime, mFuelTimeLeft); // so that burn time left does not go under 0
 				curAccel = curAccel.add(mEngineAccel.getAccelerationByTime(deltaTime));
-				if (mFuelTimeLeft < 0) {
+				if (mFuelTimeLeft <= 0) {
 					engineOff();
 				}
 			}
@@ -219,7 +219,6 @@ public class Spaceship extends Sprite {
 					// if spaceship is over the landing pad
 					if (!mAtSafeSpeed) {
 						explode();
-
 					}
 				}
 			}
@@ -243,17 +242,18 @@ public class Spaceship extends Sprite {
 
 	}
 
+	// when spaceship explodes
 	private void explode() {
 		mState = SpaceshipState.CRASHED;
 		mImageView.setImage(null);
 		if (!mExplosionAnimated) {
-			new Explosion(Utilities.getCentreofImage(mImageView));
+			new Explosion(Utilities.getCentreofImageView(mImageView));
 			mExplosionAnimated = true;
 		}
 	}
 
 	/**
-	 * Engine turned on
+	 * Turn engine on
 	 */
 	public void engineOn() {
 		if (mFuelTimeLeft > 0 && mState != SpaceshipState.LANDED && mState != SpaceshipState.CRASHED) {
@@ -277,7 +277,7 @@ public class Spaceship extends Sprite {
 	}
 
 	/**
-	 * Engine turned off
+	 * Turn engine off
 	 */
 	public void engineOff() {
 		AudioControl.stopEngines();
@@ -297,12 +297,24 @@ public class Spaceship extends Sprite {
 		mEngineOn = false;
 	}
 
+	/**
+	 * Sets state of spaceship
+	 * 
+	 * @param state
+	 *            {@link SpaceshipState State} to set to
+	 */
 	public void setState(SpaceshipState state) {
 		mState = state;
 	}
 
-	public void setEngineDirection(SpaceshipEngineDirection state) {
-		mEngineDirection = state;
+	/**
+	 * Sets direction the engine is facing
+	 * 
+	 * @param direction
+	 *            {@link SpaceshipEngineDirection Direction} the engine is facing
+	 */
+	public void setEngineDirection(SpaceshipEngineDirection direction) {
+		mEngineDirection = direction;
 		if (mEngineOn) {
 			engineOn();
 		} else {
@@ -310,40 +322,73 @@ public class Spaceship extends Sprite {
 		}
 	}
 
+	/**
+	 * @return {@link Coordinate Position} of spaceship
+	 */
 	public Coordinate getPosition() {
 		return mPosition;
 	}
 
+	/**
+	 * @return {@link Velocity} of spaceship
+	 */
 	public Velocity getVelocity() {
 		return mVelocity;
 	}
 
+	// updates the imageView location using the coordinates stored in the mPosition
+	// variable
 	private void updatePositionOfImageView() {
 		mImageView.setX(mPosition.getX());
 		mImageView.setY(mPosition.getY());
 	}
 
+	/**
+	 * @return If the spaceship is at a safe speed
+	 */
 	public boolean getmAtSafeSpeed() {
 		return mAtSafeSpeed;
 	}
 
+	/**
+	 * @return The {@link SpaceshipState state} of the spaceship
+	 */
 	public SpaceshipState getmState() {
 		return mState;
 	}
 
+	/**
+	 * @return The height of the spaceship
+	 */
 	public double getmSpaceshipHeight() {
 		return mSpaceshipHeight;
 	}
 
+	/**
+	 * @return The {@link ImageView} of the spaceship
+	 */
 	public ImageView getmImageView() {
 		return mImageView;
 	}
 
+	/**
+	 * @return the fuel burn time left
+	 */
 	public double getmFuelTimeLeft() {
 		return mFuelTimeLeft;
 	}
 
+	/**
+	 * @return the maximum current speed of the spaceship
+	 */
 	public double getSpeed() {
 		return mVelocity.getSpeed();
+	}
+
+	/**
+	 * @return if the fuel left is at a critical amount
+	 */
+	public boolean getFuelCritical() {
+		return mFuelTimeLeft <= FUEL_CRITICAL;
 	}
 }

@@ -12,12 +12,20 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+/**
+ * Text displayed when game is over
+ * 
+ * @author Michael Pu
+ *
+ */
 public class GameOverIndicator extends TextLabel {
 
-	private static int FONT_SIZE = 100;
-	private static Color LOSE_FONT_COLOUR = Color.RED;
-	private static Color WIN_FONT_COLOUR = Color.GREEN;
-	private static Color FONT_OUTLINE = Color.BLACK;
+	private static final int FONT_SIZE = 100;
+	private static final Color LOSE_FONT_COLOUR = Color.RED;
+	private static final String LOSE_TEXT = "Game Over!";
+	private static final Color WIN_FONT_COLOUR = Color.GREEN;
+	private static final String WIN_TEXT = "You Win!";
+	private static final Color FONT_OUTLINE = Color.BLACK;
 
 	private Spaceship mSpaceship;
 
@@ -32,12 +40,14 @@ public class GameOverIndicator extends TextLabel {
 
 		switch (mSpaceship.getmState()) {
 		case CRASHED:
-			mText.setText("Game Over");
+			// if the spaceship crashed, you lose
+			mText.setText(LOSE_TEXT);
 			mText.setFont(new Font(FONT_SIZE));
 			mText.setFill(LOSE_FONT_COLOUR);
 			break;
 		case LANDED:
-			mText.setText("You Win");
+			// if the spaceship landed, you win
+			mText.setText(WIN_TEXT);
 			mText.setFont(new Font(FONT_SIZE));
 			mText.setFill(WIN_FONT_COLOUR);
 

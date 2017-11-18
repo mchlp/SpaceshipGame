@@ -42,7 +42,7 @@ public final class Utilities {
 		return Double.toString((double) roundedDouble / Math.pow(10, places));
 	}
 
-	public static Coordinate getCentreofImage(ImageView imageView) {
+	public static Coordinate getCentreofImageView(ImageView imageView) {
 		double centreX = imageView.getX() + imageView.getFitWidth() / 2;
 		double centreY = imageView.getY() + imageView.getFitHeight() / 2;
 		return new Coordinate(centreX, centreY);

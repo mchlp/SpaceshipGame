@@ -34,6 +34,7 @@ import javafx.stage.Stage;
 
 public class SpaceshipGame extends Application {
 
+	// image file locations
 	private static final String IMAGE_ICON = Utilities.IMAGE_DIRECTORY + "icon.png";
 	private static final String IMAGE_ROCKET_LEFT_OFF = Utilities.IMAGE_DIRECTORY + "rocketLeftOff.png";
 	private static final String IMAGE_ROCKET_LEFT_ON = Utilities.IMAGE_DIRECTORY + "rocketLeftOn.png";
@@ -43,27 +44,22 @@ public class SpaceshipGame extends Application {
 	private static final String IMAGE_ROCKET_MIDDLE_ON = Utilities.IMAGE_DIRECTORY + "rocketMiddleOn.png";
 	private static final String IMAGE_BACKGROUND = Utilities.IMAGE_DIRECTORY + "planet.jpg";
 
+	// JavaFX objects
 	private Scene scene;
 	private Pane root;
 	private Stage primaryStage;
 	private AnimationTimer timer;
 
+	// list containing all sprites in the game
 	private ArrayList<Sprite> allSprites;
 
+	// time when game was last updated
 	private long prevTime;
-	private Spaceship spaceship;
-	private Planet earth;
-	private Planet moon;
-	private LandingPad landingPad;
-	private FuelIndicator fuelIndicator;
-	private SpeedIndicator speedIndicator;
-	private GameOverIndicator gameOverIndicator;
-	private ContextMenu menuBar;
 
-	private double windowWidth;
-	private double windowHeight;
-	public double timePassed;
+	// menu to display on right click
+	private ContextMenu rightClickMenu;
 
+	// entry point for game
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -71,65 +67,70 @@ public class SpaceshipGame extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
+		// set up game window
 		this.primaryStage = primaryStage;
 		root = new Pane();
 		scene = new Scene(root);
+
 		initalizeGame();
 	}
 
 	private void initalizeGame() {
 
+		// Reset variables
 		root.getChildren().clear();
 		allSprites = new ArrayList<>();
 		allSprites.clear();
 
-		// Load the background image file
+		// Load the background image file and add to root
 		Image backgroundImage = new Image(Utilities.getResourceAsStream(IMAGE_BACKGROUND));
-
 		ImageView backgroundImageView = new ImageView();
 		backgroundImageView.setImage(backgroundImage);
 		root.getChildren().add(backgroundImageView);
 
-		// Add scene to stage and show
+		// Add scene to stage and show stage
 		primaryStage.getIcons().add(new Image(Utilities.getResourceAsStream(IMAGE_ICON)));
 		primaryStage.setTitle("Spaceship Game");
 		primaryStage.setScene(scene);
 		primaryStage.setMaximized(true);
 		primaryStage.show();
 
-		windowWidth = primaryStage.getWidth();
-		windowHeight = primaryStage.getHeight();
+		// Get dimensions of stage
+		double windowWidth = primaryStage.getWidth();
+		double windowHeight = primaryStage.getHeight();
 
 		// Load the spaceship image files
 		SpaceshipImageSet spaceshipImageSet = new SpaceshipImageSet(IMAGE_ROCKET_LEFT_OFF, IMAGE_ROCKET_LEFT_ON,
 				IMAGE_ROCKET_RIGHT_OFF, IMAGE_ROCKET_RIGHT_ON, IMAGE_ROCKET_MIDDLE_OFF, IMAGE_ROCKET_MIDDLE_ON);
 
-		// Create and set up spaceship imageview
-		ImageView spaceshipImageView = new ImageView();
+		// Create and set up planets
+		Planet moon = new Planet(7.34747309E+22, 1737000);
+		Planet earth = new Planet();
 
-		// Create spaceship object
-		moon = new Planet(7.34747309E+22, 1737000);
-		earth = new Planet();
-		spaceship = new Spaceship(spaceshipImageView, spaceshipImageSet, earth);
+		// Create spaceship
+		ImageView spaceshipImageView = new ImageView();
+		Spaceship spaceship = new Spaceship(spaceshipImageView, spaceshipImageSet, earth);
 
 		// Create landing pad
 		Rectangle landingPadView = new Rectangle();
-		landingPad = new LandingPad(spaceship, landingPadView, windowWidth, windowHeight);
+		LandingPad landingPad = new LandingPad(spaceship, landingPadView, windowWidth, windowHeight);
 
 		// Create text for fuel left
 		Text fuelLeftText = new Text();
-		fuelIndicator = new FuelIndicator(fuelLeftText, spaceship);
+		FuelIndicator fuelIndicator = new FuelIndicator(fuelLeftText, spaceship);
 
-		// Create text for speed of spaceship
+		// Create text for speed
 		Text speedText = new Text();
-		speedIndicator = new SpeedIndicator(speedText, spaceship);
+		SpeedIndicator speedIndicator = new SpeedIndicator(speedText, spaceship);
 
 		// Create game over text label
 		Text gameOverText = new Text();
-		gameOverIndicator = new GameOverIndicator(gameOverText, spaceship);
+		GameOverIndicator gameOverIndicator = new GameOverIndicator(gameOverText, spaceship);
 
-		// Menu on top
-		menuBar = new ContextMenu();
+		// Set up right-click menu
+		rightClickMenu = new ContextMenu();
+
+		// add and set up restart item to right-click menu
 		MenuItem restartMenuItem = new MenuItem("Restart");
 		restartMenuItem.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -137,16 +138,17 @@ public class SpaceshipGame extends Application {
 				restart();
 			}
 		});
+		rightClickMenu.getItems().add(restartMenuItem);
 
-		menuBar.getItems().add(restartMenuItem);
+		// show rightClickMenu when a right click is detected on the background image
 		backgroundImageView.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
 			@Override
 			public void handle(ContextMenuEvent click) {
-				menuBar.show(backgroundImageView, click.getX(), click.getY());
+				rightClickMenu.show(backgroundImageView, click.getX(), click.getY());
 			}
 		});
 
-		// Add children to root
+		// Add nodes to root
 		root.getChildren().add(spaceshipImageView);
 		root.getChildren().add(landingPadView);
 		root.getChildren().add(fuelLeftText);
@@ -160,6 +162,7 @@ public class SpaceshipGame extends Application {
 		allSprites.add(speedIndicator);
 		allSprites.add(gameOverIndicator);
 
+		// Set up pane for explosions
 		Explosion.setPane(root);
 
 		// Handle key presses
@@ -204,31 +207,32 @@ public class SpaceshipGame extends Application {
 			}
 		});
 
-		// Game loop
+		// Set up game loop
 		prevTime = System.nanoTime();
 		timer = new AnimationTimer() {
 			@Override
 			public void handle(long curTime) {
 				double deltaTime = (curTime - prevTime) / 1E9;
-				System.out.println(1 / deltaTime);
+				// System.out.println(1 / deltaTime);
 				onUpdate(deltaTime);
 				prevTime = curTime;
-				timePassed += deltaTime;
 			}
 		};
 
+		// Start game loop
 		timer.start();
 	}
 
 	private void onUpdate(double deltaTime) {
-
+		// Call update function in each sprite
 		for (Sprite sprite : allSprites) {
 			sprite.update(deltaTime);
 		}
 	}
 
+	// Restart the game
 	private void restart() {
-		menuBar.hide();
+		rightClickMenu.hide();
 		timer.stop();
 		initalizeGame();
 	}

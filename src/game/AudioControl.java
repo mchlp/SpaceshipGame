@@ -11,8 +11,14 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
+/**
+ * Handles and plays audio relating the the game
+ * 
+ * @author Michael Pu
+ */
 public class AudioControl {
 
+	// audio file locations
 	private static final String AUDIO_ALARM = Utilities.AUDIO_DIRECTORY + "alarm.mp3";
 	private static final String AUDIO_FUEL_ALARM = Utilities.AUDIO_DIRECTORY + "fuelAlarm.mp3";
 	private static final String AUDIO_ENGINE = Utilities.AUDIO_DIRECTORY + "engines.mp3";
@@ -21,6 +27,7 @@ public class AudioControl {
 	private static final String AUDIO_LANDED = Utilities.AUDIO_DIRECTORY + "landed.mp3";
 	private static final String AUDIO_EXPLOSION = Utilities.AUDIO_DIRECTORY + "explosion.mp3";
 
+	// audio files in JavaFX format
 	public static AudioClip alarm = new AudioClip(Utilities.getResource(AUDIO_ALARM));
 	public static AudioClip fuelAlarm = new AudioClip(Utilities.getResource(AUDIO_FUEL_ALARM));
 	public static AudioClip terrainAlarm = new AudioClip(Utilities.getResource(AUDIO_TERRAIN_ALARM));
