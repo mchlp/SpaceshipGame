@@ -1,9 +1,11 @@
-/*******************************************************************************
+
+/*
  * Michael Pu
  * Spaceship Game Assignment
  * ICS3U1 - November 2017
  * Mr. Radulovic
- ******************************************************************************/
+ */
+
 package game;
 
 import backend.Coordinate;
@@ -14,12 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
-/**
- * Animates an explosion
- * 
- * @author Michael Pu
- *
- */
+@SuppressWarnings("ALL")
 public class Explosion {
 
 	// pane to add explosion to
