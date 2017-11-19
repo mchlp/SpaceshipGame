@@ -8,7 +8,6 @@
 
 package backend;
 
-@SuppressWarnings("ALL")
 public class Acceleration {
 
 	private Vector mVector = new Vector();

@@ -10,7 +10,6 @@ package game;
 
 import backend.Acceleration;
 
-@SuppressWarnings("ALL")
 public class Planet {
 
 	private double mMass; // kilograms

@@ -16,7 +16,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
-@SuppressWarnings("ALL")
 public class Explosion {
 
 	// pane to add explosion to

@@ -8,7 +8,6 @@
 
 package backend;
 
-@SuppressWarnings("ALL")
 public class Force {
 
 	private Vector mVector = new Vector();

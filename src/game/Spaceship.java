@@ -11,7 +11,6 @@ package game;
 import backend.*;
 import javafx.scene.image.ImageView;
 
-@SuppressWarnings("ALL")
 public class Spaceship extends Sprite {
 
 	/**

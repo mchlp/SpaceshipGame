@@ -12,7 +12,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-@SuppressWarnings("ALL")
 public abstract class TextLabel extends Sprite {
 
     protected Text mText;

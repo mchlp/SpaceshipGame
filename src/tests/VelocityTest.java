@@ -13,7 +13,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-@SuppressWarnings("ALL")
 public class VelocityTest {
 
 	private final static double TARGET_ACCURACY = 0.00001;
@@ -46,8 +45,9 @@ public class VelocityTest {
 	@Test
 	public void testOppositeDirectionAdd() {
 		testAdd(10, 405, 10, 585, 0, 180, 0, 0);
-		testAdd(5, 0, 5, 0, 10, 0, 0, 40);
-	}
+        testAdd(5, 0, 5, 0, 10, 0, 10, 0);
+        testAdd(5, 90, 5, 90, 10, 90, 0, 10);
+    }
 
 	private void testAdd(double speed1, double direction1, double speed2, double direction2, double expectedSpeed,
 						 double expectedDirection, double expectedX, double expectedY) {
@@ -56,7 +56,7 @@ public class VelocityTest {
 		Velocity velocity3 = velocity1.add(velocity2);
 		assertEquals(expectedSpeed, velocity3.getSpeed(), TARGET_ACCURACY);
 		assertEquals(expectedDirection, velocity3.getDirection(), TARGET_ACCURACY);
-		assertEquals(expectedY, velocity3.getXSpeed(), TARGET_ACCURACY);
-		assertEquals(expectedX, velocity3.getYSpeed(), TARGET_ACCURACY);
-	}
+        assertEquals(expectedX, velocity3.getXSpeed(), TARGET_ACCURACY);
+        assertEquals(expectedY, velocity3.getYSpeed(), TARGET_ACCURACY);
+    }
 }

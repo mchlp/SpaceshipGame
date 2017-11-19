@@ -14,7 +14,6 @@ import backend.Utilities;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
-@SuppressWarnings("ALL")
 public class FuelIndicator extends TextLabel {
 
 	private static final Color SAFE_FUEL_FONT_COLOUR = Color.BLACK;

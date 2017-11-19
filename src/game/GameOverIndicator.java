@@ -14,7 +14,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-@SuppressWarnings("ALL")
 public class GameOverIndicator extends TextLabel {
 
 	private static final int FONT_SIZE = 100;
