@@ -46,7 +46,7 @@ public class VelocityTest {
 	@Test
 	public void testOppositeDirectionAdd() {
 		testAdd(10, 405, 10, 585, 0, 180, 0, 0);
-		testAdd(20, 90, 20, 90, 40, 90, 0, 40);
+		testAdd(5, 0, 5, 0, 10, 0, 0, 40);
 	}
 
 	private void testAdd(double speed1, double direction1, double speed2, double direction2, double expectedSpeed,
