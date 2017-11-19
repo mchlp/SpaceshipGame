@@ -1,17 +1,19 @@
-/*******************************************************************************
+
+/*
  * Michael Pu
  * Spaceship Game Assignment
  * ICS3U1 - November 2017
  * Mr. Radulovic
- ******************************************************************************/
+ */
+
 package tests;
+
+import backend.Coordinate;
+import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Test;
-
-import backend.Coordinate;
-
+@SuppressWarnings("ALL")
 public class CoordinateTest {
 
 	Coordinate coordinate;
