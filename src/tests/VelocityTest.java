@@ -1,17 +1,19 @@
-/*******************************************************************************
+
+/*
  * Michael Pu
  * Spaceship Game Assignment
  * ICS3U1 - November 2017
  * Mr. Radulovic
- ******************************************************************************/
+ */
+
 package tests;
+
+import backend.Velocity;
+import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Test;
-
-import backend.Velocity;
-
+@SuppressWarnings("ALL")
 public class VelocityTest {
 
 	private final static double TARGET_ACCURACY = 0.00001;
@@ -44,10 +46,11 @@ public class VelocityTest {
 	@Test
 	public void testOppositeDirectionAdd() {
 		testAdd(10, 405, 10, 585, 0, 180, 0, 0);
+		testAdd(20, 90, 20, 90, 40, 90, 0, 40);
 	}
 
 	private void testAdd(double speed1, double direction1, double speed2, double direction2, double expectedSpeed,
-			double expectedDirection, double expectedX, double expectedY) {
+						 double expectedDirection, double expectedX, double expectedY) {
 		Velocity velocity1 = new Velocity(speed1, direction1);
 		Velocity velocity2 = new Velocity(speed2, direction2);
 		Velocity velocity3 = velocity1.add(velocity2);

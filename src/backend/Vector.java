@@ -1,17 +1,18 @@
-/*******************************************************************************
+
+/*
  * Michael Pu
  * Spaceship Game Assignment
  * ICS3U1 - November 2017
  * Mr. Radulovic
- ******************************************************************************/
+ */
+
 package backend;
 
 public class Vector {
 
-	protected double magnitude;
-	protected double direction; // 0-359 degrees
-
-	public static final int MAX_DEGREES = 360;
+	private static final int MAX_DEGREES = 360;
+	private double magnitude;
+	private double direction; // 0-359 degrees
 
 	public Vector() {
 		this(0, 0);
@@ -68,12 +69,12 @@ public class Vector {
 
 	}
 
-	public void setXY(double xComponent, double yComponent) {
+	protected void setXY(double xComponent, double yComponent) {
 		double[] magnitudeAndDirection = componentToMagnitudeAndDirection(xComponent, yComponent);
 		setVector(magnitudeAndDirection[0], magnitudeAndDirection[1]);
 	}
 
-	public void setVector(double magnitude, double direction) {
+	protected void setVector(double magnitude, double direction) {
 		setMagnitude(magnitude);
 		setDirection(direction);
 	}

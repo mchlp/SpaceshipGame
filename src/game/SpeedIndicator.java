@@ -1,9 +1,11 @@
-/*******************************************************************************
+
+/*
  * Michael Pu
  * Spaceship Game Assignment
  * ICS3U1 - November 2017
  * Mr. Radulovic
- ******************************************************************************/
+ */
+
 package game;
 
 import backend.Coordinate;
@@ -12,17 +14,14 @@ import backend.Utilities;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
-/**
- * Displays the speed as text on the screen
- * 
- * @author Michael Pu
- */
+@SuppressWarnings("ALL")
 public class SpeedIndicator extends TextLabel {
 
 	private static final Color SAFE_SPEED_FONT_COLOUR = Color.BLACK;
 	private static final Color UNSAFE_SPEED_FONT_COLOUR = Color.FIREBRICK;
 
-	private Spaceship mSpaceship;
+    @SuppressWarnings("CanBeFinal")
+    private Spaceship mSpaceship;
 
 	// top left position of speed label
 	private static final Coordinate SPEED_TOP_LEFT = new Coordinate(10, 60);

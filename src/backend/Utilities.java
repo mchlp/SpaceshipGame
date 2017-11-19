@@ -1,14 +1,16 @@
-/*******************************************************************************
+
+/*
  * Michael Pu
  * Spaceship Game Assignment
  * ICS3U1 - November 2017
  * Mr. Radulovic
- ******************************************************************************/
+ */
+
 package backend;
 
-import java.io.InputStream;
-
 import javafx.scene.image.ImageView;
+
+import java.io.InputStream;
 
 public final class Utilities {
 

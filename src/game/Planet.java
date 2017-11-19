@@ -1,19 +1,16 @@
-/*******************************************************************************
+
+/*
  * Michael Pu
  * Spaceship Game Assignment
  * ICS3U1 - November 2017
  * Mr. Radulovic
- ******************************************************************************/
+ */
+
 package game;
 
 import backend.Acceleration;
 
-/**
- * Planet object to calculate physics of objects moving on the surface of the
- * planet
- * 
- * @author Michael Pu
- */
+@SuppressWarnings("ALL")
 public class Planet {
 
 	private double mMass; // kilograms

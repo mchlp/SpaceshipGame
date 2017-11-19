@@ -1,17 +1,12 @@
-/*******************************************************************************
+
+/*
  * Michael Pu
  * Spaceship Game Assignment
  * ICS3U1 - November 2017
  * Mr. Radulovic
- ******************************************************************************/
-package backend;
-
-/**
- * Stores a point in 2-D space with an x and y value with double precision
- * 
- * @author Michael Pu
- *
  */
+
+package backend;
 
 public class Coordinate {
 
@@ -43,16 +38,15 @@ public class Coordinate {
 		this.y = y;
 	}
 
-	public void move(Velocity velocity) {
-		move(velocity, 1.0);
-	}
+    public void move(Velocity velocity) {
+        this.x += velocity.getXSpeed();
+        this.y -= velocity.getYSpeed();
+    }
 
-	public void move(Velocity velocity, double modifier) {
-		this.x += velocity.getXSpeed() * modifier;
-		this.y -= velocity.getYSpeed() * modifier;
-	}
-
-	public Coordinate copy() {
-		return new Coordinate(getX(), getY());
-	}
+    /**
+     * @return A copy of the {@link Coordinate} object
+     */
+    public Coordinate copy() {
+        return new Coordinate(getX(), getY());
+    }
 }

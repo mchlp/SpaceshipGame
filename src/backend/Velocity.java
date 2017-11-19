@@ -1,17 +1,14 @@
-/*******************************************************************************
+
+/*
  * Michael Pu
  * Spaceship Game Assignment
  * ICS3U1 - November 2017
  * Mr. Radulovic
- ******************************************************************************/
-package backend;
-
-/**
- * Represents velocity and stores a speed and a direction
- * 
- * @author Michael Pu
  */
 
+package backend;
+
+@SuppressWarnings("ALL")
 public class Velocity {
 
 	private Vector mVector = new Vector();

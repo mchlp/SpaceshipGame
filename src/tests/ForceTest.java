@@ -1,17 +1,19 @@
-/*******************************************************************************
+
+/*
  * Michael Pu
  * Spaceship Game Assignment
  * ICS3U1 - November 2017
  * Mr. Radulovic
- ******************************************************************************/
+ */
+
 package tests;
+
+import backend.Force;
+import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Test;
-
-import backend.Force;
-
+@SuppressWarnings("ALL")
 public class ForceTest {
 
 	private final static double TARGET_ACCURACY = 0.00001;
@@ -44,10 +46,11 @@ public class ForceTest {
 	@Test
 	public void testOppositeDirectionAdd() {
 		testAdd(10, 405, 10, 585, 0, 180, 0, 0);
+		testAdd(20, 90, 20, 90, 40, 90, 0, 40);
 	}
 
 	private void testAdd(double rate1, double direction1, double rate2, double direction2, double expectedRate,
-			double expectedDirection, double expectedX, double expectedY) {
+						 double expectedDirection, double expectedX, double expectedY) {
 		Force force1 = new Force(rate1, direction1);
 		Force force2 = new Force(rate2, direction2);
 		Force force3 = force1.add(force2);

@@ -1,9 +1,11 @@
-/*******************************************************************************
+
+/*
  * Michael Pu
  * Spaceship Game Assignment
  * ICS3U1 - November 2017
  * Mr. Radulovic
- ******************************************************************************/
+ */
+
 package game;
 
 import backend.Coordinate;
@@ -14,17 +16,13 @@ import javafx.geometry.Bounds;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-/**
- * Landing pad for spaceship to land on
- * 
- * @author Michael Pu
- */
+@SuppressWarnings("ALL")
 public class LandingPad extends Sprite {
 
 	// possible states
 	private enum State {
 		NOT_LANDED, CLOSE, TOUCHED, LANDED
-	};
+	}
 
 	// dimensions of landing pad
 	private static final int PAD_WIDTH = 200;

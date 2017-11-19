@@ -1,9 +1,11 @@
-/*******************************************************************************
+
+/*
  * Michael Pu
  * Spaceship Game Assignment
  * ICS3U1 - November 2017
  * Mr. Radulovic
- ******************************************************************************/
+ */
+
 package game;
 
 import backend.Coordinate;
@@ -12,11 +14,7 @@ import backend.Utilities;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
-/**
- * Displays the fuel burn time remaining as text on the screen
- * 
- * @author Michael Pu
- */
+@SuppressWarnings("ALL")
 public class FuelIndicator extends TextLabel {
 
 	private static final Color SAFE_FUEL_FONT_COLOUR = Color.BLACK;

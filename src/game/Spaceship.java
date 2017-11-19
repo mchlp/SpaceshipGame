@@ -1,36 +1,61 @@
-/*******************************************************************************
+
+/*
  * Michael Pu
  * Spaceship Game Assignment
  * ICS3U1 - November 2017
  * Mr. Radulovic
- ******************************************************************************/
-package game;
-
-import backend.Acceleration;
-import backend.Coordinate;
-import backend.SpaceshipImageSet;
-import backend.Sprite;
-import backend.Utilities;
-import backend.Velocity;
-import javafx.scene.image.ImageView;
-
-/**
- * Represents a spaceship sprite and stores various values relating to the
- * spaceship
- * 
- * @author Michael Pu
  */
 
+package game;
+
+import backend.*;
+import javafx.scene.image.ImageView;
+
+@SuppressWarnings("ALL")
 public class Spaceship extends Sprite {
 
-	// possible states of spaceship
-	public static enum SpaceshipState {
-		FLYING, TOUCHED, LANDED, CLOSE, CRASHED
+	/**
+	 * Creates a spaceship object using simple parameters
+	 *
+	 * @param imageView {@link ImageView} of spaceship
+	 * @param imageSet  {@link SpaceshipImageSet} of spaceship
+	 * @param planet    {@link Planet} is spaceship is on
+	 */
+	public Spaceship(ImageView imageView, SpaceshipImageSet imageSet, Planet planet) {
+		this(INITAL_VELOCITY.copy(), INITAL_POSITION.copy(), imageView, DEFAULT_FUEL_TIME_LEFT, imageSet, planet,
+				DEFAULT_ENGINE_ACCELERATION);
 	}
 
-	// possible directions the engine can bevel in
-	public static enum SpaceshipEngineDirection {
-		LEFT, RIGHT, MIDDLE;
+	/**
+	 * Creates a spaceship object using detailed parameters
+	 *
+	 * @param velocity              Initial {@link Velocity} of spaceship
+	 * @param position              Initial {@link Coordinate position} of spaceship
+	 * @param image                 {@link ImageView} of spaceship
+	 * @param fuelTimeLeft'starting Amount of fuel left in seconds
+	 * @param imageSet              {@link SpaceshipImageSet} of spaceship
+	 * @param planet                {@link Planet} spaceship is on
+	 * @param engineAcceleration    {@link Acceleration} the engine produces each second
+	 */
+	public Spaceship(Velocity velocity, Coordinate position, ImageView image, double fuelTimeLeft,
+					 SpaceshipImageSet imageSet, Planet planet, Acceleration engineAcceleration) {
+
+		super(velocity, position, image);
+
+		// set member variables using provided values and default values
+		mImageView = (ImageView) mNode;
+		mImageView.setPreserveRatio(true);
+		mImageView.setFitWidth(50);
+		mState = SpaceshipState.FLYING;
+		mEngineDirection = SpaceshipEngineDirection.MIDDLE;
+		mFuelTimeLeft = fuelTimeLeft;
+		mEngineAccel = engineAcceleration;
+		mLandingTimeout = DEFAULT_LANDING_TIMEOUT;
+		mImageSet = imageSet;
+		mPlanet = planet;
+		engineOff();
+		mSpaceshipHeight = mImageView.getBoundsInParent().getHeight();
+		updatePositionOfImageView();
 	}
 
 	// keep track of the number of times the frame has been updated
@@ -55,12 +80,8 @@ public class Spaceship extends Sprite {
 	// amount of time spaceship must remain in the landing pad to be landed in
 	// seconds
 	private double mLandingTimeout;
-	// the y position of the ground in pixels
-	private double mGroundLevel;
 	// if the spaceship is currently at a safe speed (under MAX_IMPACT_SPEED)
 	private boolean mAtSafeSpeed;
-	// the dimensions of the window in pixels
-	private Coordinate mScreenDimesions;
 	// the imageview of the spaceship
 	private ImageView mImageView;
 
@@ -89,62 +110,8 @@ public class Spaceship extends Sprite {
 	private static final Coordinate INITAL_POSITION = new Coordinate(200, 10);
 
 	/**
-	 * Creates a spaceship object using simple parameters
-	 * 
-	 * @param imageView
-	 *            {@link ImageView} of spaceship
-	 * @param imageSet
-	 *            {@link ImageSet} of spaceship
-	 * @param planet
-	 *            {@link Planet} is spaceship is on
-	 */
-	public Spaceship(ImageView imageView, SpaceshipImageSet imageSet, Planet planet) {
-		this(INITAL_VELOCITY.copy(), INITAL_POSITION.copy(), imageView, DEFAULT_FUEL_TIME_LEFT, imageSet, planet,
-				DEFAULT_ENGINE_ACCELERATION);
-	}
-
-	/**
-	 * Creates a spaceship object using detailed parameters
-	 * 
-	 * @param velocity
-	 *            Initial {@link Velocity} of spaceship
-	 * @param position
-	 *            Initial {@link Coordinate position} of spaceship
-	 * @param image
-	 *            {@link ImageView} of spaceship
-	 * @param fuelTimeLeft'starting
-	 *            Amount of fuel left in seconds
-	 * @param imageSet
-	 *            {@link ImageSet} of spaceship
-	 * @param planet
-	 *            {@link Planet} spaceship is on
-	 * @param engineAcceleration
-	 *            {@link Acceleration} the engine produces each second
-	 */
-	public Spaceship(Velocity velocity, Coordinate position, ImageView image, double fuelTimeLeft,
-			SpaceshipImageSet imageSet, Planet planet, Acceleration engineAcceleration) {
-
-		super(velocity, position, image);
-
-		// set member variables using provided values and default values
-		mImageView = (ImageView) mNode;
-		mImageView.setPreserveRatio(true);
-		mImageView.setFitWidth(50);
-		mState = SpaceshipState.FLYING;
-		mEngineDirection = SpaceshipEngineDirection.MIDDLE;
-		mFuelTimeLeft = fuelTimeLeft;
-		mEngineAccel = engineAcceleration;
-		mLandingTimeout = DEFAULT_LANDING_TIMEOUT;
-		mImageSet = imageSet;
-		mPlanet = planet;
-		engineOff();
-		mSpaceshipHeight = mImageView.getBoundsInParent().getHeight();
-		updatePositionOfImageView();
-	}
-
-	/**
 	 * Updates the Spaceship object, to be run every frame
-	 * 
+	 *
 	 * @param deltaTime
 	 *            Number of seconds that have elapsed since the last update
 	 */
@@ -155,8 +122,8 @@ public class Spaceship extends Sprite {
 		if (mState != SpaceshipState.CRASHED) {
 
 			// get ground level (bottom of screen) and screen dimesions
-			mGroundLevel = mImageView.getScene().getHeight();
-			mScreenDimesions = new Coordinate(mImageView.getScene().getWidth(), mImageView.getScene().getHeight());
+			double mGroundLevel = mImageView.getScene().getHeight();
+			Coordinate mScreenDimesions = new Coordinate(mImageView.getScene().getWidth(), mImageView.getScene().getHeight());
 
 			// reset current acceleration for this grame
 			Acceleration curAccel = new Acceleration();
@@ -240,6 +207,16 @@ public class Spaceship extends Sprite {
 			frameCount++;
 		}
 
+	}
+
+	// possible states of spaceship
+	public enum SpaceshipState {
+		FLYING, TOUCHED, LANDED, CLOSE, CRASHED
+	}
+
+	// possible directions the engine can bevel in
+	public enum SpaceshipEngineDirection {
+		LEFT, RIGHT, MIDDLE
 	}
 
 	// when spaceship explodes

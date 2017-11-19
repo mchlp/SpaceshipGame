@@ -1,9 +1,11 @@
-/*******************************************************************************
+
+/*
  * Michael Pu
  * Spaceship Game Assignment
  * ICS3U1 - November 2017
  * Mr. Radulovic
- ******************************************************************************/
+ */
+
 package game;
 
 import backend.Utilities;
@@ -11,11 +13,7 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
-/**
- * Handles and plays audio relating the the game
- * 
- * @author Michael Pu
- */
+@SuppressWarnings("ALL")
 public class AudioControl {
 
 	// audio file locations

@@ -1,16 +1,17 @@
-/*******************************************************************************
+
+/*
  * Michael Pu
  * Spaceship Game Assignment
  * ICS3U1 - November 2017
  * Mr. Radulovic
- ******************************************************************************/
+ */
+
 package tests;
 
-import static org.junit.Assert.assertEquals;
-
+import backend.Vector;
 import org.junit.Test;
 
-import backend.Vector;
+import static org.junit.Assert.assertEquals;
 
 public class VectorTest {
 

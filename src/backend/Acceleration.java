@@ -1,17 +1,14 @@
-/*******************************************************************************
+
+/*
  * Michael Pu
  * Spaceship Game Assignment
  * ICS3U1 - November 2017
  * Mr. Radulovic
- ******************************************************************************/
-package backend;
-
-/**
- * Represents acceleration and stores a rate and a direction
- * 
- * @author Michael Pu
  */
 
+package backend;
+
+@SuppressWarnings("ALL")
 public class Acceleration {
 
 	private Vector mVector = new Vector();
@@ -40,7 +37,7 @@ public class Acceleration {
 	 * @param xyRate
 	 *            To differentiate between rate and direction constructor
 	 */
-	public Acceleration(double xRate, double yRate, boolean xySpeed) {
+	public Acceleration(double xRate, double yRate, boolean xyRate) {
 		mVector.setXY(xRate, yRate);
 	}
 
@@ -79,8 +76,8 @@ public class Acceleration {
 
 	/**
 	 * Adds two Acceleration objects together and returns the sum
-	 * 
-	 * @param accleration2
+	 *
+	 * @param acceleration2
 	 *            Acceleration object to add
 	 * @return Acceleration object representing the sum
 	 */

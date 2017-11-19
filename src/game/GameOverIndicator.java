@@ -1,9 +1,11 @@
-/*******************************************************************************
+
+/*
  * Michael Pu
  * Spaceship Game Assignment
  * ICS3U1 - November 2017
  * Mr. Radulovic
- ******************************************************************************/
+ */
+
 package game;
 
 import backend.Coordinate;
@@ -12,12 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-/**
- * Text displayed when game is over
- * 
- * @author Michael Pu
- *
- */
+@SuppressWarnings("ALL")
 public class GameOverIndicator extends TextLabel {
 
 	private static final int FONT_SIZE = 100;

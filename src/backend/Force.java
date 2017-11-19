@@ -1,17 +1,14 @@
-/*******************************************************************************
+
+/*
  * Michael Pu
  * Spaceship Game Assignment
  * ICS3U1 - November 2017
  * Mr. Radulovic
- ******************************************************************************/
-package backend;
-
-/**
- * Represents force and stores a force and a direction
- * 
- * @author Michael Pu
  */
 
+package backend;
+
+@SuppressWarnings("ALL")
 public class Force {
 
 	private Vector mVector = new Vector();
@@ -40,7 +37,7 @@ public class Force {
 	 * @param xyForce
 	 *            To differentiate between force and direction constructor
 	 */
-	public Force(double xForce, double yForce, boolean xySpeed) {
+	public Force(double xForce, double yForce, boolean xyForce) {
 		mVector.setXY(xForce, yForce);
 	}
 
