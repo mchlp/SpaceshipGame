@@ -44,7 +44,7 @@ public class SpaceshipGame extends Application {
     private static final String IMAGE_ROCKET_RIGHT_ON = Utilities.IMAGE_DIRECTORY + "rocketRightOn.png";
     private static final String IMAGE_ROCKET_MIDDLE_OFF = Utilities.IMAGE_DIRECTORY + "rocketMiddleOff.png";
     private static final String IMAGE_ROCKET_MIDDLE_ON = Utilities.IMAGE_DIRECTORY + "rocketMiddleOn.png";
-    private static final String IMAGE_BACKGROUND = Utilities.IMAGE_DIRECTORY + "planet.jpg";
+    private static final String IMAGE_BACKGROUND = Utilities.IMAGE_DIRECTORY + "planetSmall.jpg";
 
     // JavaFX objects
     private Scene scene;
@@ -94,7 +94,7 @@ public class SpaceshipGame extends Application {
         primaryStage.getIcons().add(new Image(Utilities.getResourceAsStream(IMAGE_ICON)));
         primaryStage.setTitle("Spaceship Game");
         primaryStage.setScene(scene);
-        primaryStage.setMaximized(true);
+        //primaryStage.setMaximized(true);
         primaryStage.show();
 
         // Get dimensions of stage
@@ -146,7 +146,7 @@ public class SpaceshipGame extends Application {
         backgroundImageView.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
             @Override
             public void handle(ContextMenuEvent click) {
-                rightClickMenu.show(backgroundImageView, click.getX(), click.getY());
+                rightClickMenu.show(backgroundImageView, click.getScreenX(), click.getScreenY());
             }
         });
 
