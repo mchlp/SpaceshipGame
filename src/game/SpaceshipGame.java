@@ -44,7 +44,7 @@ public class SpaceshipGame extends Application {
     private static final String IMAGE_ROCKET_RIGHT_ON = Utilities.IMAGE_DIRECTORY + "rocketRightOn.png";
     private static final String IMAGE_ROCKET_MIDDLE_OFF = Utilities.IMAGE_DIRECTORY + "rocketMiddleOff.png";
     private static final String IMAGE_ROCKET_MIDDLE_ON = Utilities.IMAGE_DIRECTORY + "rocketMiddleOn.png";
-    private static final String IMAGE_BACKGROUND = Utilities.IMAGE_DIRECTORY + "planetSmall.jpg";
+    private static final String IMAGE_BACKGROUND = Utilities.IMAGE_DIRECTORY + "planet.jpg";
 
     // JavaFX objects
     private Scene scene;
