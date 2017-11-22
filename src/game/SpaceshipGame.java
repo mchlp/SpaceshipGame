@@ -1,7 +1,7 @@
 
 /*
  * Michael Pu
- * Spaceship Game Assignment
+ * SpaceshipGame - SpaceshipGame
  * ICS3U1 - November 2017
  * Mr. Radulovic
  */

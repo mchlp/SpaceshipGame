@@ -1,7 +1,9 @@
 
+
+
 /*
  * Michael Pu
- * Spaceship Game Assignment
+ * SpaceshipGame - FuelIndicator
  * ICS3U1 - November 2017
  * Mr. Radulovic
  */

@@ -1,7 +1,7 @@
 <component name="CopyrightManager">
   <copyright>
     <option name="keyword" value="Michael Pu" />
-    <option name="notice" value="Michael Pu&#10;Spaceship Game Assignment&#10;ICS3U1 - November 2017&#10;Mr. Radulovic" />
+    <option name="notice" value="Michael Pu&#10;&amp;#36;module.name - &amp;#36;file.className&#10;ICS3U1 - &amp;#36;today.format(&quot;MMMMM yyyy&quot;)&#10;Mr. Radulovic" />
     <option name="myName" value="School" />
   </copyright>
 </component>
