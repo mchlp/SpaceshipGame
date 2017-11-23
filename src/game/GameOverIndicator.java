@@ -2,8 +2,7 @@
 /*
  * Michael Pu
  * SpaceshipGame - GameOverIndicator
- * ICS3U1 - November 2017
- * Mr. Radulovic
+ * November 2017
  */
 
 

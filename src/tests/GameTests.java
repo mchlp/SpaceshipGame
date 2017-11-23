@@ -2,8 +2,7 @@
 /*
  * Michael Pu
  * SpaceshipGame - GameTests
- * ICS3U1 - November 2017
- * Mr. Radulovic
+ * November 2017
  */
 
 
