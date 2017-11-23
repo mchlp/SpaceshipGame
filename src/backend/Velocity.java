@@ -2,8 +2,7 @@
 /*
  * Michael Pu
  * SpaceshipGame - Velocity
- * ICS3U1 - November 2017
- * Mr. Radulovic
+ * November 2017
  */
 
 

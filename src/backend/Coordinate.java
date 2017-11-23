@@ -2,8 +2,7 @@
 /*
  * Michael Pu
  * SpaceshipGame - Coordinate
- * ICS3U1 - November 2017
- * Mr. Radulovic
+ * November 2017
  */
 
 
