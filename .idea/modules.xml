@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../BallPhysics/BallPhysics.iml" filepath="$PROJECT_DIR$/../BallPhysics/BallPhysics.iml" />
       <module fileurl="file://$PROJECT_DIR$/../ICS3U1/ICS3U1.iml" filepath="$PROJECT_DIR$/../ICS3U1/ICS3U1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../RobotPathFinder/RobotPathFinder.iml" filepath="$PROJECT_DIR$/../RobotPathFinder/RobotPathFinder.iml" />
       <module fileurl="file://$PROJECT_DIR$/SpaceshipGame.iml" filepath="$PROJECT_DIR$/SpaceshipGame.iml" />
     </modules>
   </component>
