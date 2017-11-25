@@ -204,7 +204,6 @@ public class SpaceshipGame extends Application {
                         break;
                 }
                 keyReleased.consume();
-
             }
         });
 
