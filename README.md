@@ -1,8 +1,6 @@
 # SpaceshipGame :rocket:
 Object Oriented Programming and JavaFX Assignment for ICS3U1
 
-- **Currently still in development!**
-
 ## Features
 - Spaceship game to simulate landing a rocket
 - Includes audio warnings and sound effects
