@@ -1,6 +1,4 @@
 
-
-
 /*
  * Michael Pu
  * SpaceshipGame - FuelIndicator
