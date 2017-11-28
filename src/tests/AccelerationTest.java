@@ -2,7 +2,8 @@
 /*
  * Michael Pu
  * SpaceshipGame - AccelerationTest
- * November 2017
+ * ICS3U1 - Mr. Radulovic
+ * November 27, 2017
  */
 
 
